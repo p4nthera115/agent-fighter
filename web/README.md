@@ -8,17 +8,13 @@ it.
 
 Where there is a keyboard, that is the whole machine. A stick and a row of
 buttons are a touch control, and a mouse plays with the keys and clicks the
-menus on the glass, so drawing a panel across the bottom would put furniture
-between the player and the picture: on a fine pointer the panel is not there
-at all, and the one thing the keyboard cannot do for itself — full screen —
-sits in the corner of the shell. Touch gets the full panel, because touch has
-nothing else.
+menus on the glass. On mobile, the game is landscape-only: the picture fills
+the viewport and the controls float quietly over its lower corners.
 
 The shell is a dark violet, lit from the upper left, which is the rule the
 artwork is drawn to, so the machine and the picture inside it agree about
-where the light is coming from. Held upright in a hand it stops being a bartop
-and becomes a handheld: same markup, same controls, laid out the way a
-handheld lays them out.
+where the light is coming from. A portrait phone gets a simple rotate prompt
+so the fight never has to squeeze into a tall layout.
 
 Phaser 3 + TypeScript + Vite, as recommended in `../context.md`.
 
@@ -62,8 +58,8 @@ Any input at any point drops the player back to the menu.
 
 ### Character select
 
-`1 PLAYER` and `2 PLAYERS` both open the select screen; the menu's only job is
-the mode. The grid shows the whole cast, and the fighter under each cursor stands at the
+`START GAME` opens the select screen for a single-player CPU match. The grid
+shows the whole cast, and the fighter under each cursor stands at the
 bottom of the screen playing its own idle — its victory loop once it is locked
 in. A fighter with no sheet would be greyed out and refused; every entry has
 one today, so nothing is, but the roster is where fighters get added and the
@@ -315,20 +311,16 @@ hitbox overlay. Blocking is holding away from the opponent.
 
 Sound and music each have their own switch under Options.
 
-On a touch device the panel under the screen drives player one: the joystick
-takes a drag in any of eight directions, the three buttons are jab, roundhouse
-and rising claw, and the ball leans whichever way player one is holding,
-keyboard included. Held upright the stick becomes a four-way pad, which is
-what a thumb can hold. None of it is drawn for a mouse.
+On a touch device the overlay controls drive player one: the pad takes a drag
+in any of eight directions, and the buttons are jab, roundhouse, rising claw
+and ultimate. None of it is drawn for a mouse.
 
 The panel is a fighter control, not a menu one: menus take the keyboard or a
 click on the screen itself, the same as they always have.
 
-In a tall narrow window the same controls are laid out as a handheld: the four
-directions become a moulded pad under the left thumb, the three attacks sit in
-an arc under the right one - a row of three wide enough for a thumb will not
-fit beside a pad wide enough for one - and full screen takes the place a
-handheld keeps its start button.
+On a landscape phone the four directions stay in the lower-left corner, the
+attacks sit in a quiet row in the lower-right, and full screen stays in the
+upper-right so it never competes with the fight.
 
 The caps are lenses rather than plastic discs: a lit centre, a saturated rim,
 and the ring of the nut holding each one into the panel, drilled on a rising
@@ -337,7 +329,7 @@ a utility gets, labelled on the shell above it the way a cabinet labels COIN
 and START. It is the one control that is always there, and it takes the whole
 machine with it rather than just the picture.
 
-Query parameters: `?mode=versus`, `?difficulty=rookie|rival|boss`, `?boxes=1`,
+Query parameters: `?difficulty=rookie|rival|boss`, `?boxes=1`,
 `?crt=0`, `?music=0`, and `?p1=clawd&p2=grok` to open the select screen on a
 particular pair.
 

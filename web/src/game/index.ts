@@ -89,7 +89,8 @@ export function createGame(elements: CabinetElements, settings: Settings): Phase
     const raw = Math.min(availableW / VIEW_W, availableH / VIEW_H);
     // Whole-number zoom wherever there is room for it. Below 1:1 the screen is
     // narrower than the buffer, so a fraction is the only way to show it all.
-    return raw >= 1 ? Math.floor(raw) : Math.max(0.2, raw);
+    const mobileLandscape = window.matchMedia('(max-width: 900px) and (orientation: landscape)').matches;
+    return mobileLandscape ? raw : raw >= 1 ? Math.floor(raw) : Math.max(0.2, raw);
   };
 
   /**

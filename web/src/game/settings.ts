@@ -30,16 +30,18 @@ export const SETTINGS_KEY = 'settings';
 
 /**
  * A few settings are readable from the query string, so a link can point at a
- * specific configuration: `?boxes=1&difficulty=boss&mode=versus&crt=0&music=0`,
+ * specific configuration: `?boxes=1&difficulty=boss&crt=0&music=0`,
  * plus `?p1=grok&p2=clawd` to preselect the fighters.
  */
 export function settingsFromUrl(search: string): Settings {
   const params = new URLSearchParams(search);
   const difficulty = params.get('difficulty');
-  const mode = params.get('mode');
   return {
     ...DEFAULT_SETTINGS,
-    mode: mode === 'versus' ? 'versus' : 'cpu',
+    // The mobile cabinet is intentionally single-player. Keep the internal
+    // mode field for the attract/demo pipeline, but never expose local versus
+    // through a URL.
+    mode: 'cpu',
     difficulty:
       difficulty === 'rookie' || difficulty === 'boss' || difficulty === 'rival'
         ? difficulty

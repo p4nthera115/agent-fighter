@@ -59,8 +59,7 @@ export class TitleScene extends Phaser.Scene {
     this.menu = new Menu(
       this,
       [
-        { id: '1p', label: '1 PLAYER', onSelect: () => this.chooseFighters('cpu') },
-        { id: '2p', label: '2 PLAYERS', onSelect: () => this.chooseFighters('versus') },
+        { id: '1p', label: 'START GAME', onSelect: () => this.chooseFighters() },
         { id: 'how', label: 'HOW TO PLAY', onSelect: () => this.openPanel('controls') },
         { id: 'opt', label: 'OPTIONS', onSelect: () => this.openPanel('options') },
       ],
@@ -128,9 +127,9 @@ export class TitleScene extends Phaser.Scene {
     });
   }
 
-  private chooseFighters(mode: Settings['mode']): void {
+  private chooseFighters(): void {
     const settings = this.registry.get(SETTINGS_KEY) as Settings;
-    this.registry.set(SETTINGS_KEY, { ...settings, mode });
+    this.registry.set(SETTINGS_KEY, { ...settings, mode: 'cpu' });
     this.registry.set('scores', [0, 0]);
     this.scene.start('select');
   }

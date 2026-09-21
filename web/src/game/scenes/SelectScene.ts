@@ -207,7 +207,7 @@ export class SelectScene extends Phaser.Scene {
         .setDepth(78)
         .setStrokeStyle(2, tint)
         .setVisible(false),
-      tag: new PixelLabel(this, 0, CELL_Y + CELL / 2 + 15, index === 0 ? '1P' : '2P', {
+      tag: new PixelLabel(this, 0, CELL_Y + CELL / 2 + 15, index === 0 ? '1P' : this.versus ? '2P' : 'CPU', {
         scale: 1,
         color: colour,
         outline: UI.ink,
