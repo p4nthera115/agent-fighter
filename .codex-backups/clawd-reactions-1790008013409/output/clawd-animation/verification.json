@@ -1,0 +1,51 @@
+{
+  "frames": 33,
+  "layers": [
+    "Foot 1 - outward",
+    "Foot 2",
+    "Foot 3",
+    "Foot 4 - kick",
+    "Attack forearm",
+    "Body",
+    "Left hand",
+    "Right hand"
+  ],
+  "tags": [
+    [
+      "idle",
+      0,
+      5
+    ],
+    [
+      "punch",
+      6,
+      14
+    ],
+    [
+      "uppercut",
+      15,
+      23
+    ],
+    [
+      "kick",
+      24,
+      32
+    ]
+  ],
+  "canvas": [
+    224,
+    160
+  ],
+  "colors_including_transparency": 13,
+  "pixel_comparison": "All 33 editable-file composites exactly match individual PNGs and atlas",
+  "baseline": 136,
+  "loop_seams": "Every animation begins and ends at the same master pose",
+  "application_check": "Neither LibreSprite nor Aseprite installed; application-level open not tested",
+  "left_foot": "Exact horizontal mirror of v1 left foot",
+  "browser_checks": [
+    "Four animation controls and correct frame ranges",
+    "Uppercut contact inspected",
+    "Kick timeline loaded",
+    "No browser console errors"
+  ]
+}

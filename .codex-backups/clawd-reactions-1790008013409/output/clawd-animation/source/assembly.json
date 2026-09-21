@@ -1,0 +1,443 @@
+{
+  "regions": [
+    {
+      "left": 320,
+      "top": 303,
+      "width": 658,
+      "height": 464,
+      "count": 268049
+    },
+    {
+      "left": 31,
+      "top": 921,
+      "width": 195,
+      "height": 209,
+      "count": 27417
+    },
+    {
+      "left": 281,
+      "top": 921,
+      "width": 188,
+      "height": 188,
+      "count": 25120
+    },
+    {
+      "left": 509,
+      "top": 947,
+      "width": 157,
+      "height": 167,
+      "count": 20392
+    },
+    {
+      "left": 692,
+      "top": 947,
+      "width": 161,
+      "height": 167,
+      "count": 20847
+    },
+    {
+      "left": 878,
+      "top": 947,
+      "width": 159,
+      "height": 167,
+      "count": 20769
+    },
+    {
+      "left": 1075,
+      "top": 947,
+      "width": 164,
+      "height": 167,
+      "count": 21394
+    }
+  ],
+  "names": [
+    "body",
+    "left-hand",
+    "right-hand",
+    "foot-1",
+    "foot-2",
+    "foot-3",
+    "foot-4"
+  ],
+  "widths": [
+    126,
+    38,
+    36,
+    24,
+    24,
+    24,
+    24
+  ],
+  "poses": [
+    {
+      "tag": "idle",
+      "phase": "ready",
+      "ms": 150,
+      "bob": 0
+    },
+    {
+      "tag": "idle",
+      "phase": "breathe in",
+      "ms": 110,
+      "bob": -1,
+      "guard": -1
+    },
+    {
+      "tag": "idle",
+      "phase": "rise",
+      "ms": 130,
+      "bob": -2,
+      "guard": -1
+    },
+    {
+      "tag": "idle",
+      "phase": "hold",
+      "ms": 180,
+      "bob": -2,
+      "guard": -2
+    },
+    {
+      "tag": "idle",
+      "phase": "breathe out",
+      "ms": 130,
+      "bob": -1,
+      "guard": -1
+    },
+    {
+      "tag": "idle",
+      "phase": "settle",
+      "ms": 110,
+      "bob": 0
+    },
+    {
+      "tag": "punch",
+      "phase": "ready",
+      "ms": 60,
+      "bob": 0
+    },
+    {
+      "tag": "punch",
+      "phase": "wind-up",
+      "ms": 83,
+      "bob": 1,
+      "lean": -3,
+      "hand": -8,
+      "handY": 3
+    },
+    {
+      "tag": "punch",
+      "phase": "coil",
+      "ms": 83,
+      "bob": 2,
+      "lean": -5,
+      "hand": -14,
+      "handY": 5
+    },
+    {
+      "tag": "punch",
+      "phase": "release",
+      "ms": 33,
+      "bob": 0,
+      "lean": 2,
+      "hand": 10,
+      "handY": -3,
+      "extension": 17
+    },
+    {
+      "tag": "punch",
+      "phase": "contact",
+      "ms": 83,
+      "bob": -1,
+      "lean": 6,
+      "hand": 27,
+      "handY": -7,
+      "extension": 40,
+      "active": true
+    },
+    {
+      "tag": "punch",
+      "phase": "follow-through",
+      "ms": 50,
+      "bob": 0,
+      "lean": 5,
+      "hand": 23,
+      "handY": -5,
+      "extension": 32
+    },
+    {
+      "tag": "punch",
+      "phase": "retract",
+      "ms": 67,
+      "bob": 1,
+      "lean": 2,
+      "hand": 10,
+      "handY": 0,
+      "extension": 15
+    },
+    {
+      "tag": "punch",
+      "phase": "recover",
+      "ms": 100,
+      "bob": 1,
+      "hand": -3,
+      "handY": 1
+    },
+    {
+      "tag": "punch",
+      "phase": "ready",
+      "ms": 100,
+      "bob": 0
+    },
+    {
+      "tag": "uppercut",
+      "phase": "ready",
+      "ms": 60,
+      "bob": 0
+    },
+    {
+      "tag": "uppercut",
+      "phase": "dip",
+      "ms": 83,
+      "bob": 5,
+      "lean": -3,
+      "hand": -9,
+      "handY": 15
+    },
+    {
+      "tag": "uppercut",
+      "phase": "load",
+      "ms": 100,
+      "bob": 8,
+      "lean": -5,
+      "hand": -15,
+      "handY": 21
+    },
+    {
+      "tag": "uppercut",
+      "phase": "drive",
+      "ms": 50,
+      "bob": 2,
+      "lean": 2,
+      "upper": {
+        "x": 161,
+        "y": 37,
+        "h": 38
+      }
+    },
+    {
+      "tag": "uppercut",
+      "phase": "contact",
+      "ms": 83,
+      "bob": -4,
+      "lean": 5,
+      "upper": {
+        "x": 165,
+        "y": 8,
+        "h": 60
+      },
+      "active": true
+    },
+    {
+      "tag": "uppercut",
+      "phase": "follow-through",
+      "ms": 67,
+      "bob": -6,
+      "lean": 4,
+      "upper": {
+        "x": 163,
+        "y": 3,
+        "h": 63
+      }
+    },
+    {
+      "tag": "uppercut",
+      "phase": "lower guard",
+      "ms": 83,
+      "bob": -2,
+      "lean": 2,
+      "upper": {
+        "x": 160,
+        "y": 28,
+        "h": 45
+      }
+    },
+    {
+      "tag": "uppercut",
+      "phase": "recover",
+      "ms": 100,
+      "bob": 2,
+      "hand": -3,
+      "handY": 5
+    },
+    {
+      "tag": "uppercut",
+      "phase": "ready",
+      "ms": 100,
+      "bob": 0
+    },
+    {
+      "tag": "kick",
+      "phase": "ready",
+      "ms": 60,
+      "bob": 0
+    },
+    {
+      "tag": "kick",
+      "phase": "shift weight",
+      "ms": 83,
+      "bob": 2,
+      "lean": -4,
+      "guard": -3
+    },
+    {
+      "tag": "kick",
+      "phase": "chamber",
+      "ms": 100,
+      "bob": 1,
+      "lean": -6,
+      "guard": -5,
+      "kick": {
+        "x": 137,
+        "y": 91,
+        "w": 33,
+        "h": 26
+      }
+    },
+    {
+      "tag": "kick",
+      "phase": "extend",
+      "ms": 50,
+      "bob": 0,
+      "lean": -4,
+      "guard": -7,
+      "kick": {
+        "x": 140,
+        "y": 85,
+        "w": 52,
+        "h": 25
+      }
+    },
+    {
+      "tag": "kick",
+      "phase": "contact",
+      "ms": 100,
+      "bob": -2,
+      "lean": -6,
+      "guard": -8,
+      "kick": {
+        "x": 142,
+        "y": 78,
+        "w": 74,
+        "h": 27
+      },
+      "active": true
+    },
+    {
+      "tag": "kick",
+      "phase": "follow-through",
+      "ms": 67,
+      "bob": -1,
+      "lean": -5,
+      "guard": -6,
+      "kick": {
+        "x": 142,
+        "y": 80,
+        "w": 70,
+        "h": 27
+      }
+    },
+    {
+      "tag": "kick",
+      "phase": "recoil",
+      "ms": 83,
+      "bob": 1,
+      "lean": -4,
+      "guard": -4,
+      "kick": {
+        "x": 137,
+        "y": 92,
+        "w": 37,
+        "h": 25
+      }
+    },
+    {
+      "tag": "kick",
+      "phase": "plant foot",
+      "ms": 100,
+      "bob": 2,
+      "lean": -2
+    },
+    {
+      "tag": "kick",
+      "phase": "ready",
+      "ms": 100,
+      "bob": 0
+    }
+  ],
+  "palette": [
+    [
+      8,
+      6,
+      5
+    ],
+    [
+      53,
+      16,
+      14
+    ],
+    [
+      85,
+      25,
+      17
+    ],
+    [
+      117,
+      35,
+      25
+    ],
+    [
+      146,
+      48,
+      34
+    ],
+    [
+      175,
+      60,
+      41
+    ],
+    [
+      200,
+      77,
+      51
+    ],
+    [
+      221,
+      98,
+      64
+    ],
+    [
+      238,
+      121,
+      80
+    ],
+    [
+      250,
+      149,
+      100
+    ],
+    [
+      255,
+      180,
+      131
+    ],
+    [
+      255,
+      224,
+      173
+    ]
+  ],
+  "canvas": {
+    "w": 224,
+    "h": 160
+  }
+}

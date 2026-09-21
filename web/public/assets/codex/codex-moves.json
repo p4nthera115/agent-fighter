@@ -1,0 +1,307 @@
+{
+  "frameSize": {
+    "width": 224,
+    "height": 160
+  },
+  "origin": {
+    "x": 106,
+    "y": 136
+  },
+  "animations": {
+    "idle": {
+      "loop": true,
+      "from": 0,
+      "to": 5
+    },
+    "punch": {
+      "loop": false,
+      "from": 6,
+      "to": 11,
+      "next": "idle"
+    },
+    "uppercut": {
+      "loop": false,
+      "from": 12,
+      "to": 17,
+      "next": "idle"
+    },
+    "kick": {
+      "loop": false,
+      "from": 18,
+      "to": 23,
+      "next": "idle"
+    },
+    "damage": {
+      "loop": false,
+      "from": 24,
+      "to": 29,
+      "next": "idle"
+    },
+    "victory": {
+      "loop": true,
+      "from": 30,
+      "to": 35
+    },
+    "defeated": {
+      "loop": false,
+      "from": 36,
+      "to": 41,
+      "holdLast": true
+    }
+  },
+  "frames": [
+    {
+      "index": 0,
+      "phase": "guard",
+      "duration": 150,
+      "active": false
+    },
+    {
+      "index": 1,
+      "phase": "breathe in",
+      "duration": 110,
+      "active": false
+    },
+    {
+      "index": 2,
+      "phase": "rise",
+      "duration": 130,
+      "active": false
+    },
+    {
+      "index": 3,
+      "phase": "blink",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 4,
+      "phase": "breathe out",
+      "duration": 130,
+      "active": false
+    },
+    {
+      "index": 5,
+      "phase": "settle",
+      "duration": 150,
+      "active": false
+    },
+    {
+      "index": 6,
+      "phase": "guard",
+      "duration": 80,
+      "active": false
+    },
+    {
+      "index": 7,
+      "phase": "wind-up",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 8,
+      "phase": "coil",
+      "duration": 50,
+      "active": false
+    },
+    {
+      "index": 9,
+      "phase": "extend",
+      "duration": 100,
+      "active": true
+    },
+    {
+      "index": 10,
+      "phase": "retract",
+      "duration": 80,
+      "active": false
+    },
+    {
+      "index": 11,
+      "phase": "settle",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 12,
+      "phase": "guard",
+      "duration": 80,
+      "active": false
+    },
+    {
+      "index": 13,
+      "phase": "crouch",
+      "duration": 110,
+      "active": false
+    },
+    {
+      "index": 14,
+      "phase": "rise",
+      "duration": 60,
+      "active": false
+    },
+    {
+      "index": 15,
+      "phase": "overhead strike",
+      "duration": 100,
+      "active": true
+    },
+    {
+      "index": 16,
+      "phase": "recover",
+      "duration": 90,
+      "active": false
+    },
+    {
+      "index": 17,
+      "phase": "settle",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 18,
+      "phase": "guard",
+      "duration": 80,
+      "active": false
+    },
+    {
+      "index": 19,
+      "phase": "knee lift",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 20,
+      "phase": "chamber",
+      "duration": 50,
+      "active": false
+    },
+    {
+      "index": 21,
+      "phase": "extend",
+      "duration": 100,
+      "active": true
+    },
+    {
+      "index": 22,
+      "phase": "retract",
+      "duration": 80,
+      "active": false
+    },
+    {
+      "index": 23,
+      "phase": "settle",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 24,
+      "phase": "impact",
+      "duration": 60,
+      "active": false
+    },
+    {
+      "index": 25,
+      "phase": "recoil",
+      "duration": 80,
+      "active": false
+    },
+    {
+      "index": 26,
+      "phase": "squeezed",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 27,
+      "phase": "hold",
+      "duration": 90,
+      "active": false
+    },
+    {
+      "index": 28,
+      "phase": "recover",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 29,
+      "phase": "settle",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 30,
+      "phase": "raise",
+      "duration": 150,
+      "active": false
+    },
+    {
+      "index": 31,
+      "phase": "cheer",
+      "duration": 120,
+      "active": false
+    },
+    {
+      "index": 32,
+      "phase": "bounce",
+      "duration": 120,
+      "active": false
+    },
+    {
+      "index": 33,
+      "phase": "bounce",
+      "duration": 120,
+      "active": false
+    },
+    {
+      "index": 34,
+      "phase": "cheer",
+      "duration": 120,
+      "active": false
+    },
+    {
+      "index": 35,
+      "phase": "settle",
+      "duration": 150,
+      "active": false
+    },
+    {
+      "index": 36,
+      "phase": "stagger",
+      "duration": 90,
+      "active": false
+    },
+    {
+      "index": 37,
+      "phase": "sag",
+      "duration": 140,
+      "active": false
+    },
+    {
+      "index": 38,
+      "phase": "kneel",
+      "duration": 110,
+      "active": false
+    },
+    {
+      "index": 39,
+      "phase": "fall",
+      "duration": 100,
+      "active": false
+    },
+    {
+      "index": 40,
+      "phase": "flatten",
+      "duration": 120,
+      "active": false
+    },
+    {
+      "index": 41,
+      "phase": "hold",
+      "duration": 500,
+      "active": false
+    }
+  ],
+  "note": "Animation timing study, not balanced combat frame data. No gameplay hitboxes assigned. \"active\" marks the contact cel the renderer holds for a move's active window. Codex uses blue robot punches, rising uppercuts and side kicks."
+}

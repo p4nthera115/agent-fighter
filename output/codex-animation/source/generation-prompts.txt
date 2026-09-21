@@ -1,0 +1,22 @@
+Use case: stylized-concept. Production source sprite sheet for retro pixel fighting game. Use attached approved CODEX fighter as exact character identity and pixel art reference. Royal-blue cloud/scalloped head, large navy face screen with TWO expressive cyan digital eyes, small blue torso with cyan >_ terminal mark, two blue fists and short blue boots. No mouth, no human face, no ears, no extra costume or weapons. Preserve this design in EVERY cel. Three-quarter stance facing RIGHT. Oversized cloud head, short stocky body and limbs, consistently same proportions. Crisp chunky pixel clusters, dark navy outline, 5-tone royal blue shading and cyan screen pixels; no smooth gradients, blur, tiny noise or external glow.
+
+ONE sheet, EXACTLY SIX columns by SEVEN rows = 42 separate cels. Ideally 1536x1792. Equal invisible square cells. At least 24 pixels of fully transparent gutter around each sprite, sprites never overlap or touch neighboring cells. Same scale throughout approximately 145px visible height within 256px cells with plenty room for arms raised and kicks. Actual transparent alpha background, no checkerboard, NO text/labels/numbers/borders, no scenery, ground shadows, dust or detached particles. All limbs connected to body.
+
+Each row SIX frames left to right:
+1 IDLE: neutral guard with vertical cyan eyes; small mechanical knee dip; return up; blink horizontal eye slits; reopen; EXACT neutral guard.
+2 PUNCH: neutral; lean left pulling right fist back; shoulder forward fist starting to extend; FULL horizontal RIGHT blue fist punch with narrowed cyan eyes, left fist guarding; retract; EXACT neutral.
+3 UPPERCUT: neutral; deep crouch fist at waist eyes focused; rising right fist beside screen; right blue fist OVERHEAD in uppercut, knees extended feet planted, screen eyes sharply focused; arm lowering; neutral.
+4 KICK: neutral; lean back raise right knee; partial right leg extension; full horizontal RIGHT boot kick, left foot planted, both fists guarding, determined cyan eyes; pull knee back; neutral.
+5 DAMAGE: wide round cyan shocked eyes; recoil head left with cyan squeezed > < eyes; deepest recoil and both hands protecting torso; recover eyes closed slits; reset guard eyes reopening; neutral.
+6 VICTORY: both fists raised beside cloud head, happy cyan ^^ eyes; fists overhead happy eyes; celebratory knee-bounce happy eyes; settle with happy eyes; pump fists again; EXACT first victory pose for loop.
+7 DEFEATED: shocked screen eyes guard falling; shoulders sag and cyan X eyes; kneel head drooping; tip over onto left side eyes dim cyan closed slits; lie on left side on ground, cloud head resting and boots visible, two dim cyan horizontal eye slits; identical final lying pose hold. No gore.
+Eye changes carry personality; never draw mouth. Cyan >_ chest emblem remains stable wherever visible. Preserve the cloud silhouette even in side-fall. Big readable anticipation/contact/recovery changes. Consistent imagined floor within each cell. Absolutely no labels or UI.
+
+KICK SUPPLEMENT
+Create a transparent PIXEL ART animation strip of the exact blue cloud-headed CODEX robot in the attached reference. SIX cels in TWO ROWS of THREE columns, equally spaced, no labels or borders. ONLY a RIGHT SIDE KICK animation, with a clear EXTENDED LEG. Royal-blue scalloped cloud head, navy screen with two cyan digital eyes, tiny blue torso with cyan >_ chest mark, blue mitten hands and short blue boots. Same chunky retro pixel shading and proportions as reference. Body facing right, head oversized. No mouth or extra limbs. Whole sprites separated by generous transparent gutters, no glow or shadows. Hard pixel edges not smooth 3D.
+Top row: 1 neutral fists-up guard both boots grounded; 2 lean back and lift RIGHT KNEE in front of torso, standing on left leg; 3 extend right boot halfway to the RIGHT at waist height, left leg planted.
+Bottom row: 4 FULL SIDE KICK RIGHT, right leg stretched HORIZONTALLY with large blue boot at far right, left boot on ground, both fists guarding head, narrowed focused cyan eyes; 5 retract right knee while balancing on left leg; 6 return to exact neutral guard with both boots planted.
+The KICK MUST BE WITH THE LEG, not a punch, not a crouch, not an eye-expression sequence. EXACTLY SIX sprites, 3 columns x2 rows. All art inside each cell, transparent alpha background.
+
+BACKGROUND EDIT
+Preserve the six kick poses; remove the navy background and glow to transparent alpha. The returned image still needed exterior-mask cleanup during packaging.

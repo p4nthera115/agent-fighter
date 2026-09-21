@@ -1,0 +1,60 @@
+{
+  "frames": 56,
+  "layers": [
+    "Foot 1 - outward",
+    "Foot 2",
+    "Foot 3",
+    "Foot 4 - kick",
+    "Attack trail",
+    "Body",
+    "Left hand",
+    "Right hand",
+    "Eyes"
+  ],
+  "tags": [
+    [
+      "idle",
+      0,
+      5
+    ],
+    [
+      "punch",
+      6,
+      14
+    ],
+    [
+      "uppercut",
+      15,
+      23
+    ],
+    [
+      "kick",
+      24,
+      32
+    ],
+    [
+      "damage",
+      33,
+      38
+    ],
+    [
+      "victory",
+      39,
+      46
+    ],
+    [
+      "defeated",
+      47,
+      55
+    ]
+  ],
+  "canvas": [
+    224,
+    160
+  ],
+  "colors_including_transparency": 13,
+  "pixel_comparison": "All 56 editable-file composites exactly match individual PNGs and atlas",
+  "baseline": 136,
+  "loop_seams": "Attack loops and damage recovery return to master; victory loops; defeated holds final pose",
+  "application_check": "Neither LibreSprite nor Aseprite installed; application-level open not tested"
+}

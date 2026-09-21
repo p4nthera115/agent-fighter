@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Music lab — Mascot Fighter</title>
+    <link rel="icon" href="assets/clawd/favicon.svg" type="image/svg+xml" />
+    <style>
+      body {
+        margin: 0;
+        padding: 28px;
+        background: #0b0a14;
+        color: #ffe0ad;
+        font: 14px/1.6 ui-monospace, Menlo, monospace;
+      }
+      h1 { font-size: 16px; letter-spacing: 0.2em; color: #ffc24a; margin: 0 0 4px; }
+      p.note { color: #7a7296; margin: 0 0 22px; max-width: 70ch; }
+      .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+      button {
+        padding: 8px 14px; border: 1px solid #2e2844; border-radius: 3px;
+        background: #1a1626; color: #ffe0ad; font: inherit; cursor: pointer;
+      }
+      button:hover { border-color: #ffc24a; color: #ffc24a; }
+      canvas { display: block; border: 1px solid #2e2844; border-radius: 3px; margin-bottom: 16px; }
+      pre { background: #12101c; border: 1px solid #2e2844; border-radius: 3px; padding: 14px; overflow-x: auto; }
+      label { color: #7a7296; }
+      span#now { color: #8fd8ff; }
+    </style>
+  </head>
+  <body>
+    <h1>MUSIC LAB</h1>
+    <p class="note">
+      Dev only — not part of the build. Edit <code>src/game/audio/songs.ts</code> and this page
+      hot-reloads. The analysis below renders each song offline through the same scheduler the
+      game uses, so the levels are the real ones.
+    </p>
+
+    <div class="row">
+      <button id="play-title">Play title</button>
+      <button id="play-fight">Play fight</button>
+      <button id="stop">Stop</button>
+      <span id="now">nothing playing</span>
+    </div>
+
+    <div class="row">
+      <label for="tempo">Intensity</label>
+      <input id="tempo" type="range" min="0.8" max="1.4" step="0.01" value="1" />
+      <span id="tempo-value">1.00x</span>
+    </div>
+
+    <canvas id="meter" width="900" height="120"></canvas>
+
+    <div class="row"><button id="analyse">Re-run analysis</button></div>
+    <pre id="analysis">…</pre>
+    <canvas id="windows" width="900" height="90"></canvas>
+
+    <script type="module" src="/src/musicLab.ts"></script>
+  </body>
+</html>
