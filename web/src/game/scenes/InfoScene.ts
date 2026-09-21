@@ -8,6 +8,7 @@ import { MOVES, MOVE_ORDER, blockAdvantage, hitAdvantage } from '../combat/frame
 import { sfx } from '../audio/sfx';
 import { music } from '../audio/music';
 import { TITLE_THEME } from '../audio/songs';
+import { forgetControlsSeen, hasSeenControls, markControlsSeen } from '../firstRun';
 import type { Settings } from '../settings';
 import { SETTINGS_KEY } from '../settings';
 
@@ -20,6 +21,7 @@ const CONTROLS: Array<[string, string, string]> = [
   ['J', ', OR NUM1', 'JAB'],
   ['K', '. OR NUM2', 'ROUNDHOUSE'],
   ['L', '/ OR NUM3', 'RISING CLAW'],
+  ['SPACE', '; OR NUM0', 'ULTIMATE - FULL METER'],
 ];
 
 const DIFFICULTIES = ['rookie', 'rival', 'boss'] as const;
@@ -125,6 +127,9 @@ export class InfoScene extends Phaser.Scene {
 
   private buildOptions(settings: Settings): void {
     const save = () => this.registry.set(SETTINGS_KEY, { ...settings });
+    // The card is remembered outside the settings object, since it outlives
+    // the tab the way the high score does.
+    let cardSeen = hasSeenControls();
 
     this.menu = new Menu(
       this,
@@ -182,6 +187,18 @@ export class InfoScene extends Phaser.Scene {
           },
         },
         {
+          id: 'card',
+          label: 'CONTROLS CARD',
+          // ON means the card greets the player at the next fight; it turns
+          // itself off once they have read it.
+          value: () => (cardSeen ? 'OFF' : 'ON'),
+          onSelect: () => {
+            cardSeen = !cardSeen;
+            if (cardSeen) markControlsSeen();
+            else forgetControlsSeen();
+          },
+        },
+        {
           id: 'reset',
           label: 'CLEAR HI-SCORE',
           onSelect: () => {
@@ -191,7 +208,8 @@ export class InfoScene extends Phaser.Scene {
         },
         { id: 'back', label: 'BACK', onSelect: () => this.back() },
       ],
-      { x: 96, y: 62, step: 22, scale: 2, width: 292 },
+      // Eight rows now, so they sit a little closer together.
+      { x: 96, y: 58, step: 20, scale: 2, width: 292 },
     );
 
     new PixelLabel(this, VIEW_W / 2, 226, 'LEFT AND RIGHT CHANGE A SETTING', {

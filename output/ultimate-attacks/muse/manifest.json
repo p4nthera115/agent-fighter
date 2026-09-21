@@ -1,0 +1,169 @@
+{
+  "character": "muse",
+  "ultimate": "Dream Sequence",
+  "tracks": {
+    "character": {
+      "frameSize": {
+        "w": 224,
+        "h": 160
+      },
+      "origin": {
+        "x": 106,
+        "y": 136
+      },
+      "durations": [
+        100,
+        120,
+        100,
+        120,
+        160,
+        100,
+        160,
+        260
+      ],
+      "labels": [
+        "ready",
+        "draw arc",
+        "draw circle",
+        "present portal",
+        "guide hand",
+        "release",
+        "delighted",
+        "wave"
+      ],
+      "sourceCrops": [
+        {
+          "x": 55,
+          "y": 71,
+          "w": 235,
+          "h": 243
+        },
+        {
+          "x": 341,
+          "y": 71,
+          "w": 247,
+          "h": 243
+        },
+        {
+          "x": 672,
+          "y": 74,
+          "w": 246,
+          "h": 240
+        },
+        {
+          "x": 974,
+          "y": 69,
+          "w": 254,
+          "h": 245
+        },
+        {
+          "x": 38,
+          "y": 351,
+          "w": 257,
+          "h": 288
+        },
+        {
+          "x": 353,
+          "y": 368,
+          "w": 253,
+          "h": 271
+        },
+        {
+          "x": 672,
+          "y": 393,
+          "w": 207,
+          "h": 246
+        },
+        {
+          "x": 976,
+          "y": 397,
+          "w": 257,
+          "h": 242
+        }
+      ],
+      "frames": 8
+    },
+    "effects": {
+      "frameSize": {
+        "w": 320,
+        "h": 320
+      },
+      "origin": {
+        "x": 160,
+        "y": 160
+      },
+      "durations": [
+        100,
+        120,
+        120,
+        120,
+        140,
+        160,
+        120,
+        200
+      ],
+      "labels": [
+        "spiral",
+        "portal opening",
+        "hand emerge",
+        "hand scoop",
+        "hand release",
+        "cloud compress",
+        "cloud launch",
+        "portal close"
+      ],
+      "sourceCrops": [
+        {
+          "x": 85,
+          "y": 732,
+          "w": 165,
+          "h": 162
+        },
+        {
+          "x": 361,
+          "y": 660,
+          "w": 209,
+          "h": 261
+        },
+        {
+          "x": 651,
+          "y": 657,
+          "w": 279,
+          "h": 259
+        },
+        {
+          "x": 964,
+          "y": 664,
+          "w": 254,
+          "h": 249
+        },
+        {
+          "x": 46,
+          "y": 928,
+          "w": 243,
+          "h": 291
+        },
+        {
+          "x": 357,
+          "y": 1043,
+          "w": 240,
+          "h": 160
+        },
+        {
+          "x": 662,
+          "y": 937,
+          "w": 267,
+          "h": 269
+        },
+        {
+          "x": 1042,
+          "y": 1009,
+          "w": 125,
+          "h": 136
+        }
+      ],
+      "frames": 8
+    }
+  },
+  "note": "Art-only timings, not gameplay balance. Character and FX tracks are independently triggered; see choreography.json."
+}

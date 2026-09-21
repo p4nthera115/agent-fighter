@@ -40,6 +40,10 @@ export class PreloadScene extends Phaser.Scene {
       const art = entry.art!;
       const png = `${BASE}${art.dir}/${art.base}-sheet.png`;
       const json = `${BASE}${art.dir}/${art.base}-sheet.json`;
+      const ultimate = `${BASE}ultimates/${entry.id}/`;
+      this.load.atlas(`ultimate-${entry.id}`, `${ultimate}character-sheet.png`, `${ultimate}character-sheet.json`);
+      this.load.json(`ultimate-${entry.id}-json`, `${ultimate}character-sheet.json`);
+      this.load.atlas(`ultimate-fx-${entry.id}`, `${ultimate}effects-sheet.png`, `${ultimate}effects-sheet.json`);
       this.load.atlas(texKey(entry.id), png, json);
       this.load.json(sheetKey(entry.id), json);
       this.load.json(movesKey(entry.id), `${BASE}${art.dir}/${art.base}-moves.json`);
@@ -51,6 +55,7 @@ export class PreloadScene extends Phaser.Scene {
 
   create(): void {
     for (const entry of PLAYABLE) {
+      registerRecoloredAtlas(this, `ultimate-${entry.id}`, `ultimate-${entry.id}-alt`, `ultimate-${entry.id}-json`, entry.art!.alt);
       registerRecoloredAtlas(
         this,
         texKey(entry.id),

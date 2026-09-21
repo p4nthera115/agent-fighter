@@ -1,0 +1,169 @@
+{
+  "character": "clawd",
+  "ultimate": "Context Collapse",
+  "tracks": {
+    "character": {
+      "frameSize": {
+        "w": 224,
+        "h": 160
+      },
+      "origin": {
+        "x": 106,
+        "y": 136
+      },
+      "durations": [
+        100,
+        120,
+        100,
+        120,
+        160,
+        100,
+        160,
+        260
+      ],
+      "labels": [
+        "ready",
+        "gather",
+        "compress start",
+        "compress",
+        "charge square",
+        "flick",
+        "satisfied",
+        "straighten page"
+      ],
+      "sourceCrops": [
+        {
+          "x": 34,
+          "y": 142,
+          "w": 236,
+          "h": 160
+        },
+        {
+          "x": 330,
+          "y": 65,
+          "w": 278,
+          "h": 236
+        },
+        {
+          "x": 632,
+          "y": 102,
+          "w": 311,
+          "h": 200
+        },
+        {
+          "x": 990,
+          "y": 137,
+          "w": 247,
+          "h": 164
+        },
+        {
+          "x": 44,
+          "y": 438,
+          "w": 202,
+          "h": 166
+        },
+        {
+          "x": 333,
+          "y": 439,
+          "w": 304,
+          "h": 167
+        },
+        {
+          "x": 665,
+          "y": 439,
+          "w": 242,
+          "h": 167
+        },
+        {
+          "x": 989,
+          "y": 378,
+          "w": 219,
+          "h": 227
+        }
+      ],
+      "frames": 8
+    },
+    "effects": {
+      "frameSize": {
+        "w": 320,
+        "h": 320
+      },
+      "origin": {
+        "x": 160,
+        "y": 160
+      },
+      "durations": [
+        100,
+        120,
+        120,
+        120,
+        140,
+        160,
+        120,
+        200
+      ],
+      "labels": [
+        "gather pages",
+        "stack",
+        "compress stack",
+        "square projectile",
+        "unfold",
+        "paper storm",
+        "paper burst",
+        "falling pages"
+      ],
+      "sourceCrops": [
+        {
+          "x": 55,
+          "y": 672,
+          "w": 231,
+          "h": 227
+        },
+        {
+          "x": 369,
+          "y": 699,
+          "w": 203,
+          "h": 195
+        },
+        {
+          "x": 669,
+          "y": 673,
+          "w": 243,
+          "h": 243
+        },
+        {
+          "x": 978,
+          "y": 734,
+          "w": 218,
+          "h": 104
+        },
+        {
+          "x": 41,
+          "y": 979,
+          "w": 250,
+          "h": 192
+        },
+        {
+          "x": 332,
+          "y": 939,
+          "w": 284,
+          "h": 275
+        },
+        {
+          "x": 643,
+          "y": 949,
+          "w": 300,
+          "h": 266
+        },
+        {
+          "x": 997,
+          "y": 962,
+          "w": 219,
+          "h": 225
+        }
+      ],
+      "frames": 8
+    }
+  },
+  "note": "Art-only timings, not gameplay balance. Character and FX tracks are independently triggered; see choreography.json."
+}

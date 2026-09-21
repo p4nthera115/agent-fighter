@@ -13,6 +13,8 @@ const BINDINGS: Array<Record<string, Action>> = [
     KeyJ: 'punch',
     KeyK: 'kick',
     KeyL: 'uppercut',
+    Space: 'ultimate',
+    KeyI: 'ultimate',
   },
   {
     ArrowUp: 'up',
@@ -22,6 +24,8 @@ const BINDINGS: Array<Record<string, Action>> = [
     Numpad1: 'punch',
     Numpad2: 'kick',
     Numpad3: 'uppercut',
+    Numpad0: 'ultimate',
+    Semicolon: 'ultimate',
     Comma: 'punch',
     Period: 'kick',
     Slash: 'uppercut',

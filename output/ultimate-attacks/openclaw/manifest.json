@@ -1,0 +1,169 @@
+{
+  "character": "openclaw",
+  "ultimate": "Swarm Protocol",
+  "tracks": {
+    "character": {
+      "frameSize": {
+        "w": 224,
+        "h": 160
+      },
+      "origin": {
+        "x": 106,
+        "y": 136
+      },
+      "durations": [
+        100,
+        120,
+        100,
+        120,
+        160,
+        100,
+        160,
+        260
+      ],
+      "labels": [
+        "ready",
+        "prepare broadcast",
+        "broadcast",
+        "command",
+        "conduct",
+        "celebrate",
+        "retrieve straggler",
+        "hold mini"
+      ],
+      "sourceCrops": [
+        {
+          "x": 55,
+          "y": 63,
+          "w": 226,
+          "h": 239
+        },
+        {
+          "x": 357,
+          "y": 107,
+          "w": 230,
+          "h": 195
+        },
+        {
+          "x": 636,
+          "y": 44,
+          "w": 281,
+          "h": 258
+        },
+        {
+          "x": 974,
+          "y": 81,
+          "w": 262,
+          "h": 221
+        },
+        {
+          "x": 18,
+          "y": 346,
+          "w": 280,
+          "h": 276
+        },
+        {
+          "x": 351,
+          "y": 386,
+          "w": 253,
+          "h": 237
+        },
+        {
+          "x": 661,
+          "y": 435,
+          "w": 273,
+          "h": 209
+        },
+        {
+          "x": 999,
+          "y": 402,
+          "w": 230,
+          "h": 228
+        }
+      ],
+      "frames": 8
+    },
+    "effects": {
+      "frameSize": {
+        "w": 320,
+        "h": 320
+      },
+      "origin": {
+        "x": 160,
+        "y": 160
+      },
+      "durations": [
+        100,
+        120,
+        120,
+        120,
+        140,
+        160,
+        120,
+        200
+      ],
+      "labels": [
+        "mini run A",
+        "mini run B",
+        "mini leap",
+        "mini charge group",
+        "swarm tower",
+        "swarm scatter",
+        "impact",
+        "straggler"
+      ],
+      "sourceCrops": [
+        {
+          "x": 106,
+          "y": 773,
+          "w": 127,
+          "h": 129
+        },
+        {
+          "x": 400,
+          "y": 771,
+          "w": 127,
+          "h": 131
+        },
+        {
+          "x": 711,
+          "y": 734,
+          "w": 147,
+          "h": 135
+        },
+        {
+          "x": 989,
+          "y": 719,
+          "w": 240,
+          "h": 203
+        },
+        {
+          "x": 43,
+          "y": 951,
+          "w": 233,
+          "h": 258
+        },
+        {
+          "x": 332,
+          "y": 959,
+          "w": 283,
+          "h": 255
+        },
+        {
+          "x": 644,
+          "y": 972,
+          "w": 291,
+          "h": 237
+        },
+        {
+          "x": 1038,
+          "y": 1029,
+          "w": 145,
+          "h": 179
+        }
+      ],
+      "frames": 8
+    }
+  },
+  "note": "Art-only timings, not gameplay balance. Character and FX tracks are independently triggered; see choreography.json."
+}

@@ -1,3 +1,4 @@
+import { ULTIMATES, ultimateId } from './ultimates';
 import { MOVES } from './frameData';
 import type { Match } from './match';
 import { emptyInput } from './types';
@@ -50,11 +51,21 @@ export class FighterAI {
 
     if (match.phase !== 'fight' || self.action === 'ko') return emptyInput();
 
+    if (match.ultimate) {
+      const next = emptyInput();
+      if (match.ultimate.victim === this.index) {
+        // Decide once per cinematic, using the visible activation as warning.
+        if (match.ultimate.tick === 0) this.intent = Math.random() < this.tuning.blockChance
+          ? { ...next, [foe.x > self.x ? 'left' : 'right']: true } : next;
+        return this.intent;
+      }
+      return next;
+    }
     if (this.holdFor > 0) {
       this.holdFor -= 1;
       // Buttons are edge-ish: release them after the first tick so the AI
       // does not machine-gun the same attack.
-      return { ...this.intent, punch: false, kick: false, uppercut: false };
+      return { ...this.intent, punch: false, kick: false, uppercut: false, ultimate: false };
     }
 
     this.timer -= 1;
@@ -66,6 +77,10 @@ export class FighterAI {
     const towards = foe.x > self.x ? 'right' : 'left';
     const away = towards === 'right' ? 'left' : 'right';
 
+    if (self.actionable && !self.airborne && self.meter >= 100 && gap < ULTIMATES[ultimateId(match.picks[this.index])].range - 20) {
+      this.intent = this.commit({ ...next, ultimate: true });
+      return this.intent;
+    }
     const foeThreatening = foe.action === 'attack' && foe.phase !== 'recovery' && gap < 190;
     const foePunishable = foe.action === 'attack' && foe.phase === 'recovery';
 

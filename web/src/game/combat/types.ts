@@ -10,6 +10,7 @@ export type Stance = 'stand' | 'crouch' | 'air';
 export type Action =
   | 'free'
   | 'attack'
+  | 'ultimate'
   | 'hitstun'
   | 'blockstun'
   | 'knockdown'
@@ -63,6 +64,7 @@ export interface InputState {
   punch: boolean;
   kick: boolean;
   uppercut: boolean;
+  ultimate: boolean;
 }
 
 export function emptyInput(): InputState {
@@ -74,11 +76,15 @@ export function emptyInput(): InputState {
     punch: false,
     kick: false,
     uppercut: false,
+    ultimate: false,
   };
 }
 
 /** Events the simulation emits for the renderer and audio to react to. */
 export type CombatEvent =
+  | { type: 'ultimateStart'; fighter: number }
+  | { type: 'ultimateHit'; attacker: number; victim: number; damage: number; blocked: boolean }
+  | { type: 'ultimateEnd'; fighter: number }
   | { type: 'hit'; attacker: number; victim: number; move: MoveId; x: number; y: number; counter: boolean }
   | { type: 'block'; attacker: number; victim: number; move: MoveId; x: number; y: number }
   | { type: 'whiff'; fighter: number; move: MoveId }

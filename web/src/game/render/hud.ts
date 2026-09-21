@@ -37,6 +37,8 @@ interface Side {
 export class Hud {
   private readonly sides: [Side, Side];
   private readonly timer: PixelLabel;
+  private readonly meters: Phaser.GameObjects.Rectangle[] = [];
+  private readonly meterLabels: PixelLabel[] = [];
   private readonly announce: PixelLabel;
   private readonly subAnnounce: PixelLabel;
   private readonly announcePlate: Phaser.GameObjects.Rectangle;
@@ -49,6 +51,13 @@ export class Hud {
   ) {
     this.sides = [this.buildSide(0), this.buildSide(1)];
     this.header = new ArcadeHeader(scene, 4);
+    for (let i = 0; i < 2; i++) {
+      const x = i === 0 ? EDGE : VIEW_W - EDGE - 142;
+      scene.add.rectangle(x - 1, 245, 144, 8, 0x080e20).setOrigin(0).setScrollFactor(0).setDepth(100).setStrokeStyle(1, 0x7a6480);
+      this.meters.push(scene.add.rectangle(x, 247, 0, 4, 0x66d8ee).setOrigin(0).setScrollFactor(0).setDepth(102));
+      this.meterLabels.push(new PixelLabel(scene, i === 0 ? EDGE : VIEW_W - EDGE, 257, '',
+        { scale: 1, color: '#ffe0ad', outline: '#080e20' }, i === 0 ? 'left' : 'right').setScrollFactor(0).setDepth(102));
+    }
 
     this.timer = new PixelLabel(scene, VIEW_W / 2, BAR_Y - 2, '60', {
       scale: 3,
@@ -209,6 +218,10 @@ export class Hud {
       const side = this.sides[i];
       const fighter = this.match.fighters[i];
       const ratio = fighter.health / RULES.maxHealth;
+      const ready = fighter.meter >= RULES.maxMeter;
+      this.meters[i].width = Math.round(142 * fighter.meter / RULES.maxMeter);
+      this.meters[i].fillColor = ready ? 0xffd36a : 0x66d8ee;
+      this.meterLabels[i].setText(ready ? `ULT READY  ${i === 0 ? 'SPACE' : '; / NUM0'}` : `ULT ${Math.floor(fighter.meter)}%`);
 
       side.ghost += (fighter.health - side.ghost) * Math.min(1, delta / 260);
       if (side.ghost < fighter.health) side.ghost = fighter.health;

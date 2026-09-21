@@ -1,0 +1,169 @@
+{
+  "character": "codex",
+  "ultimate": "Execute All",
+  "tracks": {
+    "character": {
+      "frameSize": {
+        "w": 224,
+        "h": 160
+      },
+      "origin": {
+        "x": 106,
+        "y": 136
+      },
+      "durations": [
+        100,
+        120,
+        100,
+        120,
+        160,
+        100,
+        160,
+        260
+      ],
+      "labels": [
+        "ready",
+        "open terminal",
+        "type",
+        "type focused",
+        "execute",
+        "compress",
+        "success",
+        "close terminal"
+      ],
+      "sourceCrops": [
+        {
+          "x": 45,
+          "y": 81,
+          "w": 232,
+          "h": 263
+        },
+        {
+          "x": 354,
+          "y": 81,
+          "w": 273,
+          "h": 263
+        },
+        {
+          "x": 674,
+          "y": 81,
+          "w": 226,
+          "h": 263
+        },
+        {
+          "x": 975,
+          "y": 81,
+          "w": 225,
+          "h": 263
+        },
+        {
+          "x": 39,
+          "y": 395,
+          "w": 272,
+          "h": 263
+        },
+        {
+          "x": 340,
+          "y": 395,
+          "w": 278,
+          "h": 263
+        },
+        {
+          "x": 665,
+          "y": 393,
+          "w": 235,
+          "h": 265
+        },
+        {
+          "x": 990,
+          "y": 409,
+          "w": 227,
+          "h": 249
+        }
+      ],
+      "frames": 8
+    },
+    "effects": {
+      "frameSize": {
+        "w": 320,
+        "h": 320
+      },
+      "origin": {
+        "x": 160,
+        "y": 160
+      },
+      "durations": [
+        100,
+        120,
+        120,
+        120,
+        140,
+        160,
+        120,
+        200
+      ],
+      "labels": [
+        "terminal open",
+        "terminal active",
+        "target brackets",
+        "cage builds",
+        "cage complete",
+        "cage compress",
+        "pixel explosion",
+        "fragments"
+      ],
+      "sourceCrops": [
+        {
+          "x": 69,
+          "y": 760,
+          "w": 198,
+          "h": 131
+        },
+        {
+          "x": 367,
+          "y": 752,
+          "w": 210,
+          "h": 138
+        },
+        {
+          "x": 683,
+          "y": 726,
+          "w": 201,
+          "h": 191
+        },
+        {
+          "x": 969,
+          "y": 720,
+          "w": 249,
+          "h": 222
+        },
+        {
+          "x": 54,
+          "y": 975,
+          "w": 228,
+          "h": 224
+        },
+        {
+          "x": 387,
+          "y": 1012,
+          "w": 171,
+          "h": 155
+        },
+        {
+          "x": 631,
+          "y": 956,
+          "w": 297,
+          "h": 268
+        },
+        {
+          "x": 991,
+          "y": 992,
+          "w": 218,
+          "h": 206
+        }
+      ],
+      "frames": 8
+    }
+  },
+  "note": "Art-only timings, not gameplay balance. Character and FX tracks are independently triggered; see choreography.json."
+}

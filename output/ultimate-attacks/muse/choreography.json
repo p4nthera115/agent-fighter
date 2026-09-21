@@ -1,0 +1,65 @@
+{
+  "units": "milliseconds and unscaled screen-space art pixels",
+  "characterTrack": {
+    "startMs": 0,
+    "loop": false,
+    "holdLastUntilEffectsComplete": true
+  },
+  "title": "Dream Sequence",
+  "events": [
+    {
+      "atMs": 100,
+      "track": "effects",
+      "frames": [
+        0,
+        1
+      ],
+      "anchor": "caster",
+      "offset": [
+        100,
+        -95
+      ]
+    },
+    {
+      "atMs": 440,
+      "track": "effects",
+      "frames": [
+        2,
+        4
+      ],
+      "anchor": "target",
+      "offset": [
+        -65,
+        -80
+      ],
+      "opponentMotion": "lift into scoop, then release downward"
+    },
+    {
+      "atMs": 900,
+      "track": "effects",
+      "frames": [
+        5,
+        6
+      ],
+      "anchor": "target floor",
+      "offset": [
+        0,
+        -95
+      ],
+      "opponentMotion": "compress onto cloud, launch upward"
+    },
+    {
+      "atMs": 1220,
+      "track": "effects",
+      "frames": [
+        7,
+        7
+      ],
+      "anchor": "caster",
+      "offset": [
+        100,
+        -95
+      ]
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "units": "milliseconds and unscaled screen-space art pixels",
+  "characterTrack": {
+    "startMs": 0,
+    "loop": false,
+    "holdLastUntilEffectsComplete": true
+  },
+  "title": "Shape Riot",
+  "events": [
+    {
+      "atMs": 220,
+      "track": "character",
+      "frames": [
+        2,
+        2
+      ],
+      "motion": "diagonal dive toward target"
+    },
+    {
+      "atMs": 250,
+      "track": "effects",
+      "frames": [
+        0,
+        1
+      ],
+      "anchor": "target",
+      "offset": [
+        0,
+        -50
+      ]
+    },
+    {
+      "atMs": 340,
+      "track": "effects",
+      "frames": [
+        2,
+        2
+      ],
+      "anchor": "target floor",
+      "offset": [
+        0,
+        -45
+      ]
+    },
+    {
+      "atMs": 440,
+      "track": "effects",
+      "frames": [
+        3,
+        4
+      ],
+      "anchor": "target",
+      "offset": [
+        0,
+        -60
+      ]
+    },
+    {
+      "atMs": 600,
+      "track": "character",
+      "frames": [
+        5,
+        6
+      ],
+      "motion": "rise above target, drop and squash on floor"
+    },
+    {
+      "atMs": 780,
+      "track": "effects",
+      "frames": [
+        5,
+        7
+      ],
+      "anchor": "target floor",
+      "offset": [
+        0,
+        -90
+      ]
+    }
+  ]
+}

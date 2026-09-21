@@ -1,0 +1,24 @@
+{
+  "name": "mascot-fighter",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test:sim": "esbuild test/sim.test.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/sim.test.mjs --log-level=warning && node node_modules/.cache/sim.test.mjs",
+    "check": "tsc --noEmit && npm run test",
+    "test:music": "esbuild test/music.test.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/music.test.mjs --log-level=warning && node node_modules/.cache/music.test.mjs",
+    "test": "npm run test:sim && npm run test:music && npm run test:logo && npm run test:animations",
+    "test:logo": "esbuild test/logo.test.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/logo.test.mjs --log-level=warning && node node_modules/.cache/logo.test.mjs",
+    "test:animations": "esbuild test/animations.test.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/animations.test.mjs --log-level=warning && node node_modules/.cache/animations.test.mjs"
+  },
+  "dependencies": {
+    "phaser": "^3.87.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  }
+}

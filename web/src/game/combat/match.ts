@@ -1,6 +1,8 @@
 import { STAGE_W, TICK_HZ } from '../constants';
 import { MOVES, PHYSICS, PUSH_HALF_W, RULES, moveLength } from './frameData';
 import { Fighter, contactPoint, isHoldingBack, overlaps } from './fighter';
+import { ULTIMATES, ULTIMATE_COST, ULTIMATE_LENGTH, ultimateId } from './ultimates';
+import type { UltimateState } from './ultimates';
 import { SCORE } from '../score';
 import type { CombatEvent, InputState, MoveId } from './types';
 
@@ -39,12 +41,17 @@ export class Match {
   roundWinner: number | null = null;
   matchWinner: number | null = null;
 
-  constructor(nameA: string, nameB: string) {
+  ultimate: UltimateState | null = null;
+  private ultimateHeld = [false, false];
+
+  constructor(nameA: string, nameB: string, readonly picks: readonly string[] = ['clawd', 'clawd']) {
     this.fighters = [new Fighter(0, nameA), new Fighter(1, nameB)];
     this.resetRound();
   }
 
   private resetRound(): void {
+    this.ultimate = null;
+    this.ultimateHeld = [false, false];
     const mid = STAGE_W / 2;
     const half = RULES.startSeparation / 2;
     this.fighters[0].resetForRound(mid - half, 1);
@@ -80,7 +87,13 @@ export class Match {
   }
 
   step(inputs: [InputState, InputState]): void {
+    const pressed = inputs.map((input, i) => input.ultimate && !this.ultimateHeld[i]);
+    this.ultimateHeld = inputs.map(input => input.ultimate);
     this.tick += 1;
+    if (this.ultimate) {
+      this.advanceUltimate(inputs);
+      return;
+    }
     this.shake *= 0.86;
     if (this.shake < 0.05) this.shake = 0;
 
@@ -120,6 +133,21 @@ export class Match {
     }
 
     this.faceOff();
+    for (let i = 0; i < 2; i++) {
+      const f = this.fighters[i];
+      if (pressed[i] && f.actionable && !f.airborne && f.meter >= ULTIMATE_COST) {
+        f.meter -= ULTIMATE_COST;
+        f.action = 'ultimate';
+        f.stance = 'stand';
+        f.blocking = false;
+        f.vx = 0;
+        const victim = this.fighters[1 - i];
+        this.ultimate = { id: ultimateId(this.picks[i]), attacker: i, victim: 1-i, tick: 0,
+          facing: f.facing, sourceX: f.x, targetX: victim.x, targetY: victim.y, outcome: 'pending' };
+        this.emit({ type: 'ultimateStart', fighter: i });
+        return;
+      }
+    }
     this.readInputs(inputs);
     this.advanceActions();
     this.advancePhysics(inputs, true);
@@ -129,6 +157,57 @@ export class Match {
 
     this.clock -= 1;
     this.checkRoundOver();
+  }
+
+  /** Cinematic time freezes the clock and physics. Guard can be held during the cut-in.
+   * The first strike checks range, height, invulnerability and guard; later hits
+   * belong to that same confirmed sequence, never acquiring a missed target.
+   */
+  private advanceUltimate(inputs: [InputState, InputState]): void {
+    const u = this.ultimate!;
+    const def = ULTIMATES[u.id];
+    const a = this.fighters[u.attacker], v = this.fighters[u.victim];
+    u.tick++;
+    this.shake *= 0.86;
+    for (const f of this.fighters) if (f.flash > 0) f.flash--;
+    const hit = (def.hits as readonly number[]).indexOf(u.tick);
+    if (hit >= 0) {
+      if (u.outcome === 'pending') {
+        const distance = (v.x - a.x) * u.facing;
+        const reachable = distance >= 0 && distance <= def.range && v.y < 100 && v.invuln === 0 && !v.defeated;
+        const guard = !v.airborne && (v.actionable || v.action === 'blockstun') && isHoldingBack(inputs[u.victim], v.facing);
+        u.outcome = !reachable ? 'miss' : guard ? 'block' : 'hit';
+      }
+      if ((u.outcome === 'hit' || u.outcome === 'block') && !v.defeated) {
+        const blocked = u.outcome === 'block';
+        // Ultimates cannot chip-kill, and do not recharge the attacker's meter.
+        const requested = blocked ? Math.min(Math.round(def.damage[hit] * 0.12), Math.max(0, v.health - 1)) : def.damage[hit];
+        const damage = Math.min(requested, v.health);
+        if (blocked) v.takeBlock(damage, 18, 0);
+        else {
+          v.takeHit(damage, 24, 0, 0, false);
+          a.comboCount++;
+          a.comboTimer = COMBO_DROP_TICKS;
+          v.meter = Math.min(RULES.maxMeter, v.meter + damage * 0.18);
+        }
+        a.score += damage * SCORE.perDamage;
+        this.shake = blocked ? 1 : hit === def.hits.length - 1 ? 5 : 2;
+        this.emit({ type: 'ultimateHit', attacker: u.attacker, victim: u.victim, damage, blocked });
+      }
+    }
+    if (u.tick >= ULTIMATE_LENGTH) {
+      a.action = 'free';
+      a.comboTimer = COMBO_DROP_TICKS;
+      if (u.outcome === 'hit') {
+        v.vx = u.facing * 5;
+        v.vy = 8;
+        v.y = Math.max(v.y, 0.01);
+      } else if (u.outcome === 'block') v.vx = u.facing * 3;
+      this.ultimate = null;
+      this.emit({ type: 'ultimateEnd', fighter: u.attacker });
+      if (v.defeated) this.emit({ type: 'ko', fighter: u.victim });
+      this.checkRoundOver();
+    }
   }
 
   /** Fighters turn to face each other whenever they are free to act. */
@@ -251,7 +330,14 @@ export class Match {
           f.y = 0;
           f.vy = 0;
           f.stance = 'stand';
-          if (f.action === 'hitstun') {
+          if (f.defeated) {
+            // A killing blow that launched the victim keeps its arc, then
+            // settles into the defeated pose here. Without this the landing
+            // below would put a dead fighter back on their feet.
+            f.action = 'ko';
+            f.move = null;
+            f.vx = 0;
+          } else if (f.action === 'hitstun') {
             f.knockDown();
             if (live) this.emit({ type: 'knockdown', fighter: f.index, x: f.x });
             this.shake = Math.max(this.shake, 3);
@@ -333,8 +419,8 @@ export class Match {
       attacker.score += damage * SCORE.perDamage;
       attacker.comboCount += 1;
       attacker.comboTimer = COMBO_DROP_TICKS;
-      attacker.meter = Math.min(RULES.maxMeter, attacker.meter + move.meterGain);
-      victim.meter = Math.min(RULES.maxMeter, victim.meter + move.meterGain * 0.5);
+      attacker.meter = Math.min(RULES.maxMeter, attacker.meter + damage * 0.25);
+      victim.meter = Math.min(RULES.maxMeter, victim.meter + damage * 0.18);
 
       this.applyHitstop(move.hitstop + (counter ? 3 : 0));
       this.shake = Math.max(this.shake, counter ? 4 : 2.4);
@@ -384,11 +470,14 @@ export class Match {
       if (champion.health >= RULES.maxHealth) champion.score += SCORE.perfectBonus;
     }
     for (const f of this.fighters) {
-      if (f.defeated) {
-        f.action = 'ko';
-        f.move = null;
-        f.vx = 0;
-      }
+      if (!f.defeated) continue;
+      f.move = null;
+      // A victim still in the air rides out the knockdown arc and drops into
+      // the defeated pose on landing, so the clip always starts from its
+      // first cel with the fighter on the floor.
+      if (f.airborne) continue;
+      f.action = 'ko';
+      f.vx = 0;
     }
     this.emit({ type: 'roundEnd', winner });
   }

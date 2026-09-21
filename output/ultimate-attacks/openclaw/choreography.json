@@ -1,0 +1,61 @@
+{
+  "units": "milliseconds and unscaled screen-space art pixels",
+  "characterTrack": {
+    "startMs": 0,
+    "loop": false,
+    "holdLastUntilEffectsComplete": true
+  },
+  "title": "Swarm Protocol",
+  "events": [
+    {
+      "atMs": 220,
+      "track": "effects",
+      "frames": [
+        0,
+        1
+      ],
+      "anchor": "swarm instances",
+      "loop": true,
+      "untilMs": 600,
+      "motion": "rush target from both sides",
+      "scale": 0.35
+    },
+    {
+      "atMs": 500,
+      "track": "effects",
+      "frames": [
+        2,
+        3
+      ],
+      "anchor": "target",
+      "offset": [
+        0,
+        -40
+      ]
+    },
+    {
+      "atMs": 720,
+      "track": "effects",
+      "frames": [
+        4,
+        6
+      ],
+      "anchor": "target floor",
+      "offset": [
+        0,
+        -130
+      ]
+    },
+    {
+      "atMs": 1080,
+      "track": "effects",
+      "frames": [
+        7,
+        7
+      ],
+      "anchor": "straggler",
+      "motion": "run toward caster hand",
+      "scale": 0.35
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "units": "milliseconds and unscaled screen-space art pixels",
+  "characterTrack": {
+    "startMs": 0,
+    "loop": false,
+    "holdLastUntilEffectsComplete": true
+  },
+  "title": "Execute All",
+  "events": [
+    {
+      "atMs": 100,
+      "track": "effects",
+      "frames": [
+        0,
+        1
+      ],
+      "anchor": "caster",
+      "offset": [
+        70,
+        -65
+      ],
+      "scale": 0.5
+    },
+    {
+      "atMs": 440,
+      "track": "effects",
+      "frames": [
+        2,
+        4
+      ],
+      "anchor": "target",
+      "offset": [
+        0,
+        -60
+      ]
+    },
+    {
+      "atMs": 800,
+      "track": "effects",
+      "frames": [
+        5,
+        7
+      ],
+      "anchor": "target",
+      "offset": [
+        0,
+        -60
+      ]
+    }
+  ]
+}

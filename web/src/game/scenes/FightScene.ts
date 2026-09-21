@@ -15,6 +15,8 @@ import { AnimMap } from '../render/animMap';
 import { FighterView } from '../render/fighterView';
 import { Fx } from '../render/fx';
 import { Hud } from '../render/hud';
+import { ControlsCard } from '../render/controlsCard';
+import { UltimateView } from '../render/ultimateView';
 import { Stage } from '../render/stage';
 import { PixelLabel } from '../render/pixelLabel';
 import { sfx } from '../audio/sfx';
@@ -23,6 +25,7 @@ import { music } from '../audio/music';
 import { FIGHT_THEME } from '../audio/songs';
 import { UI } from '../ui';
 import { saveHiScore } from '../score';
+import { hasSeenControls, markControlsSeen } from '../firstRun';
 import type { Settings } from '../settings';
 import { SETTINGS_KEY } from '../settings';
 import { demoPair, fighterArt, matchNames } from '../roster';
@@ -48,11 +51,16 @@ export class FightScene extends Phaser.Scene {
   private controls!: InputManager;
   private views!: [FighterView, FighterView];
   private fx!: Fx;
+  private ultimateView!: UltimateView;
+  private hudCamera!: Phaser.Cameras.Scene2D.Camera;
   private hud!: Hud;
   private boxes!: Phaser.GameObjects.Graphics;
   private pauseOverlay!: Phaser.GameObjects.Rectangle;
   private pauseLabel!: PixelLabel;
   private pauseHint!: PixelLabel;
+  private controlsCard?: ControlsCard;
+  /** Whether the card has already greeted the player in this fight. */
+  private greeted = false;
   private debugLabel!: PixelLabel;
   private demoLabel!: PixelLabel;
 
@@ -94,7 +102,7 @@ export class FightScene extends Phaser.Scene {
       (id) => new AnimMap(this.cache.json.get(sheetKey(id)), this.cache.json.get(movesKey(id))),
     );
 
-    this.match = new Match(names[0], names[1]);
+    this.match = new Match(names[0], names[1], this.fight.picks);
     this.ai = new FighterAI(1, this.settings.difficulty);
     this.demoAi = new FighterAI(0, 'rival');
     this.controls = new InputManager();
@@ -127,6 +135,7 @@ export class FightScene extends Phaser.Scene {
       ),
     ];
 
+    this.ultimateView = new UltimateView(this, this.match, this.views);
     this.fx = new Fx(this);
     this.hud = new Hud(this, this.match);
     this.hud.setNames(names[0], names[1]);
@@ -161,6 +170,17 @@ export class FightScene extends Phaser.Scene {
       .setVisible(this.fight.demo);
 
     this.buildPauseOverlay();
+    if (!this.fight.demo) {
+      this.controlsCard = new ControlsCard(this, {
+        versus: this.fight.mode === 'versus',
+        touch: coarse,
+      });
+      // A newcomer meets the controls before the bell; everyone else is left
+      // alone, and can call the card back with C.
+      if (!hasSeenControls()) this.showControls();
+    }
+    this.hudCamera = this.cameras.add(0, 0, VIEW_W, VIEW_H);
+    this.filterCameras();
 
     this.cameras.main.setBounds(0, 0, STAGE_W, VIEW_H);
     this.cameras.main.setBackgroundColor(0x05070f);
@@ -168,10 +188,12 @@ export class FightScene extends Phaser.Scene {
     this.input.on('pointerdown', () => {
       sfx.unlock();
       if (this.fight.demo) this.leave('title');
+      else if (this.controlsCard?.visible) this.hideControls();
     });
     this.game.events.emit('fight:ready', this);
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.controls.destroy();
+      this.controlsCard?.destroy();
       audio.setMusicDim(false);
       music.setIntensity(1);
     });
@@ -196,7 +218,7 @@ export class FightScene extends Phaser.Scene {
       this,
       VIEW_W / 2,
       VIEW_H / 2 + 16,
-      'ESC RESUME    R RESTART    Q QUIT',
+      'ESC RESUME    C CONTROLS    R RESTART    Q QUIT',
       { scale: 1, color: UI.cyan, outline: UI.ink },
       'center',
     )
@@ -207,7 +229,47 @@ export class FightScene extends Phaser.Scene {
 
   private onPlayerInput(): void {
     sfx.unlock();
-    if (this.fight.demo) this.leave('title');
+    if (this.fight.demo) {
+      this.leave('title');
+      return;
+    }
+    // The first press is spent on the card rather than on a jab, so nobody
+    // starts the round having thrown a move they did not mean to.
+    if (this.controlsCard?.visible) this.hideControls();
+  }
+
+  /**
+   * Holds the round behind the controls card.
+   *
+   * The match is frozen the same way a pause freezes it, so a player reading
+   * the card is not being hit while they read.
+   */
+  private showControls(): void {
+    const card = this.controlsCard;
+    if (!card || card.visible) return;
+    // The card stands in for the pause screen while it is up; two full-screen
+    // panels stacked on each other would only fight.
+    this.setPauseVisible(false);
+    card.setResuming(this.greeted);
+    this.greeted = true;
+    card.setVisible(true);
+    this.controls.releaseAll();
+    audio.setMusicDim(true);
+    markControlsSeen();
+  }
+
+  private hideControls(): void {
+    const card = this.controlsCard;
+    if (!card || !card.visible) return;
+    card.setVisible(false);
+    this.setPauseVisible(this.paused);
+    this.controls.releaseAll();
+    audio.setMusicDim(this.paused);
+  }
+
+  /** True while the simulation is being held, by the pause or by the card. */
+  private get frozen(): boolean {
+    return this.paused || (this.controlsCard?.visible ?? false);
   }
 
   restart(): void {
@@ -221,16 +283,24 @@ export class FightScene extends Phaser.Scene {
   setPaused(value: boolean): void {
     if (this.fight.demo) return;
     this.paused = value;
+    this.setPauseVisible(value && !(this.controlsCard?.visible ?? false));
+    if (value) this.controls.releaseAll();
+    audio.setMusicDim(this.frozen);
+  }
+
+  private setPauseVisible(value: boolean): void {
     this.pauseOverlay.setVisible(value);
     this.pauseLabel.setVisible(value);
     this.pauseHint.setVisible(value);
-    if (value) this.controls.releaseAll();
-    audio.setMusicDim(value);
   }
 
   private handleCommand(code: string): void {
     if (this.fight.demo) {
       this.leave('title');
+      return;
+    }
+    if (this.controlsCard?.visible) {
+      this.hideControls();
       return;
     }
     switch (code) {
@@ -243,6 +313,9 @@ export class FightScene extends Phaser.Scene {
         break;
       case 'KeyQ':
         this.leave('title');
+        break;
+      case 'KeyC':
+        this.showControls();
         break;
       case 'KeyH':
         this.settings.showBoxes = !this.settings.showBoxes;
@@ -275,7 +348,8 @@ export class FightScene extends Phaser.Scene {
   }
 
   override update(time: number, delta: number): void {
-    if (!this.paused) {
+    this.controlsCard?.update(delta);
+    if (!this.frozen) {
       this.accumulator += delta;
       let ticks = 0;
       while (this.accumulator >= TICK_MS && ticks < MAX_TICKS_PER_FRAME) {
@@ -288,11 +362,14 @@ export class FightScene extends Phaser.Scene {
       this.consumeEvents();
     }
 
-    const frameDelta = this.paused ? 0 : delta;
+    const frameDelta = this.frozen ? 0 : delta;
     const celebrating = this.match.phase === 'roundEnd' || this.match.phase === 'matchEnd';
-    this.views[0].update(frameDelta, celebrating && this.match.roundWinner === 0);
-    this.views[1].update(frameDelta, celebrating && this.match.roundWinner === 1);
+    const fighterDelta = this.match.ultimate && this.match.ultimate.outcome === 'pending' ? 0 : frameDelta;
+    this.views[0].update(fighterDelta, celebrating && this.match.roundWinner === 0);
+    this.views[1].update(fighterDelta, celebrating && this.match.roundWinner === 1);
+    this.ultimateView.update();
     this.fx.update(frameDelta);
+    this.filterCameras();
     this.hud.update(frameDelta);
     this.hud.updateHeader(time, this.registry.get('hiScore') as number, this.fight.mode === 'versus');
     this.updateCamera();
@@ -337,14 +414,33 @@ export class FightScene extends Phaser.Scene {
   private updateCamera(): void {
     const [a, b] = this.match.fighters;
     const mid = (a.x + b.x) / 2;
-    const target = Phaser.Math.Clamp(mid - VIEW_W / 2, 0, STAGE_W - VIEW_W);
+    if (this.frozen) return;
     const cam = this.cameras.main;
-    cam.scrollX += (target - cam.scrollX) * 0.12;
-
-    const shake = this.match.shake;
+    const cinematic = this.ultimateView.camera();
+    const previousZoom = cam.zoom;
+    cam.setZoom(cinematic.zoom);
+    const focusX = this.match.ultimate?.sourceX ?? mid;
+    const centre = Phaser.Math.Linear(mid, focusX, cinematic.focus);
+    if (cinematic.focus > 0 || previousZoom !== 1) cam.centerOn(centre, VIEW_H / 2 + 34 * cinematic.focus);
+    else {
+      const target = Phaser.Math.Clamp(mid - VIEW_W / 2, 0, STAGE_W - VIEW_W);
+      cam.scrollX += (target - cam.scrollX) * 0.12;
+    }
+    if (cinematic.focus > 0) return;
+    const shake = this.ultimateView.reducedMotion ? 0 : this.match.shake;
     const offsetX = shake > 0.1 ? Phaser.Math.Between(-shake, shake) : 0;
     const offsetY = shake > 0.1 ? Phaser.Math.Between(-shake, shake) : 0;
     cam.setScroll(Math.round(cam.scrollX + offsetX), Math.round(offsetY));
+  }
+
+  /** Separate fixed UI from world zoom. Also handles newly spawned world FX. */
+  private filterCameras(): void {
+    const main = this.cameras.main, ui = this.hudCamera;
+    for (const object of this.children.list) {
+      const item = object as Phaser.GameObjects.Image;
+      const fixed = item.depth >= 100 && item.scrollFactorX === 0;
+      item.cameraFilter = fixed ? main.id : ui.id;
+    }
   }
 
   private consumeEvents(): void {
@@ -352,7 +448,7 @@ export class FightScene extends Phaser.Scene {
 
     const phase = `${this.match.phase}:${this.match.round}`;
     if (phase !== this.previousPhase) {
-      if (this.match.phase === 'fight') {
+      if (this.match.phase === 'fight' && !this.match.ultimate) {
         this.hud.say('FIGHT', '', 800);
         sfx.bell();
       }
@@ -362,6 +458,17 @@ export class FightScene extends Phaser.Scene {
 
   private reactTo(event: CombatEvent): void {
     switch (event.type) {
+      case 'ultimateStart':
+        sfx.bell();
+        break;
+      case 'ultimateHit': {
+        const victim = this.match.fighters[event.victim];
+        const y = this.yToScreen(victim.centreY());
+        if (event.blocked) { this.fx.guardSpark(victim.x, y); sfx.guard(); }
+        else { this.fx.hitSpark(victim.x, y, 1.4, false); sfx.hit(1.3, false); }
+        this.fx.damageNumber(victim.x, y - 18, event.damage, false);
+        break;
+      }
       case 'swing':
         sfx.swing(event.move === 'punch' ? 0 : event.move === 'kick' ? 1 : 0.6);
         break;

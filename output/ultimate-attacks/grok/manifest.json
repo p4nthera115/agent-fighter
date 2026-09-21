@@ -1,0 +1,169 @@
+{
+  "character": "grok",
+  "ultimate": "Shape Riot",
+  "tracks": {
+    "character": {
+      "frameSize": {
+        "w": 224,
+        "h": 160
+      },
+      "origin": {
+        "x": 106,
+        "y": 136
+      },
+      "durations": [
+        100,
+        120,
+        100,
+        120,
+        160,
+        100,
+        160,
+        260
+      ],
+      "labels": [
+        "focus",
+        "coil",
+        "triangle dive",
+        "square slam",
+        "capsule dash",
+        "giant orb",
+        "land",
+        "wink"
+      ],
+      "sourceCrops": [
+        {
+          "x": 57,
+          "y": 101,
+          "w": 192,
+          "h": 189
+        },
+        {
+          "x": 337,
+          "y": 139,
+          "w": 260,
+          "h": 135
+        },
+        {
+          "x": 652,
+          "y": 23,
+          "w": 247,
+          "h": 274
+        },
+        {
+          "x": 954,
+          "y": 114,
+          "w": 281,
+          "h": 191
+        },
+        {
+          "x": 25,
+          "y": 432,
+          "w": 257,
+          "h": 150
+        },
+        {
+          "x": 329,
+          "y": 327,
+          "w": 290,
+          "h": 286
+        },
+        {
+          "x": 643,
+          "y": 470,
+          "w": 281,
+          "h": 144
+        },
+        {
+          "x": 1000,
+          "y": 415,
+          "w": 194,
+          "h": 194
+        }
+      ],
+      "frames": 8
+    },
+    "effects": {
+      "frameSize": {
+        "w": 320,
+        "h": 320
+      },
+      "origin": {
+        "x": 160,
+        "y": 160
+      },
+      "durations": [
+        100,
+        120,
+        120,
+        120,
+        140,
+        160,
+        120,
+        200
+      ],
+      "labels": [
+        "dive trail",
+        "triangle impact",
+        "square shockwave",
+        "capsule trail",
+        "shape afterimages",
+        "ground impact",
+        "rainbow burst",
+        "fragments"
+      ],
+      "sourceCrops": [
+        {
+          "x": 26,
+          "y": 651,
+          "w": 269,
+          "h": 253
+        },
+        {
+          "x": 348,
+          "y": 665,
+          "w": 254,
+          "h": 238
+        },
+        {
+          "x": 639,
+          "y": 670,
+          "w": 290,
+          "h": 241
+        },
+        {
+          "x": 964,
+          "y": 733,
+          "w": 267,
+          "h": 131
+        },
+        {
+          "x": 32,
+          "y": 951,
+          "w": 256,
+          "h": 266
+        },
+        {
+          "x": 329,
+          "y": 937,
+          "w": 282,
+          "h": 281
+        },
+        {
+          "x": 643,
+          "y": 948,
+          "w": 283,
+          "h": 269
+        },
+        {
+          "x": 991,
+          "y": 961,
+          "w": 211,
+          "h": 247
+        }
+      ],
+      "frames": 8
+    }
+  },
+  "note": "Art-only timings, not gameplay balance. Character and FX tracks are independently triggered; see choreography.json."
+}

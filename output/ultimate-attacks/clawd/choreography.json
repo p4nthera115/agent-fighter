@@ -1,0 +1,49 @@
+{
+  "units": "milliseconds and unscaled screen-space art pixels",
+  "characterTrack": {
+    "startMs": 0,
+    "loop": false,
+    "holdLastUntilEffectsComplete": true
+  },
+  "title": "Context Collapse",
+  "events": [
+    {
+      "atMs": 100,
+      "track": "effects",
+      "frames": [
+        0,
+        2
+      ],
+      "anchor": "caster",
+      "offset": [
+        0,
+        -70
+      ]
+    },
+    {
+      "atMs": 600,
+      "track": "effects",
+      "frames": [
+        3,
+        3
+      ],
+      "anchor": "projectile",
+      "from": "caster hand",
+      "to": "target centre",
+      "travelMs": 250
+    },
+    {
+      "atMs": 850,
+      "track": "effects",
+      "frames": [
+        4,
+        7
+      ],
+      "anchor": "target",
+      "offset": [
+        0,
+        -60
+      ]
+    }
+  ]
+}

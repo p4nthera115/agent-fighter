@@ -39,11 +39,7 @@ export class Fighter {
   invuln = 0;
 
   health: number = RULES.maxHealth;
-  /**
-   * Accumulated on hit and on block. Nothing spends it yet — it is the hook a
-   * super move would use, and it is deliberately not shown in the HUD until
-   * there is something to spend it on.
-   */
+  /** Charge from combat, spent on a personal ultimate at 100. */
   meter = 0;
   wins = 0;
   /** Arcade score. Carried across rounds, reset only between matches. */

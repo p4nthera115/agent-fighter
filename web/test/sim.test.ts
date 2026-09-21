@@ -127,5 +127,26 @@ check('jab is safe on block', blockAdvantage(MOVES.punch) >= -3, `${blockAdvanta
   console.log(`      (${kos} knockouts, ${ticks} ticks simulated)`);
 }
 
+// --- 7. A kill that launches the victim still settles into the ko pose -----
+{
+  const m = new Match('A', 'B');
+  while (m.phase === 'intro') m.step(idle());
+  const walk = emptyInput(); walk.right = true;
+  let guard = 0;
+  while (Math.abs(m.fighters[0].x - m.fighters[1].x) > 110 && guard++ < 400) m.step([walk, emptyInput()]);
+  m.fighters[1].health = 1;
+  const up = emptyInput(); up.uppercut = true;
+  m.step([up, emptyInput()]);
+  let launched = false;
+  // Well short of the round-end timer, so the round is still on screen.
+  for (let i = 0; i < 120; i += 1) {
+    m.step(idle());
+    if (m.fighters[1].airborne) launched = true;
+  }
+  check('a launching finisher lifts the victim', launched);
+  check('the defeated fighter holds the ko pose', m.fighters[1].action === 'ko', `action ${m.fighters[1].action}`);
+  check('the defeated fighter lands on the floor', m.fighters[1].y === 0, `y ${m.fighters[1].y}`);
+}
+
 console.log(failures === 0 ? '\nAll simulation checks passed.' : `\n${failures} check(s) failed.`);
 if (failures > 0) throw new Error(`${failures} check(s) failed.`);

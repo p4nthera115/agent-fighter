@@ -1097,7 +1097,7 @@ body {
     grid-area: buttons;
     display: grid;
     grid-template-areas:
-      '. u'
+      's u'
       'p k';
     gap: clamp(8px, 2.4vw, 14px);
     place-items: center;
@@ -1106,6 +1106,7 @@ body {
   .cab .pad__btn--p { grid-area: p; }
   .cab .pad__btn--k { grid-area: k; }
   .cab .pad__btn--u { grid-area: u; }
+  .cab .pad__btn--super { grid-area: s; }
 
   .cab .deck__buttons .pad__btn--atk {
     width: min(17vw, 84px);
@@ -1158,3 +1159,5 @@ body {
     opacity: 0.8;
   }
 }
+
+.pad__btn--super { --btn-lit: #ffec9a; --btn: #e8ad35; --btn-deep: #745215; --btn-rim: #745215; font-size: 12px; }
