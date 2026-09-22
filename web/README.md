@@ -1,4 +1,4 @@
-# Mascot Fighter — the cabinet
+# Agent Fighter — the cabinet
 
 The whole page is one machine, edge to edge: a neon marquee between two
 speaker grilles and a monitor sunk into the shell. There is no surrounding
@@ -256,17 +256,17 @@ Everything on top of the letterforms is procedural, in `logo.ts`:
 - each letter climbs as the word runs right, and every row leans forward
 - a yellow-to-red ramp with a diagonal highlight streak across the upper rows
 - a one-pixel black outline, a one-pixel red rim outside it, and a hard shadow
-- the two words locked together, FIGHTER tucked under and right of MASCOT
+- the two words locked together, FIGHTER tucked under and right of AGENT
 
 The gradient is the one part that needed care. A single ramp across the whole
 word looks right on a flat baseline, but once the baseline climbs, the last
-letter sits in the palest stop and the first in the darkest — MASCOT came out
+letter sits in the palest stop and the first in the darkest — AGENT came out
 with a white T and a rust-red M. The fill now mixes each letter's own vertical
 span with its position in the word, so every letter gets the full range while
 the mass still reads as one gradient.
 
 The versus page's mark is the same machinery: `VS` is drawn with the same
-alphabet — which needed a `V`, since MASCOT FIGHTER does not use one — and the
+alphabet — which needed a `V`, since AGENT FIGHTER does not use one — and the
 same ramp, rim and outline, so the two read as one poster. It does not climb,
 though. The wordmark rises because it is a phrase being read left to right; VS
 is a symbol standing between two equal halves, and tilting it would take a

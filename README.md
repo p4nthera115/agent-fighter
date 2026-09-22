@@ -1,4 +1,4 @@
-# Mascot Fighter
+# Agent Fighter
 
 A browser-based 2D arcade fighter built around hand-assembled pixel art.
 

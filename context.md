@@ -1,4 +1,4 @@
-# Mascot Fighter — Project Context
+# Agent Fighter — Project Context
 
 ## Project goal
 
@@ -264,7 +264,7 @@ it loses the outer half of each fist.
 
 The mark reuses the wordmark: `render/logo.ts` grew a `V`, and `wordTexture`
 was lifted out of `addLogo` so any placed-word layout can be painted with the
-same ramp, rim and outline. `VS` does not climb the way MASCOT FIGHTER does,
+same ramp, rim and outline. `VS` does not climb the way AGENT FIGHTER does,
 because a symbol between two equal halves cannot lean towards one of them.
 
 Two smaller things fell out of it. `demoPicks` moved from `FightScene` to
