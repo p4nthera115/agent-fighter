@@ -11,7 +11,7 @@ import { TITLE_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { demoPair } from '../roster';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY } from '../settings';
+import { SETTINGS_KEY, isMobile, MOBILE_QUERY } from '../settings';
 
 /** Idle time on the menu before the cabinet starts demonstrating itself. */
 const ATTRACT_DELAY = 14000;
@@ -47,6 +47,12 @@ export class TitleScene extends Phaser.Scene {
     this.header = new ArcadeHeader(this);
 
     const settings = this.registry.get(SETTINGS_KEY) as Settings;
+    const mobile = isMobile();
+    if (mobile) settings.mode = 'cpu';
+    const device = window.matchMedia(MOBILE_QUERY);
+    const refreshMenu = () => this.scene.restart();
+    device.addEventListener('change', refreshMenu);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => device.removeEventListener('change', refreshMenu));
 
     addLogo(this, VIEW_W / 2, 76);
 
@@ -59,7 +65,8 @@ export class TitleScene extends Phaser.Scene {
     this.menu = new Menu(
       this,
       [
-        { id: '1p', label: 'START GAME', onSelect: () => this.chooseFighters() },
+        { id: '1p', label: '1 PLAYER', onSelect: () => this.chooseFighters('cpu') },
+        ...(!mobile ? [{ id: '2p', label: '2 PLAYERS', onSelect: () => this.chooseFighters('versus') }] : []),
         { id: 'how', label: 'HOW TO PLAY', onSelect: () => this.openPanel('controls') },
         { id: 'opt', label: 'OPTIONS', onSelect: () => this.openPanel('options') },
       ],
@@ -127,9 +134,9 @@ export class TitleScene extends Phaser.Scene {
     });
   }
 
-  private chooseFighters(): void {
+  private chooseFighters(mode: Settings['mode']): void {
     const settings = this.registry.get(SETTINGS_KEY) as Settings;
-    this.registry.set(SETTINGS_KEY, { ...settings, mode: 'cpu' });
+    this.registry.set(SETTINGS_KEY, { ...settings, mode: isMobile() ? 'cpu' : mode });
     this.registry.set('scores', [0, 0]);
     this.scene.start('select');
   }

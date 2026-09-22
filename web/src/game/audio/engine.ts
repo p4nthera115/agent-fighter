@@ -26,6 +26,13 @@ class AudioEngine {
   private sfxVolume = 0.5;
   /** Held low while the game is paused, as opposed to the momentary duck. */
   private dimmed = false;
+  private muted = false;
+
+  /** Master mute preserves the separate music and effects preferences. */
+  setMuted(muted: boolean): void {
+    this.muted = muted;
+    if (this.master) this.master.gain.value = muted ? 0 : 1;
+  }
 
   get context(): AudioContext | null {
     return this.ctx;
@@ -62,7 +69,7 @@ class AudioEngine {
 
     this.ctx = new Ctor();
     this.master = this.ctx.createGain();
-    this.master.gain.value = 1;
+    this.master.gain.value = this.muted ? 0 : 1;
     this.master.connect(this.ctx.destination);
 
     this.sfx = this.ctx.createGain();

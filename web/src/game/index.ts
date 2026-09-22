@@ -12,12 +12,11 @@ import { SETTINGS_KEY } from './settings';
 import type { Settings } from './settings';
 
 /**
- * Creates the game and keeps the screen element exactly one whole multiple of
- * the internal buffer.
+ * Creates the game with integer scaling on desktop and proportional scaling
+ * inside a 3:2 LCD on handhelds.
  *
- * Sizing the *screen* to the canvas rather than the canvas to the screen is
- * what removes the letterbox entirely: there is never a gap between the bezel
- * and the picture, and every art pixel stays a whole number of screen pixels.
+ * Desktop glass fits the canvas exactly. The handheld LCD adds letterboxing
+ * while its centered stage mount preserves the native game aspect ratio.
  */
 export interface CabinetElements {
   /** Where Phaser puts the canvas. */
@@ -86,11 +85,12 @@ export function createGame(elements: CabinetElements, settings: Settings): Phase
       bezel * 2;
     if (availableW < 1 || availableH < 1) return 0;
 
-    const raw = Math.min(availableW / VIEW_W, availableH / VIEW_H);
+    const handheld = areaStyle.getPropertyValue('--handheld').trim() === '1';
+    const displayHeight = handheld ? VIEW_W * 2 / 3 : VIEW_H;
+    const raw = Math.min(availableW / VIEW_W, availableH / displayHeight);
     // Whole-number zoom wherever there is room for it. Below 1:1 the screen is
     // narrower than the buffer, so a fraction is the only way to show it all.
-    const mobileLandscape = window.matchMedia('(max-width: 900px) and (orientation: landscape)').matches;
-    return mobileLandscape ? raw : raw >= 1 ? Math.floor(raw) : Math.max(0.2, raw);
+    return handheld ? raw : raw >= 1 ? Math.floor(raw) : Math.max(0.2, raw);
   };
 
   /**
@@ -122,8 +122,10 @@ export function createGame(elements: CabinetElements, settings: Settings): Phase
     const zoom = measure();
     if (zoom <= 0) return;
 
-    screen.style.setProperty('--screen-w', `${Math.round(VIEW_W * zoom)}px`);
-    screen.style.setProperty('--screen-h', `${Math.round(VIEW_H * zoom)}px`);
+    const handheld = getComputedStyle(area).getPropertyValue('--handheld').trim() === '1';
+    const width = Math.floor(VIEW_W * zoom);
+    screen.style.setProperty('--screen-w', `${width}px`);
+    screen.style.setProperty('--screen-h', `${width * (handheld ? 2 / 3 : VIEW_H / VIEW_W)}px`);
     screen.style.setProperty('--zoom', `${zoom}`);
 
     // Scanlines and an aperture grille only mean anything when one art pixel

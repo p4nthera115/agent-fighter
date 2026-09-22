@@ -9,7 +9,7 @@ import { TITLE_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { PLAYABLE, ROSTER } from '../roster';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY } from '../settings';
+import { SETTINGS_KEY, isMobile } from '../settings';
 import { altTexKey, movesKey, sheetKey, texKey, thumbKey } from './PreloadScene';
 
 /**
@@ -84,6 +84,7 @@ export class SelectScene extends Phaser.Scene {
 
   create(): void {
     this.settings = this.registry.get(SETTINGS_KEY) as Settings;
+    if (isMobile()) this.settings.mode = 'cpu';
     this.versus = this.settings.mode === 'versus';
     this.leaving = false;
     this.launchAt = 0;

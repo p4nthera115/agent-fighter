@@ -9,7 +9,7 @@
    grilles flanking the marquee, the monitor sunk into a matte recess, and a
    control panel across the bottom. Held upright in a hand it becomes a
    handheld instead - same parts, laid out the way a handheld lays them out,
-   at the end of this file only when the device is held upright.
+   at the end of this file.
 
    The case is a dark violet, lit from the upper left, which is the rule the
    sprite art is drawn to. The CRT effects are scaled to the current
@@ -55,7 +55,7 @@
   /* The pillars either side of the face. */
   --pillar-width: clamp(13px, 3.4vmin, 46px);
 
-  --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
 }
 
 *,
@@ -101,6 +101,21 @@ body {
 
 /* --- The machine ---------------------------------------------------------- */
 
+/* Holding the cabinet is game input, including when a thumb rests on a label.
+   Apply WebKit's selection and callout rules to descendants explicitly. */
+.cab,
+.cab * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+.cab button,
+.stage-mount {
+  touch-action: none;
+}
+
 /* Edge to edge. The only room left showing is what the rounded shoulders cut
    out of the top corners, which is all it takes to read as an object. */
 .cab__body {
@@ -119,8 +134,7 @@ body {
   border-radius: clamp(14px, 3.4vmin, 44px) clamp(14px, 3.4vmin, 44px) 0 0;
   background:
     /* The pillars, moulded as part of the shell rather than stuck on it: lit
-       on their outer face, falling into a seam where the face begins. */
-    linear-gradient(
+       on their outer face, falling into a seam where the face begins. */ linear-gradient(
         90deg,
         var(--pillar-lit) 0%,
         var(--pillar) 46%,
@@ -137,11 +151,14 @@ body {
       )
       right / var(--pillar-width) 100% no-repeat,
     /* The face. */
-    linear-gradient(168deg, var(--shell-lit) 0%, var(--shell) 34%, var(--shell-deep) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(180, 150, 255, 0.28),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.6),
-    0 0 120px -20px rgba(120, 60, 200, 0.5);
+      linear-gradient(
+        168deg,
+        var(--shell-lit) 0%,
+        var(--shell) 34%,
+        var(--shell-deep) 100%
+      );
+  box-shadow: inset 0 1px 0 rgba(180, 150, 255, 0.28),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 120px -20px rgba(120, 60, 200, 0.5);
 }
 
 /* --- Marquee -------------------------------------------------------------- */
@@ -160,14 +177,16 @@ body {
   width: clamp(28px, 6vmin, 76px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(0, 0, 0, 0.55) 0 38%, transparent 39%),
-    radial-gradient(circle at 50% 50%, #0d0819 1.1px, transparent 1.2px) 0 0 / 5px 5px,
+  background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.55) 0 38%,
+      transparent 39%
+    ),
+    radial-gradient(circle at 50% 50%, #0d0819 1.1px, transparent 1.2px) 0 0 /
+      5px 5px,
     linear-gradient(150deg, var(--shell-lit), var(--shell-deep));
-  box-shadow:
-    inset 0 0 0 2px rgba(0, 0, 0, 0.55),
-    inset 0 2px 6px rgba(0, 0, 0, 0.7),
-    0 1px 0 rgba(180, 150, 255, 0.22);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.55),
+    inset 0 2px 6px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(180, 150, 255, 0.22);
 }
 
 /* Neon behind smoked acrylic: the glow is the sign, the panel stays dark. */
@@ -180,11 +199,13 @@ body {
   padding: clamp(6px, 1.4vmin, 16px) clamp(10px, 3vw, 40px);
   border: 1px solid rgba(255, 63, 164, 0.5);
   border-radius: 5px;
-  background:
-    radial-gradient(120% 140% at 50% 120%, rgba(255, 63, 164, 0.22), transparent 70%),
+  background: radial-gradient(
+      120% 140% at 50% 120%,
+      rgba(255, 63, 164, 0.22),
+      transparent 70%
+    ),
     linear-gradient(180deg, #180f2c, #0d0818);
-  box-shadow:
-    0 0 24px -6px rgba(255, 63, 164, 0.6),
+  box-shadow: 0 0 24px -6px rgba(255, 63, 164, 0.6),
     inset 0 0 18px -8px rgba(56, 232, 255, 0.5);
 }
 
@@ -195,9 +216,7 @@ body {
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   color: #fff3fb;
-  text-shadow:
-    0 0 6px rgba(255, 63, 164, 0.9),
-    0 0 18px rgba(255, 63, 164, 0.6);
+  text-shadow: 0 0 6px rgba(255, 63, 164, 0.9), 0 0 18px rgba(255, 63, 164, 0.6);
 }
 
 .marquee__sub {
@@ -241,9 +260,7 @@ body {
   border-bottom-color: var(--bezel-bottom);
   border-radius: 10px;
   background: #05070f;
-  box-shadow:
-    0 0 0 2px #05040a,
-    0 0 0 var(--hood) var(--bezel),
+  box-shadow: 0 0 0 2px #05040a, 0 0 0 var(--hood) var(--bezel),
     0 0 0 calc(var(--hood) + 2px) var(--edge),
     0 0 0 calc(var(--hood) + 4px) rgba(180, 150, 255, 0.16),
     0 18px 40px -20px rgba(0, 0, 0, 0.95),
@@ -252,15 +269,34 @@ body {
 
 /* Four screws holding the bezel on, one per corner. */
 .cab__frame::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: calc(var(--bezel-width) / -1 + 2px);
   pointer-events: none;
-  background-image:
-    radial-gradient(circle, rgba(220, 210, 255, 0.4) 0 22%, rgba(0, 0, 0, 0.55) 26%, transparent 45%),
-    radial-gradient(circle, rgba(220, 210, 255, 0.4) 0 22%, rgba(0, 0, 0, 0.55) 26%, transparent 45%),
-    radial-gradient(circle, rgba(220, 210, 255, 0.4) 0 22%, rgba(0, 0, 0, 0.55) 26%, transparent 45%),
-    radial-gradient(circle, rgba(220, 210, 255, 0.4) 0 22%, rgba(0, 0, 0, 0.55) 26%, transparent 45%);
+  background-image: radial-gradient(
+      circle,
+      rgba(220, 210, 255, 0.4) 0 22%,
+      rgba(0, 0, 0, 0.55) 26%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle,
+      rgba(220, 210, 255, 0.4) 0 22%,
+      rgba(0, 0, 0, 0.55) 26%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle,
+      rgba(220, 210, 255, 0.4) 0 22%,
+      rgba(0, 0, 0, 0.55) 26%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle,
+      rgba(220, 210, 255, 0.4) 0 22%,
+      rgba(0, 0, 0, 0.55) 26%,
+      transparent 45%
+    );
   background-repeat: no-repeat;
   background-size: 7px 7px;
   background-position: top left, top right, bottom left, bottom right;
@@ -279,8 +315,7 @@ body {
   border-radius: 3.5% / 6%;
   overflow: hidden;
   isolation: isolate;
-  box-shadow:
-    inset 0 0 0 1px rgba(170, 150, 255, 0.18),
+  box-shadow: inset 0 0 0 1px rgba(170, 150, 255, 0.18),
     inset 0 0 26px rgba(0, 0, 0, 0.8);
 }
 
@@ -333,9 +368,17 @@ body {
    band rather than a straight sweep, so it is an ellipse cropped by the top
    left corner. */
 .crt--glare {
-  background:
-    radial-gradient(85% 55% at 18% -8%, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04) 55%, transparent 76%),
-    linear-gradient(203deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 38%);
+  background: radial-gradient(
+      85% 55% at 18% -8%,
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.04) 55%,
+      transparent 76%
+    ),
+    linear-gradient(
+      203deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0) 38%
+    );
   mix-blend-mode: screen;
   border-radius: inherit;
 }
@@ -349,8 +392,7 @@ body {
     rgba(5, 5, 14, 0.44) 80%,
     rgba(5, 5, 14, 0.85) 100%
   );
-  box-shadow:
-    inset 0 0 44px rgba(0, 0, 0, 0.6),
+  box-shadow: inset 0 0 44px rgba(0, 0, 0, 0.6),
     inset 0 0 6px rgba(0, 0, 0, 0.95);
   border-radius: inherit;
 }
@@ -363,9 +405,18 @@ body {
 }
 
 @keyframes hum {
-  0%, 46% { opacity: 0.22; }
-  48%, 52% { opacity: 0.5; }
-  54%, 100% { opacity: 0.26; }
+  0%,
+  46% {
+    opacity: 0.22;
+  }
+  48%,
+  52% {
+    opacity: 0.5;
+  }
+  54%,
+  100% {
+    opacity: 0.26;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -387,7 +438,8 @@ body {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: clamp(10px, 2vw, 30px);
-  padding: clamp(10px, 2.4vmin, 30px) clamp(10px, 3vw, 52px) clamp(12px, 2.6vmin, 32px);
+  padding: clamp(10px, 2.4vmin, 30px) clamp(10px, 3vw, 52px)
+    clamp(12px, 2.6vmin, 32px);
   margin-inline: calc(var(--pillar-width) / -1);
   background: linear-gradient(
     180deg,
@@ -396,8 +448,7 @@ body {
     var(--shell-deep) 100%
   );
   border-top: 2px solid var(--edge);
-  box-shadow:
-    inset 0 2px 0 rgba(180, 150, 255, 0.22),
+  box-shadow: inset 0 2px 0 rgba(180, 150, 255, 0.22),
     inset 0 -14px 20px -12px rgba(0, 0, 0, 0.8);
 }
 
@@ -436,14 +487,10 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 56%, #05040a 0 16%, transparent 17%),
+  background: radial-gradient(circle at 50% 56%, #05040a 0 16%, transparent 17%),
     radial-gradient(circle at 36% 28%, #3a2d55, #150e27 60%, #08050f);
-  box-shadow:
-    inset 0 4px 9px rgba(0, 0, 0, 0.85),
-    0 0 0 3px #8f86ad,
-    0 0 0 5px var(--edge),
-    0 3px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 4px 9px rgba(0, 0, 0, 0.85), 0 0 0 3px #8f86ad,
+    0 0 0 5px var(--edge), 0 3px 5px rgba(0, 0, 0, 0.5);
 }
 
 .stick__shaft {
@@ -453,7 +500,13 @@ body {
   width: 14%;
   height: 30%;
   border-radius: 2px;
-  background: linear-gradient(90deg, #453f52, #d6d0e2 42%, #80798f 62%, #332e3f);
+  background: linear-gradient(
+    90deg,
+    #453f52,
+    #d6d0e2 42%,
+    #80798f 62%,
+    #332e3f
+  );
   transform: translate(calc(-50% + var(--tx, 0px)), var(--ty, 0px));
   transition: transform 90ms ease-out;
 }
@@ -466,12 +519,18 @@ body {
   width: 54%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 28%, #ffc4e6 0 14%, var(--neon) 52%, #6b0f3d 100%);
-  box-shadow:
-    inset -3px -5px 8px rgba(0, 0, 0, 0.45),
-    0 4px 9px rgba(0, 0, 0, 0.55),
-    0 0 18px -4px rgba(255, 63, 164, 0.7);
-  transform: translate(calc(-50% + var(--tx, 0px) * 1.6), calc(var(--ty, 0px) * 1.6));
+  background: radial-gradient(
+    circle at 34% 28%,
+    #ffc4e6 0 14%,
+    var(--neon) 52%,
+    #6b0f3d 100%
+  );
+  box-shadow: inset -3px -5px 8px rgba(0, 0, 0, 0.45),
+    0 4px 9px rgba(0, 0, 0, 0.55), 0 0 18px -4px rgba(255, 63, 164, 0.7);
+  transform: translate(
+    calc(-50% + var(--tx, 0px) * 1.6),
+    calc(var(--ty, 0px) * 1.6)
+  );
   transition: transform 90ms ease-out;
 }
 
@@ -507,22 +566,32 @@ body {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  background:
-    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 48%),
+  background: radial-gradient(
+      circle at 36% 28%,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0) 48%
+    ),
     var(--btn, #7a2d17);
-  box-shadow:
-    0 0 0 3px var(--edge),
-    0 5px 0 var(--btn-rim, #4a1a0d),
-    0 8px 12px -4px rgba(0, 0, 0, 0.7),
-    inset 0 -5px 9px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 3px var(--edge), 0 5px 0 var(--btn-rim, #4a1a0d),
+    0 8px 12px -4px rgba(0, 0, 0, 0.7), inset 0 -5px 9px rgba(0, 0, 0, 0.35);
   transition: transform 60ms ease-out, box-shadow 60ms ease-out;
 }
 
 /* The three attack buttons wear the colours their moves flash on screen.
    Each is a lens rather than a cap: a lit centre, a saturated rim where the
    light has furthest to travel, and the ring of the nut holding it in. */
-.pad__btn--p { --btn-lit: #ff9e78; --btn: #d9553a; --btn-deep: #6d2114; --btn-rim: #6d2114; }
-.pad__btn--k { --btn-lit: #8ed2ff; --btn: #3f8fdd; --btn-deep: #17356b; --btn-rim: #1d3a6b; }
+.pad__btn--p {
+  --btn-lit: #ff9e78;
+  --btn: #d9553a;
+  --btn-deep: #6d2114;
+  --btn-rim: #6d2114;
+}
+.pad__btn--k {
+  --btn-lit: #8ed2ff;
+  --btn: #3f8fdd;
+  --btn-deep: #17356b;
+  --btn-rim: #1d3a6b;
+}
 .pad__btn--u {
   --btn-lit: #ffe8ae;
   --btn: #f5bb46;
@@ -538,8 +607,7 @@ body {
   color: rgba(255, 255, 255, 0.78);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   background:
-    /* One hard arc of the sign above, caught on the top of the lens. */
-    radial-gradient(
+    /* One hard arc of the sign above, caught on the top of the lens. */ radial-gradient(
       ellipse 44% 24% at 50% 15%,
       rgba(255, 255, 255, 0.95),
       rgba(255, 255, 255, 0.08) 68%,
@@ -547,17 +615,20 @@ body {
     ),
     /* The plastic lit through from the middle. A cap is nearly flat on top,
        so the fall to the rim is late and quick rather than a sphere. */
-    radial-gradient(circle at 50% 56%, var(--btn-lit) 0%, var(--btn) 58%, var(--btn-deep) 100%);
+      radial-gradient(
+        circle at 50% 56%,
+        var(--btn-lit) 0%,
+        var(--btn) 58%,
+        var(--btn-deep) 100%
+      );
   box-shadow:
-    /* The chrome nut. */
-    0 0 0 2px rgba(255, 255, 255, 0.5),
-    0 0 0 4px #8d86a3,
-    0 0 0 5px var(--edge),
-    /* The skirt it stands on, and its shadow on the panel. */
-    0 6px 0 var(--btn-deep),
+    /* The chrome nut. */ 0 0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 0 4px #8d86a3, 0 0 0 5px var(--edge),
+    /* The skirt it stands on, and its shadow on the panel. */ 0 6px 0
+      var(--btn-deep),
     0 10px 16px -5px rgba(0, 0, 0, 0.75),
-    /* The bevel where the lens turns down into the nut. */
-    inset 0 0 0 2px rgba(255, 255, 255, 0.13),
+    /* The bevel where the lens turns down into the nut. */ inset 0 0 0 2px
+      rgba(255, 255, 255, 0.13),
     inset 0 -5px 10px rgba(0, 0, 0, 0.3),
     inset 0 3px 7px rgba(255, 255, 255, 0.14);
 }
@@ -579,9 +650,7 @@ body {
 .pad__btn.is-down,
 .pad__btn:active {
   transform: translateY(4px);
-  box-shadow:
-    0 0 0 3px var(--edge),
-    0 1px 0 var(--btn-rim, #4a1a0d),
+  box-shadow: 0 0 0 3px var(--edge), 0 1px 0 var(--btn-rim, #4a1a0d),
     inset 0 -3px 7px rgba(0, 0, 0, 0.4);
   filter: brightness(1.2);
 }
@@ -590,11 +659,8 @@ body {
 .pad__btn--atk.is-down,
 .pad__btn--atk:active {
   transform: translateY(5px);
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.5),
-    0 0 0 4px #8d86a3,
-    0 0 0 5px var(--edge),
-    0 1px 0 var(--btn-deep),
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px #8d86a3,
+    0 0 0 5px var(--edge), 0 1px 0 var(--btn-deep),
     inset 0 -4px 10px rgba(0, 0, 0, 0.35),
     inset 0 8px 12px rgba(255, 255, 255, 0.26);
 }
@@ -609,8 +675,7 @@ body {
   border: 1px solid var(--edge);
   border-radius: 3px;
   background: linear-gradient(180deg, #190f2e, #0c0718);
-  box-shadow:
-    inset 0 1px 0 rgba(180, 150, 255, 0.14),
+  box-shadow: inset 0 1px 0 rgba(180, 150, 255, 0.14),
     0 1px 0 rgba(180, 150, 255, 0.18);
 }
 
@@ -635,8 +700,7 @@ body {
   margin-top: 2px;
   border-radius: 4px;
   background: #05040a;
-  box-shadow:
-    inset 0 2px 3px rgba(0, 0, 0, 0.9),
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.9),
     0 1px 0 rgba(180, 150, 255, 0.2);
 }
 
@@ -672,14 +736,18 @@ body {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background:
-    radial-gradient(
+  background: radial-gradient(
       ellipse 44% 24% at 50% 15%,
       rgba(255, 255, 255, 0.95),
       rgba(255, 255, 255, 0.08) 68%,
       transparent 80%
     ),
-    radial-gradient(circle at 50% 56%, var(--btn-lit) 0%, var(--btn) 58%, var(--btn-deep) 100%);
+    radial-gradient(
+      circle at 50% 56%,
+      var(--btn-lit) 0%,
+      var(--btn) 58%,
+      var(--btn-deep) 100%
+    );
   color: rgba(6, 30, 40, 0.75);
   font-family: var(--mono);
   font-size: clamp(8px, 1vmin, 10px);
@@ -687,11 +755,8 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.5),
-    0 0 0 4px #8d86a3,
-    0 0 0 5px var(--edge),
-    0 5px 0 var(--btn-deep),
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px #8d86a3,
+    0 0 0 5px var(--edge), 0 5px 0 var(--btn-deep),
     0 9px 14px -5px rgba(0, 0, 0, 0.75),
     inset 0 0 0 2px rgba(255, 255, 255, 0.13),
     inset 0 -5px 9px rgba(0, 0, 0, 0.28),
@@ -705,11 +770,8 @@ body {
 
 .deck__full:active {
   transform: translateY(4px);
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.5),
-    0 0 0 4px #8d86a3,
-    0 0 0 5px var(--edge),
-    0 1px 0 var(--btn-deep),
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px #8d86a3,
+    0 0 0 5px var(--edge), 0 1px 0 var(--btn-deep),
     inset 0 -4px 9px rgba(0, 0, 0, 0.32),
     inset 0 8px 12px rgba(255, 255, 255, 0.28);
 }
@@ -731,20 +793,35 @@ body {
   grid-template-rows: repeat(3, var(--key, 34px));
 }
 
-.pad__btn--up { grid-area: 1 / 2; border-radius: 7px 7px 0 0; }
-.pad__btn--left { grid-area: 2 / 1; border-radius: 7px 0 0 7px; }
-.pad__btn--right { grid-area: 2 / 3; border-radius: 0 7px 7px 0; }
-.pad__btn--down { grid-area: 3 / 2; border-radius: 0 0 7px 7px; }
+.pad__btn--up {
+  grid-area: 1 / 2;
+  border-radius: 7px 7px 0 0;
+}
+.pad__btn--left {
+  grid-area: 2 / 1;
+  border-radius: 7px 0 0 7px;
+}
+.pad__btn--right {
+  grid-area: 2 / 3;
+  border-radius: 0 7px 7px 0;
+}
+.pad__btn--down {
+  grid-area: 3 / 2;
+  border-radius: 0 0 7px 7px;
+}
 
 /* The hub the four arms are cut from, so the pad reads as one moulded cross
    rather than four keys that happen to be adjacent. */
 .deck__pad::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: calc(100% / 3) calc(100% / 3);
   border-radius: 3px;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.5) 0 28%, transparent 30%),
+  background: radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 0, 0, 0.5) 0 28%,
+      transparent 30%
+    ),
     var(--key-face, #2a2044);
   box-shadow: 0 5px 0 var(--key-rim, #0f0a1d);
   pointer-events: none;
@@ -861,7 +938,6 @@ body {
   .deck__right {
     gap: clamp(8px, 2.4vw, 18px);
   }
-
 }
 
 /* A machine held in landscape has no room for a marquee; give it to the
@@ -905,290 +981,231 @@ body {
   }
 }
 
-/* --- Mobile play surface -------------------------------------------------
-   Phones are a single-player landscape arcade view. The picture owns the
-   viewport; touch controls sit above it in the quiet corners and only become
-   brighter while they are being used.
--------------------------------------------------------------------------- */
-
-.rotate-hint {
-  display: none;
+.pad__btn--super {
+  --btn-lit: #ffec9a;
+  --btn: #e8ad35;
+  --btn-deep: #745215;
+  --btn-rim: #745215;
+  font-size: 12px;
 }
 
-@media (max-width: 900px) and (orientation: portrait) {
-  body {
-    background: #05070f;
-  }
+.handheld__brand, .handheld__power, .handheld__wordmark,
+.handheld__start, .handheld-key { display: none; }
 
+#install-help {
+  width: min(90vw, 390px);
+  max-height: 85dvh;
+  overflow: auto;
+  padding: 26px;
+  border: 1px solid #858bb9;
+  border-radius: 20px;
+  background: #252944;
+  color: #eeedf5;
+  font: 14px/1.6 system-ui, sans-serif;
+  box-shadow: 0 20px 80px #0009;
+}
+#install-help::backdrop { background: #080a18b8; }
+#install-help h2 { font-size: 22px; margin: 0; }
+#install-help button {
+  width: 100%; padding: 12px; border: 0; border-radius: 10px;
+  background: #dcddeb; color: #252944; font: inherit; cursor: pointer;
+}
+
+/* Advance shell. Portrait keeps thumb space; landscape uses the original
+   side-by-side layout. The LCD is 3:2 and the game is letterboxed at 16:9. */
+@media (max-width: 820px) and (orientation: portrait),
+       (max-width: 1100px) and (max-height: 560px),
+       (pointer: coarse) and (orientation: landscape) {
+  :root { --bezel-width: 0px; --hood: 0px; --pillar-width: 0px; --key: 42px; }
+  body { background: #171925; }
   .cab {
-    display: none;
-  }
-
-  .rotate-hint {
-    position: fixed;
-    inset: 0;
-    display: grid;
+    height: 100svh; height: 100dvh;
+    padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+      max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
     place-items: center;
-    padding: 24px;
-    color: var(--cream);
-    background:
-      radial-gradient(circle at 50% 28%, rgba(255, 63, 164, 0.18), transparent 38%),
-      #05070f;
-    font: 700 12px/1.6 var(--mono);
-    letter-spacing: 0.14em;
-    text-align: center;
-    text-transform: uppercase;
+    background: radial-gradient(ellipse, #303447, #12131c);
+    overflow: auto;
   }
-
-  .rotate-hint::before {
-    content: '↻';
-    display: block;
-    margin-bottom: 8px;
-    color: var(--neon);
-    font-size: 40px;
-    line-height: 1;
+  .cab .cab__body {
+    isolation: isolate;
+    width: 100%; max-width: 540px;
+    height: 100%; max-height: 850px; min-height: 500px;
+    --control-lift: clamp(0px, calc(15dvh - 75px), 36px);
+    padding: 56px 20px 22px;
+    border: 3px solid #8c91b1;
+    border-bottom: 7px solid #a6a6b1;
+    border-radius: 54px 54px 80px 80px / 38px 38px 54px 54px;
+    background: radial-gradient(ellipse at 15% 0%, #747dad60, transparent 65%),
+      linear-gradient(115deg, #545e9f 0%, #464d8b 45%, #3f467f 100%);
+    box-shadow: inset 3px 3px 3px #a4acd369, inset -5px -5px 4px #252b65,
+      0 4px 0 #555768, 0 16px 30px #0006;
   }
-}
-
-@media (max-width: 900px) and (orientation: landscape) {
-  :root {
-    --pillar-width: 0px;
-    --bezel-width: 0px;
-    --case-width: 0px;
-    --hood: 0px;
-    --overlay-control: rgba(235, 229, 255, 0.48);
+  .cab .cab__marquee { display: none; }
+  .handheld__brand {
+    display: block; position: absolute; top: 17px; left: 50%; transform: translateX(-50%);
+    padding: 0 12px; border: 2px solid #343c766e; border-radius: 30px;
+    color: #343e79; font: bold 15px/1.2 Arial, sans-serif;
+    text-shadow: 0 1px 1px #a0a8d480; box-shadow: 0 1px 1px #a0a8d480;
   }
-
-  body,
-  .cab {
-    width: 100%;
-    height: 100dvh;
+  .handheld__power {
+    display: flex; align-items: center; gap: 6px;
+    position: absolute; right: 22px; top: 27px;
+    font: bold 7px Arial, sans-serif; color: #bac0df; letter-spacing: .08em;
   }
-
-  body {
-    background: #05070f;
+  .handheld__power i {
+    width: 7px; height: 7px; border-radius: 50%; background: #96f473;
+    box-shadow: 0 0 6px #85ee6680, inset 0 1px 1px #e1ffc9;
   }
-
-  .cab__body {
-    height: 100dvh;
-    padding: 0;
-    border-radius: 0;
-    background: #05070f;
+  .cab .cab__area {
+    --handheld: 1;
+    flex: 0 0 auto; width: 100%; aspect-ratio: 1.3;
+    margin: 0; padding: 18px 14px 37px;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, #2b3536, #192122);
+    border: 3px solid #313962;
+    border-radius: 30px 30px 45px 45px / 25px 25px 35px 35px;
+    box-shadow: 0 2px 1px #939ccc88, inset 0 2px 3px #080d11;
+  }
+  .cab .cab__frame { border: 0; border-radius: 2px; box-shadow: 0 0 0 2px #111719, 0 1px 2px #67716e; }
+  .cab .cab__frame::before { display: none; }
+  .cab .cab__screen { border-radius: 1px; background: #080e13; box-shadow: none; }
+  .cab .stage-mount { top: 50%; bottom: auto; height: 84.375%; transform: translateY(-50%); }
+  .cab .stage-mount canvas { width: 100% !important; height: 100% !important; }
+  .cab .crt { display: none; }
+  .handheld__wordmark {
+    display: block; position: absolute; bottom: 12px; left: 0; right: 0;
+    color: #e3e7e6; text-align: center; font: italic 800 clamp(12px, 3.5vw, 18px) Arial, sans-serif;
+    letter-spacing: -.06em; text-shadow: 1px 2px 1px #000;
+  }
+  .handheld__wordmark b { font-size: .88em; letter-spacing: -.08em; }
+  .cab .cab__deck, .cab .deck__right, .cab .deck__start { display: contents; }
+  .cab .deck__buttons {
+    position: absolute; right: 25px; bottom: calc(145px + var(--control-lift));
+    display: grid; grid-template-columns: repeat(2, 53px); gap: 12px;
+    grid-template-areas: "rise ultimate" "jab kick";
+  }
+  .cab .deck__plate, .cab .stick, .cab .start__print, .desktop-key { display: none; }
+  .handheld-key { display: inline; }
+  .cab .deck__move {
+    display: block; position: absolute; left: 28px; bottom: calc(145px + var(--control-lift));
+  }
+  .cab .deck__pad { display: grid; filter: drop-shadow(0 3px 1px #222951); }
+  .cab .deck__pad .pad__btn {
+    border-radius: 4px; color: #a8aab3; font-size: 12px;
+    text-shadow: 0 1px 1px #fff; background: linear-gradient(140deg, #e2e3e4, #bfc2c9);
+    box-shadow: inset 1px 1px 1px #f4f4f6, inset -1px -1px 1px #a7aab5;
+  }
+  .cab .deck__pad::after {
+    border-radius: 0; background: radial-gradient(circle, #b5b8c0 0 28%, #d8dadf 34%, #ccd0d5 60%);
     box-shadow: none;
   }
-
-  .cab__marquee {
-    display: none;
+  .cab .deck__buttons .pad__btn--atk {
+    position: relative; margin: 0; width: 53px; height: 53px;
+    border: 1px solid #b2b7c9; color: #a0a5b4;
+    background: linear-gradient(135deg, #f1f1ed, #c4c7d1);
+    font: 24px Arial, sans-serif; text-shadow: 0 1px 1px white;
+    box-shadow: inset 1px 2px 2px #fff9, inset -2px -2px 3px #959cb0,
+      0 4px 0 #9399ae, 0 6px 7px #252b60;
   }
-
-  .cab__area {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-    background: #05070f;
+  .cab .deck__buttons .pad__btn--p { grid-area: jab; }
+  .cab .deck__buttons .pad__btn--k { grid-area: kick; }
+  .cab .deck__buttons .pad__btn--u { grid-area: rise; }
+  .cab .deck__buttons .pad__btn--super { grid-area: ultimate; }
+  .cab .deck__buttons .pad__btn--u,
+  .cab .deck__buttons .pad__btn--super { font-size: 19px; }
+  .cab .deck__buttons .handheld-key small { display: block; margin-top: 2px; }
+  .handheld-key small { font: bold 7px Arial, sans-serif; letter-spacing: .05em; }
+  .cab .deck__full, .cab .handheld__start {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    position: absolute; bottom: 65px; left: calc(50% - 82px);
+    width: 76px; height: 44px; margin: 0; padding: 0;
+    border: 0; border-radius: 24px; color: #cad0ea;
+    background: #3e477b; box-shadow: inset 1px 2px 3px #283061, 0 1px 1px #8c95bf;
+    font: bold 8px Arial, sans-serif; letter-spacing: .05em; cursor: pointer;
   }
-
-  .cab__frame {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
+  .cab .handheld__start { left: calc(50% + 6px); }
+  .cab .full__label { display: inline; font-size: 7px; letter-spacing: 0; }
+  .cab .deck__full svg { width: 11px; height: 11px; }
+  .cab .pad__btn.is-down, .cab .pad__btn:active, .cab .deck__full:active, .cab .handheld__start:active {
+    transform: translateY(2px); filter: brightness(.92);
   }
-
-  .cab__frame::before {
-    display: none;
-  }
-
-  .cab__screen {
-    width: 100vw;
-    height: 100dvh;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .stage-mount canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-  .cab__deck {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    pointer-events: none;
-    background: none;
-    border: 0;
-    box-shadow: none;
-  }
-
-  .deck__plate {
-    display: none;
-  }
-
-  .deck__move,
-  .deck__right,
-  .deck__start {
-    position: absolute;
-    pointer-events: auto;
-    opacity: 0.24;
-    transition: opacity 140ms ease-out;
-  }
-
-  .deck__move {
-    left: max(12px, env(safe-area-inset-left));
-    bottom: max(12px, env(safe-area-inset-bottom));
-    display: block;
-  }
-
-  .deck__right {
-    right: max(12px, env(safe-area-inset-right));
-    bottom: max(12px, env(safe-area-inset-bottom));
-    display: block;
-  }
-
-  .deck__move:focus-within,
-  .deck__right:focus-within,
-  .deck__start:focus-within {
-    opacity: 0.6;
-  }
-
-  .stick {
-    display: none;
-  }
-
-  .deck__pad {
-    --key: clamp(27px, 6.5vw, 38px);
-    display: grid;
-    grid-template-columns: repeat(3, var(--key));
-    grid-template-rows: repeat(3, var(--key));
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
-  }
-
-  .deck__pad .pad__btn {
-    color: var(--overlay-control);
-    font-size: 11px;
-    background: rgba(14, 17, 37, 0.52);
-    border: 1px solid rgba(235, 229, 255, 0.22);
+  .cab__body::after {
+    content: ''; position: absolute; width: 70px; height: 38px; right: 32px; bottom: 25px;
+    transform: rotate(-18deg); pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0 5px, #2b3369 6px 9px, #7a84b0 10px 11px);
     border-radius: 4px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 3px 8px rgba(0, 0, 0, 0.28);
-  }
-
-  .deck__pad::after {
-    border-radius: 4px;
-    background: rgba(14, 17, 37, 0.58);
-    box-shadow: none;
-  }
-
-  .deck__pad .pad__btn:active,
-  .deck__pad .pad__btn.is-down {
-    transform: translateY(2px);
-    color: #fff4fb;
-    background: rgba(255, 63, 164, 0.38);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.28);
-  }
-
-  .deck__buttons {
-    display: flex;
-    align-items: center;
-    gap: clamp(5px, 1.2vw, 10px);
-    padding: 6px;
-    border: 1px solid rgba(235, 229, 255, 0.16);
-    border-radius: 999px;
-    background: rgba(14, 17, 37, 0.34);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(3px);
-  }
-
-  .deck__buttons .pad__btn--atk {
-    width: clamp(38px, 7.2vw, 54px);
-    height: auto;
-    aspect-ratio: 1;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.72);
-    font-size: clamp(9px, 1.7vw, 12px);
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      0 3px 8px rgba(0, 0, 0, 0.24);
-    filter: saturate(0.72);
-  }
-
-  .deck__buttons .pad__btn--atk:active,
-  .deck__buttons .pad__btn--atk.is-down {
-    transform: translateY(2px);
-    filter: saturate(1);
-  }
-
-  .deck__start {
-    top: max(10px, env(safe-area-inset-top));
-    right: max(12px, env(safe-area-inset-right));
-  }
-
-  .start__print,
-  .full__label {
-    display: none;
-  }
-
-  .deck__full {
-    width: 30px;
-    height: 30px;
-    color: rgba(255, 255, 255, 0.55);
-    background: rgba(14, 17, 37, 0.38);
-    border: 1px solid rgba(235, 229, 255, 0.2);
-    box-shadow: none;
-    backdrop-filter: blur(3px);
-  }
-
-  .deck__full:hover {
-    filter: none;
-  }
-
-  .deck__full:active {
-    transform: scale(0.94);
-    box-shadow: none;
   }
 }
 
-/* Very short landscape phones need a little more picture and a little less
-   furniture at the edges. */
-@media (max-width: 900px) and (orientation: landscape) and (max-height: 380px) {
-  .deck__move {
-    left: max(8px, env(safe-area-inset-left));
-    bottom: max(8px, env(safe-area-inset-bottom));
+@media (max-width: 820px) and (orientation: portrait) {
+  .cab .cab__area { max-height: calc(100dvh - 390px); min-height: 150px; }
+  .cab .cab__body { max-height: 760px; }
+}
+@media (max-width: 370px) and (orientation: portrait) {
+  :root { --key: 36px; }
+  .cab .cab__body { padding-inline: 12px; }
+  .cab .deck__move { left: 20px; }
+  .cab .deck__buttons { right: 17px; }
+  .handheld__power { right: 15px; font-size: 6px; }
+}
+@media (orientation: landscape) and (max-width: 1100px) and (max-height: 560px),
+       (orientation: landscape) and (pointer: coarse) {
+  :root { --key: clamp(32px, 8.5dvh, 44px); }
+  .cab .cab__body {
+    max-width: 1100px; max-height: 560px; min-height: 250px;
+    padding: 34px 155px 18px;
+    border-radius: 15% 15% 22% 22% / 23% 23% 25% 25%;
   }
-
-  .deck__right {
-    right: max(8px, env(safe-area-inset-right));
-    bottom: max(8px, env(safe-area-inset-bottom));
+  .cab .cab__area { height: 100%; width: 100%; flex: 1 1 auto; aspect-ratio: auto; padding: 12px 12px 34px; }
+  .handheld__brand { top: 10px; font-size: 13px; }
+  .handheld__power { top: 57px; right: 48px; }
+  .cab .deck__move { left: 25px; bottom: auto; top: 28%; }
+  .cab .deck__buttons { right: 23px; bottom: auto; top: 32%; }
+  .cab .deck__full, .cab .handheld__start {
+    left: 32px; bottom: 38px; width: 52px; height: 44px;
   }
-
-  .deck__buttons {
-    gap: 4px;
-    padding: 4px;
-  }
-
-  .deck__buttons .pad__btn--atk {
-    width: clamp(32px, 8.5vw, 44px);
-  }
-
-  .deck__full {
-    width: 26px;
-    height: 26px;
-  }
+  .cab .handheld__start { left: 94px; }
+  .cab .deck__full { flex-direction: column; gap: 3px; }
+  .cab .full__label { font-size: 6px; }
+  .cab__body::after { right: 44px; bottom: 36px; }
+  .handheld__wordmark { font-size: 16px; bottom: 10px; }
+}
+@media (orientation: landscape) and (max-width: 700px) {
+  .cab .cab__body { padding-inline: 132px; }
+  .cab .deck__move { left: 22px; }
+  .cab .deck__buttons { right: 22px; grid-template-columns: repeat(2, 44px); gap: 10px; }
+  .cab .deck__buttons .pad__btn--atk { width: 44px; height: 44px; }
+  .cab .deck__full, .cab .handheld__start { width: 44px; left: 26px; }
+  .cab .handheld__start { left: 80px; }
+}
+@media (max-width: 820px) and (orientation: portrait) {
+  .handheld__power { top: 44px; }
+}
+@media (orientation: landscape) and (max-height: 350px) and (max-width: 1100px) {
+  :root { --key: 32px; }
+  .cab .deck__move { top: 24%; }
+  .cab .deck__full, .cab .handheld__start { bottom: 30px; }
 }
 
-.pad__btn--super { --btn-lit: #ffec9a; --btn: #e8ad35; --btn-deep: #745215; --btn-rim: #745215; font-size: 12px; }
+.handheld__mute { display: none; }
+.mute__cross { display: none; }
+.handheld__mute[aria-pressed="true"] .mute__cross { display: block; }
+.handheld__mute[aria-pressed="true"] .mute__wave { display: none; }
+@media (max-width: 820px) and (orientation: portrait),
+       (max-width: 1100px) and (max-height: 560px),
+       (pointer: coarse) and (orientation: landscape) {
+  .handheld__mute {
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    position: absolute; top: 8px; left: 24px;
+    width: 64px; height: 44px; padding: 0;
+    border: 0; border-radius: 22px;
+    background: #3e477b; color: #d7ddf4;
+    box-shadow: inset 1px 2px 3px #283061, 0 1px 1px #8c95bf;
+    font: bold 7px Arial, sans-serif; cursor: pointer; touch-action: manipulation;
+  }
+  .handheld__mute[aria-pressed="true"] { color: #ffe3a1; background: #333b69; }
+}
+@media (orientation: landscape) and (max-width: 1100px) and (max-height: 560px),
+       (orientation: landscape) and (pointer: coarse) {
+  .handheld__mute { left: 42px; top: 12px; }
+}

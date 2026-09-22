@@ -28,20 +28,25 @@ export const DEFAULT_SETTINGS: Settings = {
 
 export const SETTINGS_KEY = 'settings';
 
+/** Coarse-pointer devices stay single-player through orientation changes. */
+export const MOBILE_QUERY = '(pointer: coarse), (max-width: 820px) and (orientation: portrait), (max-width: 1100px) and (max-height: 560px)';
+export function isMobile(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches;
+}
+
+
 /**
  * A few settings are readable from the query string, so a link can point at a
- * specific configuration: `?boxes=1&difficulty=boss&crt=0&music=0`,
+ * specific configuration: `?boxes=1&difficulty=boss&mode=versus&crt=0&music=0`,
  * plus `?p1=grok&p2=clawd` to preselect the fighters.
  */
 export function settingsFromUrl(search: string): Settings {
   const params = new URLSearchParams(search);
   const difficulty = params.get('difficulty');
+  const mode = params.get('mode');
   return {
     ...DEFAULT_SETTINGS,
-    // The mobile cabinet is intentionally single-player. Keep the internal
-    // mode field for the attract/demo pipeline, but never expose local versus
-    // through a URL.
-    mode: 'cpu',
+    mode: mode === 'versus' && !isMobile() ? 'versus' : 'cpu',
     difficulty:
       difficulty === 'rookie' || difficulty === 'boss' || difficulty === 'rival'
         ? difficulty
