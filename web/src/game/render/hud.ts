@@ -201,13 +201,19 @@ export class Hud {
     this.announceLife = life;
   }
 
-  /** Mirrors the cabinet's score strip; called with the scene clock. */
-  updateHeader(time: number, hiScore: number, twoPlayer: boolean): void {
+  /**
+   * Mirrors the cabinet's score strip; called with the scene clock.
+   *
+   * `carry` is what the player banked in earlier matches of a single-player
+   * run. Adding it here is what keeps 1UP climbing across a whole run instead
+   * of dropping back to zero every time a new opponent walks on.
+   */
+  updateHeader(time: number, hiScore: number, twoPlayer: boolean, carry = 0): void {
     this.header.update(
       time,
       // Against the CPU there is no second player, so 2UP stays at zero
       // rather than advertising the machine's own score.
-      [this.match.fighters[0].score, twoPlayer ? this.match.fighters[1].score : 0],
+      [carry + this.match.fighters[0].score, twoPlayer ? this.match.fighters[1].score : 0],
       hiScore,
       twoPlayer,
     );

@@ -10,6 +10,7 @@ import { music } from '../audio/music';
 import { TITLE_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { demoPair } from '../roster';
+import { GAUNTLET_KEY } from '../gauntlet';
 import type { Settings } from '../settings';
 import { SETTINGS_KEY, isMobile, MOBILE_QUERY } from '../settings';
 
@@ -138,6 +139,9 @@ export class TitleScene extends Phaser.Scene {
     const settings = this.registry.get(SETTINGS_KEY) as Settings;
     this.registry.set(SETTINGS_KEY, { ...settings, mode: isMobile() ? 'cpu' : mode });
     this.registry.set('scores', [0, 0]);
+    // The select screen builds the run; anything left over from the last one
+    // would only be a stale ladder sitting behind it.
+    this.registry.set(GAUNTLET_KEY, null);
     this.scene.start('select');
   }
 
