@@ -78,7 +78,7 @@ for (const eventName of ['contextmenu', 'selectstart', 'dragstart']) {
 // Cancel native long-press recognition at the start of a held control, before
 // the browser can display a callout or provide its haptic feedback. These
 // controls use pointer events, not the emulated clicks this also suppresses.
-// Keep ordinary clicks on Start, Mute and Fullscreen, and Phaser's touch input.
+// Keep ordinary clicks on Start and Mute, and Phaser's touch input.
 document.querySelectorAll<HTMLElement>('[data-touch], #stick').forEach((control) => {
   control.addEventListener('touchstart', (event) => {
     if (event.cancelable) event.preventDefault();
@@ -94,57 +94,6 @@ game.events.on('fight:ready', (scene: FightScene) => {
   const stick = document.querySelector<HTMLElement>('#stick');
   if (stick) scene.bindStick(stick);
 });
-
-const fullscreen = need<HTMLButtonElement>('#fullscreen');
-const installHelp = need<HTMLDialogElement>('#install-help');
-const standalone = window.matchMedia('(display-mode: standalone), (display-mode: fullscreen)');
-const updateFullscreen = () => {
-  const active = Boolean(document.fullscreenElement) || standalone.matches;
-  fullscreen.setAttribute('aria-pressed', String(active));
-  fullscreen.title = active ? 'Fullscreen active' : 'Play without the address bar';
-};
-const coarse = window.matchMedia('(pointer: coarse)');
-
-/** Locking is still absent from the DOM types, and from Safari. */
-type Lockable = ScreenOrientation & {
-  lock?: (orientation: 'landscape') => Promise<void>;
-  unlock?: () => void;
-};
-const orientationApi = (): Lockable | undefined => window.screen.orientation as Lockable | undefined;
-
-/**
- * Portrait spends most of the shell on plastic; landscape gives the picture
- * the whole width. Fullscreen is the one moment a browser will let a page ask
- * to be turned, so ask then. Android turns; iOS has no lock at all and a
- * desktop has nothing to turn, so this is an improvement where it lands and
- * silent where it does not.
- */
-async function faceLandscape(): Promise<void> {
-  if (!coarse.matches) return;
-  try {
-    await orientationApi()?.lock?.('landscape');
-  } catch {
-    // Refused or unsupported; the player turns the phone themselves.
-  }
-}
-
-fullscreen.addEventListener('click', async () => {
-  if (standalone.matches && !document.fullscreenElement) return;
-  try {
-    if (document.fullscreenElement) {
-      orientationApi()?.unlock?.();
-      await document.exitFullscreen();
-    } else if (document.fullscreenEnabled) {
-      await document.documentElement.requestFullscreen();
-      await faceLandscape();
-    } else installHelp.showModal();
-  } catch {
-    installHelp.showModal();
-  }
-});
-document.addEventListener('fullscreenchange', updateFullscreen);
-standalone.addEventListener('change', updateFullscreen);
-updateFullscreen();
 
 function sendCommand(code: string): void {
   const keyCode = ({ Enter: 13, Escape: 27, ArrowLeft: 37, ArrowUp: 38, ArrowRight: 39, ArrowDown: 40 } as Record<string, number>)[code];
