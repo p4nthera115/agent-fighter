@@ -76,6 +76,43 @@ The pair chosen is written back into the settings, and everything downstream —
 which atlases the match binds, whether player two wears a palette swap, the
 names on the health bars — reads that pair.
 
+### The single-player run
+
+`1 PLAYER` is not one match but a ladder through the cast. Locking in builds a
+run — the fighter the player chose, and a queue of opponents that opens on the
+one the roulette landed on and continues through the rest of the playable cast
+in a fresh order each time:
+
+```
+select ─▶ versus ─▶ match 1 ──win──▶ versus ─▶ match 2 ──win──▶ … ─▶ CHAMPION
+                       │
+                      loss
+                       ▼
+                   GAME OVER ─▶ title
+```
+
+Winning rolls straight into the next opponent without going back to the select
+screen; the player keeps their fighter and the points they have banked, and
+gets a fresh health bar, a fresh meter and a fresh set of round pips each rung.
+Losing ends the run there, and so does clearing the last opponent. There are no
+continues: one loss is the whole run.
+
+The player's own fighter is left out of the ladder, because a run is against
+the *other* mascots — the one exception being a mirror the roulette itself
+chose for the opening match, which is kept because the player watched it
+happen.
+
+The run lives in the Phaser registry as plain data (`src/game/gauntlet.ts`), so
+it survives the scene changes it is made of. Every scene that reads it only
+reads it: the select screen builds it, the fight advances it, and the title
+screen clears it, so a ladder can never be left sitting behind a match that is
+not part of one. `FightScene` also checks that a run actually describes the
+fight about to start before honouring it, which is what holds the attract demo,
+a two-player match and a `?p1=…&p2=…` deep link to the one fight each of
+them asked for.
+
+Two-player matches are unchanged: one match, then back to the title.
+
 ### The versus page
 
 Between the select screen and the match, both fighters get half the screen
@@ -347,6 +384,10 @@ Points come from damage dealt (ten per point), plus a round-win bonus, the
 seconds left on the clock, and a perfect bonus. The high score persists in
 `localStorage`; `Options ▸ Clear hi-score` resets it. Against the CPU, 2UP
 stays at zero rather than advertising the machine's own score.
+
+1UP is the score for the whole run, not for the current match: each win banks
+its points into the run and the next match counts up from there, so the number
+only ever climbs until the run ends.
 
 ## Assets
 
