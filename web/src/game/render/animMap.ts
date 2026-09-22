@@ -75,7 +75,7 @@ export class AnimMap {
    * One named pose out of a clip, by position.
    *
    * Clips are not the same length from fighter to fighter — Clawd's attacks
-   * run nine cels and Grok's six — so the states that borrow a pose rather
+   * run nine cels and Grok Bot's six — so the states that borrow a pose rather
    * than playing a clip ask for it through here and get the nearest one that
    * exists.
    */

@@ -66,7 +66,7 @@ export const ROSTER: RosterEntry[] = [
   },
   {
     id: 'grok',
-    name: 'GROK',
+    name: 'GROK BOT',
     role: 'SHAPESHIFTER',
     note: 'FLOATING ORB',
     tagline: 'BECOMES ITS ATTACK',
@@ -78,7 +78,7 @@ export const ROSTER: RosterEntry[] = [
       // because Clawd is wider, not because the canvas is.
       shadow: { width: 68, height: 12, color: 0x0a0d14, alpha: 0.45 },
       alt: {
-        // Grok's body is charcoal at barely a sixth saturation, so a plain
+        // Grok Bot's body is charcoal at barely a sixth saturation, so a plain
         // hue rotation would return the same black orb. The floor gives the
         // rotation something to rotate, turning player two into an oxblood
         // orb; the eyes are held back above it so they stay white.

@@ -1,4 +1,4 @@
-# Mascot Fighter — Project Context
+# Agent Fighter — Project Context
 
 ## Project goal
 
@@ -10,13 +10,13 @@ consistent pixel density, and satisfying frame timing.
 The planned roster is:
 
 - **Clawd** — Claude’s terracotta block mascot.
-- **Grok** — a black floating orb. Its alternate shapes and colours are reserved
+- **Grok Bot** — a black floating orb. Its alternate shapes and colours are reserved
   for attacks and special effects rather than its default body.
 - **Muse** — Meta’s cream plush mascot with the blue chest mark.
 - **Codex** — the blue, cloud-headed screen mascot.
 - **OpenClaw** — the round red mascot with antennae and turquoise eyes.
 
-The attached mascot references were used as identity references. The generated
+The attached agent references were used as identity references. The generated
 concepts are visual starting points; they are not final production animation.
 
 ## Recommended technology
@@ -34,9 +34,9 @@ metadata, and visual review.
 ## Current asset state
 
 The whole planned roster now has finished sheets and is playable in the
-browser build: Clawd, Grok, Muse, Codex and OpenClaw, each in
+browser build: Clawd, Grok Bot, Muse, Codex and OpenClaw, each in
 `output/<id>-animation/`. The original concept images stay in
-`output/mascot-fighters/` as identity references.
+`output/agent-fighters/` as identity references.
 
 Clawd’s animation study:
 
@@ -52,13 +52,13 @@ Clawd’s animation study:
 - Normalized source parts: `parts/`.
 - Offline browser preview: `index.html` with `preview-data.js`.
 
-Grok, Muse, Codex and OpenClaw share one shape, on the same canvas and pivot: a
+Grok Bot, Muse, Codex and OpenClaw share one shape, on the same canvas and pivot: a
 `<id>-sheet.png` atlas of 6 columns × 7 rows and 42 frames, a
 `<id>-sheet.json`, a `<id>-moves.json`, `.ase`/`.aseprite` files with one
 artwork layer, individual `frames/` and per-animation `strips/`. They differ
 only in palette:
 
-- Grok: charcoal body, 42 colours; colour is reserved for its transformations.
+- Grok Bot: charcoal body, 42 colours; colour is reserved for its transformations.
 - Muse: cream plush, 18 colours, blue chest mark.
 - Codex: blue robot, 14 colours, cyan screen and terminal mark.
 - OpenClaw: red oval, 15 colours, two antennae and turquoise pupils.
@@ -77,8 +77,8 @@ concept. The rightmost foot is used for the kick. The current animations are
 timing and silhouette studies, not final combat-balance data; gameplay hitboxes
 have not been assigned.
 
-The Clawd concept references are in `output/mascot-fighters/`. The source
-generation prompts are in `output/mascot-fighters/generation-prompts.json`.
+The Clawd concept references are in `output/agent-fighters/`. The source
+generation prompts are in `output/agent-fighters/generation-prompts.json`.
 
 ## Browser preview
 
@@ -142,7 +142,7 @@ proportions, anatomy, palette consistency, and frame-to-frame details.
 5. Build the Phaser prototype with one stage, two fighters, local input, fixed
    60 Hz combat updates, hit-stop, hit sparks, sound, and knockback.
 6. Hand-clean the four generated key-pose sheets. The roster is complete, but
-   Grok, Muse, Codex and OpenClaw are all first passes and want the same work
+   Grok Bot, Muse, Codex and OpenClaw are all first passes and want the same work
    Clawd is getting.
 7. Give each fighter its own hurtbox, pushbox and attack reach. The whole cast
    currently fights inside Clawd's boxes, which are cut to arms none of the
@@ -155,7 +155,7 @@ proportions, anatomy, palette consistency, and frame-to-frame details.
   of truth; `.ase` files remain editable authoring files.
 - Preserve transparent backgrounds and nearest-neighbor scaling.
 - Keep every fighter’s pivot and floor baseline stable between frames.
-- Treat mascot identity references as design guidance and keep the final game
+- Treat agent identity references as design guidance and keep the final game
   art stylistically consistent.
 - Keep combat rules separate from animation timing so visual iteration does not
   silently change gameplay balance.
@@ -166,9 +166,9 @@ proportions, anatomy, palette consistency, and frame-to-frame details.
 Clawd now has 56 frames across idle, punch, uppercut, kick, damage, victory and defeated. Nine layers include editable eyes and an uppercut trail. Damage recoils with shock/squeezed eyes; victory cheers with happy eyes; defeated collapses with X eyes and holds the last pose. Authoring assets are in output/clawd-animation; the runtime PNG/JSON copies are in web/public/assets/clawd. FighterView selects these states without changing simulation balance. See output/clawd-animation/README.md for ranges and rebuilding.
 
 
-## Grok in the game — 2026-09-21
+## Grok Bot in the game — 2026-09-21
 
-Grok's 42-frame sheet is wired into the browser build the same way Clawd's is.
+Grok Bot's 42-frame sheet is wired into the browser build the same way Clawd's is.
 `output/grok-animation/grok-moves.json` was extended to carry the same
 per-frame `phase`/`duration`/`active` array Clawd's has, so `AnimMap` reads
 both through one code path; the runtime copies are in `web/public/assets/grok/`.
@@ -181,18 +181,18 @@ per side. A new fighter is three copied files and a roster entry.
 A character select screen (`SelectScene`) now sits between the menu and the
 match and is the only place that decides who fights. Concept fighters appear
 on the grid, greyed out, and cannot be locked in. Player two wears the palette
-swap only in a mirror match. Grok's swap needed a saturation floor, because
+swap only in a mirror match. Grok Bot's swap needed a saturation floor, because
 rotating the hue of its near-grey charcoal returned the same charcoal.
 
 Combat balance is untouched: every fighter still shares `frameData.ts`, so the
-whole cast has Clawd's boxes. That is visible with Grok, whose orb is smaller
+whole cast has Clawd's boxes. That is visible with Grok Bot, whose orb is smaller
 than the hurtbox it stands in, and it is recorded in web/README.md's known
 limits rather than fixed by quietly editing balance data.
 
 
 ## Muse and Codex in the game — 2026-09-21
 
-Muse and Codex went in behind Grok, through the same path and with no new
+Muse and Codex went in behind Grok Bot, through the same path and with no new
 runtime code: stage the sheet, add a roster entry, done. The staging step is
 now `scripts/stage-fighter.py`, which writes the per-cel phase, duration and
 contact-cel metadata into the authoring `-moves.json` and copies the three
@@ -202,13 +202,13 @@ and per-fighter phase names.
 
 Costumes for player two: Muse's cream rotates to a pale blue plush with an
 orange chest mark, Codex's blue to gold with a red screen. Both use the plain
-rotation Clawd does; only Grok needed the saturation floor.
+rotation Clawd does; only Grok Bot needed the saturation floor.
 
 The cast is now four playable and one drawing, and both the cast screen and
 the select screen count that rather than stating it, so neither goes stale
 when OpenClaw lands.
 
-Balance is still untouched and still shared. The art/box gap the Grok entry
+Balance is still untouched and still shared. The art/box gap the Grok Bot entry
 records applies to Muse and Codex as well, mostly as reach: their attacks have
 boxes that extend 30 to 50 pixels past where the art stops.
 
@@ -247,7 +247,7 @@ pair is chosen.
 The composition is a frame-break at both ends: each head crosses the top edge
 of its panel and each pair of feet finishes behind the nameplate. Making that
 true for the whole cast is the only hard part, because the five silhouettes
-run from Grok's 92-pixel orb to Clawd's 120-pixel block on the same canvas.
+run from Grok Bot's 92-pixel orb to Clawd's 120-pixel block on the same canvas.
 The page measures each one out of the atlas (`render/silhouette.ts`, a cached
 alpha scan) and scales it so the head and the feet land on two fixed lines;
 `PORTRAIT_H` is derived as the distance between those lines, so the constants
@@ -264,7 +264,7 @@ it loses the outer half of each fist.
 
 The mark reuses the wordmark: `render/logo.ts` grew a `V`, and `wordTexture`
 was lifted out of `addLogo` so any placed-word layout can be painted with the
-same ramp, rim and outline. `VS` does not climb the way MASCOT FIGHTER does,
+same ramp, rim and outline. `VS` does not climb the way AGENT FIGHTER does,
 because a symbol between two equal halves cannot lean towards one of them.
 
 Two smaller things fell out of it. `demoPicks` moved from `FightScene` to

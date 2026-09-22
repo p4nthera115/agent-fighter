@@ -28,7 +28,9 @@ import { saveHiScore } from '../score';
 import { hasSeenControls, markControlsSeen } from '../firstRun';
 import type { Settings } from '../settings';
 import { SETTINGS_KEY, isHandheld } from '../settings';
-import { demoPair, fighterArt, matchNames } from '../roster';
+import { demoPair, fighterArt, matchNames, rosterEntry } from '../roster';
+import type { Gauntlet } from '../gauntlet';
+import { GAUNTLET_KEY, advance, currentOpponent, isComplete } from '../gauntlet';
 import { altTexKey, movesKey, sheetKey, texKey } from './PreloadScene';
 
 export interface FightData {
@@ -43,6 +45,14 @@ export interface FightData {
 const DEMO_MS = 26000;
 /** Pause after the winner is announced before returning to the title. */
 const OUTRO_MS = 4200;
+/**
+ * The shorter pause used between rungs of a single-player run.
+ *
+ * Long enough to read who is next, short enough that the run keeps its pace:
+ * the versus page that follows is itself two and a half seconds of the same
+ * information, so holding the full outro here would say it twice.
+ */
+const NEXT_MS = 2600;
 
 export class FightScene extends Phaser.Scene {
   private match!: Match;
@@ -72,6 +82,8 @@ export class FightScene extends Phaser.Scene {
   private startedAt = 0;
   private endedAt = 0;
   private leaving = false;
+  /** The run this match is a rung of, or null for versus, demo and one-offs. */
+  private gauntlet: Gauntlet | null = null;
 
   constructor() {
     super('fight');
@@ -95,6 +107,7 @@ export class FightScene extends Phaser.Scene {
   create(): void {
     this.settings = this.registry.get(SETTINGS_KEY) as Settings;
     this.startedAt = this.game.loop.time;
+    this.gauntlet = this.loadGauntlet();
 
     const names = matchNames(this.fight.picks);
     // One bridge per fighter, built from that fighter's own exported JSON.
@@ -330,23 +343,99 @@ export class FightScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * Picks up the run this match belongs to.
+   *
+   * The registry is shared with the attract cycle and survives a reload of
+   * the scene, so a run is only honoured when it actually describes the
+   * fight about to start. A demo, a two-player match or a deep link that
+   * named its own pair all fight the one match and stop.
+   */
+  private loadGauntlet(): Gauntlet | null {
+    if (this.fight.demo || this.fight.mode !== 'cpu') return null;
+    const run = (this.registry.get(GAUNTLET_KEY) as Gauntlet | null) ?? null;
+    if (!run || isComplete(run)) return null;
+    const matches = run.player === this.fight.picks[0] && currentOpponent(run) === this.fight.picks[1];
+    return matches ? run : null;
+  }
+
+  /** Everything the player has scored this run, including this match. */
+  private runScore(): number {
+    return (this.gauntlet?.score ?? 0) + this.match.fighters[0].score;
+  }
+
+  /**
+   * True while a won match still has somebody queued behind it.
+   *
+   * This is the whole difference between a run that continues and one that is
+   * over: it decides how long the outro holds, what the outro says, and which
+   * scene the match hands off to.
+   */
+  private get continuing(): boolean {
+    const run = this.gauntlet;
+    return run !== null && this.match.matchWinner === 0 && run.cleared + 1 < run.opponents.length;
+  }
+
+  private outroMs(): number {
+    return this.continuing ? NEXT_MS : OUTRO_MS;
+  }
+
+  private bankScores(): void {
+    if (this.fight.demo) return;
+    const scores: [number, number] = [
+      this.runScore(),
+      this.fight.mode === 'versus' ? this.match.fighters[1].score : 0,
+    ];
+    this.registry.set('scores', scores);
+    const best = Math.max(this.registry.get('hiScore') as number, ...scores);
+    this.registry.set('hiScore', best);
+    saveHiScore(best);
+  }
+
   /** Records the run and hands control to the next attract step. */
   private leave(target: 'title' | 'cast'): void {
     if (this.leaving) return;
     this.leaving = true;
 
-    if (!this.fight.demo) {
-      const scores: [number, number] = [
-        this.match.fighters[0].score,
-        this.fight.mode === 'versus' ? this.match.fighters[1].score : 0,
-      ];
-      this.registry.set('scores', scores);
-      const best = Math.max(this.registry.get('hiScore') as number, ...scores);
-      this.registry.set('hiScore', best);
-      saveHiScore(best);
-    }
+    this.bankScores();
+    // The run is finished, whether it was won, lost or walked out of. Leaving
+    // it in the registry would hand its opponents to the next match started
+    // from the title.
+    if (!this.fight.demo) this.registry.set(GAUNTLET_KEY, null);
 
     this.scene.start(target);
+  }
+
+  /**
+   * Straight into the next opponent, without going back to the select screen.
+   *
+   * The player keeps the fighter they chose and the points they have banked;
+   * everything else — health, meter, round wins — is reset by the new match,
+   * which is the arcade bargain: one life, a fresh bar each rung.
+   */
+  private advanceGauntlet(): void {
+    const run = this.gauntlet;
+    if (this.leaving || !run) return;
+    this.leaving = true;
+
+    const next = advance(run, this.runScore());
+    const opponent = currentOpponent(next);
+    if (!opponent) {
+      // Nothing left to fight; the run is a win, which `leave` records.
+      this.leaving = false;
+      this.leave('title');
+      return;
+    }
+
+    this.registry.set(GAUNTLET_KEY, next);
+    this.registry.set('scores', [next.score, 0]);
+    const best = Math.max(this.registry.get('hiScore') as number, next.score);
+    this.registry.set('hiScore', best);
+    saveHiScore(best);
+
+    // Through the versus page, so the next opponent is announced the same way
+    // the first one was.
+    this.scene.start('versus', { mode: 'cpu', demo: false, picks: [next.player, opponent] });
   }
 
   override update(time: number, delta: number): void {
@@ -373,7 +462,12 @@ export class FightScene extends Phaser.Scene {
     this.fx.update(frameDelta);
     this.filterCameras();
     this.hud.update(frameDelta);
-    this.hud.updateHeader(time, this.registry.get('hiScore') as number, this.fight.mode === 'versus');
+    this.hud.updateHeader(
+      time,
+      this.registry.get('hiScore') as number,
+      this.fight.mode === 'versus',
+      this.gauntlet?.score ?? 0,
+    );
     this.updateCamera();
     this.updateMusicIntensity();
 
@@ -384,7 +478,10 @@ export class FightScene extends Phaser.Scene {
       }
     } else if (this.match.phase === 'matchEnd') {
       if (this.endedAt === 0) this.endedAt = time;
-      else if (time - this.endedAt > OUTRO_MS) this.leave('title');
+      else if (time - this.endedAt > this.outroMs()) {
+        if (this.continuing) this.advanceGauntlet();
+        else this.leave('title');
+      }
     }
 
     if (this.settings.showBoxes) this.drawBoxes();
@@ -518,19 +615,43 @@ export class FightScene extends Phaser.Scene {
       }
       case 'matchEnd': {
         const winner = event.winner === null ? null : this.match.fighters[event.winner];
-        this.hud.say(
-          winner ? 'WINNER' : 'DRAW GAME',
-          winner ? winner.name.toUpperCase() : '',
-          OUTRO_MS,
-        );
+        const life = this.outroMs();
+        if (this.gauntlet) this.announceRun(life);
+        else {
+          this.hud.say(
+            winner ? 'WINNER' : 'DRAW GAME',
+            winner ? winner.name.toUpperCase() : '',
+            life,
+          );
+        }
         // The fanfare needs the field to itself.
         music.stop();
-        sfx.victory();
+        if (!this.gauntlet || this.match.matchWinner === 0) sfx.victory();
+        else sfx.ko();
         break;
       }
       default:
         break;
     }
+  }
+
+  /**
+   * What the last frame of a run says.
+   *
+   * Three outcomes, and the player should be able to tell them apart without
+   * counting anything: another fight is coming, the cast is cleared, or the
+   * run is over.
+   */
+  private announceRun(life: number): void {
+    const run = this.gauntlet!;
+    if (this.match.matchWinner !== 0) {
+      const winner = this.match.matchWinner === null ? null : this.match.fighters[this.match.matchWinner];
+      this.hud.say('GAME OVER', winner ? `${winner.name.toUpperCase()} WINS` : '', life);
+      return;
+    }
+    const next = currentOpponent(advance(run, 0));
+    if (next) this.hud.say('WINNER', `NEXT - ${rosterEntry(next).name}`, life);
+    else this.hud.say('CHAMPION', `${this.match.fighters[0].name.toUpperCase()} CLEARS THE ROSTER`, life);
   }
 
   /** Combat y is measured up from the floor; screen y grows downward. */

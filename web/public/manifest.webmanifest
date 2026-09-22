@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Mascot Fighter",
-  "short_name": "Mascot Fighter",
+  "name": "Agent Fighter",
+  "short_name": "Agent Fighter",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

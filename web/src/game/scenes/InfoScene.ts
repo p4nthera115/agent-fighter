@@ -82,13 +82,20 @@ export class InfoScene extends Phaser.Scene {
     const small = { scale: 1, color: UI.cream, outline: UI.ink } as const;
     const head = { scale: 1, color: UI.cyan, outline: UI.ink } as const;
 
-    new PixelLabel(this, 20, 42, 'PLAYER ONE', head).setDepth(80);
-    new PixelLabel(this, 104, 42, 'ACTION', head).setDepth(80);
+    // The handheld has no keyboard to name and no second pad, so it lists the
+    // caps under the thumbs and drops the player two column with them.
+    const handheld = isHandheld();
+    const actionX = handheld ? 104 : 206;
 
-    (isHandheld() ? TOUCH_CONTROLS : CONTROLS).forEach(([p1, _p2, action], i) => {
+    new PixelLabel(this, 20, 42, 'PLAYER ONE', head).setDepth(80);
+    if (!handheld) new PixelLabel(this, 104, 42, 'PLAYER TWO', head).setDepth(80);
+    new PixelLabel(this, actionX, 42, 'ACTION', head).setDepth(80);
+
+    (handheld ? TOUCH_CONTROLS : CONTROLS).forEach(([p1, p2, action], i) => {
       const y = 56 + i * 11;
       new PixelLabel(this, 20, y, p1, { ...small, color: UI.gold }).setDepth(80);
-      new PixelLabel(this, 104, y, action, small).setDepth(80);
+      if (!handheld) new PixelLabel(this, 104, y, p2, { ...small, color: UI.gold }).setDepth(80);
+      new PixelLabel(this, actionX, y, action, small).setDepth(80);
     });
 
     // The move list is read from the module the simulation uses, so the

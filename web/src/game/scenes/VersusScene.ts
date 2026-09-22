@@ -9,6 +9,8 @@ import { music } from '../audio/music';
 import { FIGHT_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { demoPair, matchNames, rosterEntry } from '../roster';
+import type { Gauntlet } from '../gauntlet';
+import { GAUNTLET_KEY, gauntletLabel } from '../gauntlet';
 import type { Settings } from '../settings';
 import { SETTINGS_KEY, isHandheld } from '../settings';
 import { altTexKey, movesKey, sheetKey, texKey } from './PreloadScene';
@@ -56,7 +58,7 @@ const SINK_Y = PLINTH_TOP + MIN_SINK;
  * 120 pixels of block or 92 of orb.
  *
  * The cost is that the scale is per-fighter and fractional — 1.53 for Clawd
- * against 2.0 for Grok — where the match itself is always a whole
+ * against 2.0 for Grok Bot — where the match itself is always a whole
  * magnification. It is paid here and nowhere else: these are portraits held
  * still on a page that lasts two seconds, they only ever move by whole screen
  * pixels, and the alternative is a uniform scale at which the tallest fighter
@@ -429,10 +431,20 @@ export class VersusScene extends Phaser.Scene {
       .setAlpha(0);
   }
 
+  /**
+   * The line under the panels.
+   *
+   * In a single-player run it is the only place the ladder is written down,
+   * which is why it says where in the run this match falls rather than just
+   * naming the difficulty.
+   */
   private footer(): string {
     if (this.fight.demo) return isHandheld() ? 'DEMO - TAP TO RETURN' : 'DEMO - PRESS ANY KEY';
     if (this.fight.mode === 'versus') return '2 PLAYER MATCH';
-    return `CPU - ${this.settings.difficulty.toUpperCase()}`;
+    const difficulty = this.settings.difficulty.toUpperCase();
+    const run = this.registry.get(GAUNTLET_KEY) as Gauntlet | null;
+    const inRun = run && run.player === this.fight.picks[0] && run.opponents.length > 1;
+    return inRun ? `${gauntletLabel(run)}  -  ${difficulty}` : `CPU - ${difficulty}`;
   }
 
   private playEntrance(): void {

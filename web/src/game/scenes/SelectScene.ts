@@ -8,6 +8,7 @@ import { music } from '../audio/music';
 import { TITLE_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { PLAYABLE, ROSTER } from '../roster';
+import { GAUNTLET_KEY, buildGauntlet } from '../gauntlet';
 import type { Settings } from '../settings';
 import { SETTINGS_KEY, isMobile, isHandheld } from '../settings';
 import { altTexKey, movesKey, sheetKey, texKey, thumbKey } from './PreloadScene';
@@ -208,7 +209,7 @@ export class SelectScene extends Phaser.Scene {
         .setDepth(78)
         .setStrokeStyle(2, tint)
         .setVisible(false),
-      tag: new PixelLabel(this, 0, CELL_Y + CELL / 2 + 15, index === 0 ? '1P' : this.versus ? '2P' : 'CPU', {
+      tag: new PixelLabel(this, 0, CELL_Y + CELL / 2 + 15, index === 0 ? '1P' : '2P', {
         scale: 1,
         color: colour,
         outline: UI.ink,
@@ -291,7 +292,19 @@ export class SelectScene extends Phaser.Scene {
 
   private confirm(index: number): void {
     const side = this.sides[index];
-    if (this.leaving || side.choosing || side.cursor < 0) return;
+    if (this.leaving || side.choosing) return;
+
+    // A second press while the machine is still spinning settles the spin
+    // rather than backing the player out of the pick they just made. Leaving
+    // the roulette running behind an unlocked player one is what used to
+    // launch the match with nobody ready, or with no opponent chosen at all.
+    if (!this.versus && index === 0 && this.sides[1].choosing) {
+      this.idleSince = this.game.loop.time;
+      this.settleCpuChoice(this.game.loop.time);
+      return;
+    }
+
+    if (side.cursor < 0) return;
     this.idleSince = this.game.loop.time;
 
     if (side.locked) {
@@ -337,22 +350,35 @@ export class SelectScene extends Phaser.Scene {
   }
 
   private spinCpuChoice(time: number): void {
-    const cpu = this.sides[1];
     if (time >= this.rouletteUntil) {
-      this.rouletteUntil = 0;
-      cpu.choosing = false;
-      cpu.locked = true;
-      this.refresh();
-      sfx.bell();
-      this.launchAt = time + LAUNCH_MS;
+      this.settleCpuChoice(time);
       return;
     }
     const step = Math.floor(time / ROULETTE_STEP_MS);
     if (step === this.rouletteStep) return;
     this.rouletteStep = step;
+    this.pointCpuAtRandom();
+    this.refresh();
+  }
+
+  /** Stops the spin wherever it is and commits the machine to that fighter. */
+  private settleCpuChoice(time: number): void {
+    const cpu = this.sides[1];
+    this.rouletteUntil = 0;
+    this.rouletteStep = -1;
+    // Cut short before the first step landed, the slot is still empty, so the
+    // machine chooses now instead of going to the fight with nobody in it.
+    if (cpu.cursor < 0) this.pointCpuAtRandom();
+    cpu.choosing = false;
+    cpu.locked = true;
+    this.refresh();
+    sfx.bell();
+    this.launchAt = time + LAUNCH_MS;
+  }
+
+  private pointCpuAtRandom(): void {
     const pick = PLAYABLE[Phaser.Math.Between(0, PLAYABLE.length - 1)];
     this.point(1, this.rosterIndex(pick.id));
-    this.refresh();
   }
 
   private flashUnavailable(index: number): void {
@@ -408,6 +434,7 @@ export class SelectScene extends Phaser.Scene {
 
   private hintText(): string {
     if (this.leaving) return 'HERE WE GO';
+    if (this.sides[1].choosing) return 'ENTER PICKS OPPONENT';
     if (this.versus) return '1P A D + J      2P ARROWS + ,      ESC BACK';
     if (isHandheld()) return 'PAD MOVES    A LOCKS IN    B BACK';
     return 'ARROWS MOVE    ENTER LOCKS IN    ESC BACK';
@@ -491,6 +518,10 @@ export class SelectScene extends Phaser.Scene {
     this.settings = { ...this.settings, picks };
     this.registry.set(SETTINGS_KEY, this.settings);
     this.registry.set('scores', [0, 0]);
+    // Against the machine this is not one match but a run: the fighter the
+    // roulette landed on opens a ladder through the rest of the cast. Two
+    // players fight the one match they asked for.
+    this.registry.set(GAUNTLET_KEY, this.versus ? null : buildGauntlet(picks[0], picks[1]));
     this.refresh();
     sfx.announce(2);
     // The versus page announces the matchup and hands the same pair on; it
