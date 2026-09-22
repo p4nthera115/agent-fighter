@@ -10,7 +10,7 @@ import { music } from '../audio/music';
 import { TITLE_THEME } from '../audio/songs';
 import { forgetControlsSeen, hasSeenControls, markControlsSeen } from '../firstRun';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY } from '../settings';
+import { SETTINGS_KEY, isHandheld } from '../settings';
 
 type Panel = 'controls' | 'options';
 
@@ -22,6 +22,20 @@ const CONTROLS: Array<[string, string, string]> = [
   ['K', '. OR NUM2', 'ROUNDHOUSE'],
   ['L', '/ OR NUM3', 'RISING CLAW'],
   ['SPACE', '; OR NUM0', 'ULTIMATE - FULL METER'],
+];
+
+/**
+ * The same list for the handheld, where there is no keyboard to name and the
+ * player is looking straight at four lettered caps and a pad.
+ */
+const TOUCH_CONTROLS: Array<[string, string, string]> = [
+  ['PAD', '', 'WALK - HOLD AWAY TO BLOCK'],
+  ['PAD UP', '', 'JUMP'],
+  ['PAD DOWN', '', 'CROUCH'],
+  ['B', '', 'JAB'],
+  ['A', '', 'ROUNDHOUSE'],
+  ['X', '', 'RISING CLAW'],
+  ['Y', '', 'ULTIMATE - FULL METER'],
 ];
 
 const DIFFICULTIES = ['rookie', 'rival', 'boss'] as const;
@@ -55,7 +69,7 @@ export class InfoScene extends Phaser.Scene {
     if (this.panel === 'controls') this.buildControls();
     else this.buildOptions(settings);
 
-    new PixelLabel(this, VIEW_W / 2, 252, 'ESC OR BACKSPACE TO RETURN', {
+    new PixelLabel(this, VIEW_W / 2, 252, isHandheld() ? 'B TO RETURN' : 'ESC OR BACKSPACE TO RETURN', {
       scale: 1,
       color: UI.dim,
       outline: UI.ink,
@@ -71,7 +85,7 @@ export class InfoScene extends Phaser.Scene {
     new PixelLabel(this, 20, 42, 'PLAYER ONE', head).setDepth(80);
     new PixelLabel(this, 104, 42, 'ACTION', head).setDepth(80);
 
-    CONTROLS.forEach(([p1, _p2, action], i) => {
+    (isHandheld() ? TOUCH_CONTROLS : CONTROLS).forEach(([p1, _p2, action], i) => {
       const y = 56 + i * 11;
       new PixelLabel(this, 20, y, p1, { ...small, color: UI.gold }).setDepth(80);
       new PixelLabel(this, 104, y, action, small).setDepth(80);

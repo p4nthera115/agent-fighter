@@ -22,13 +22,9 @@
   <body>
     <div class="cab">
       <div class="cab__body">
-        <button class="handheld__mute" id="mute" aria-label="Mute audio" aria-pressed="false" title="Mute audio">
-          <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true">
-            <path d="M3 7h4l5-4v14l-5-4H3z" fill="currentColor"/>
-            <path class="mute__wave" d="M15 6q5 4 0 8" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path class="mute__cross" d="m14 7 5 6m0-6-5 6" fill="none" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          <span id="mute-label">MUTE</span>
+        <button class="handheld__mute" id="mute" role="switch" aria-checked="true" aria-label="Sound" title="Turn sound off">
+          <span class="mute__track" aria-hidden="true"><span class="mute__knob"></span></span>
+          <span class="mute__print" aria-hidden="true">SOUND <b id="mute-label">ON</b></span>
         </button>
         <div class="handheld__brand" aria-hidden="true">Mascot</div>
         <div class="handheld__power" aria-hidden="true"><i></i> POWER</div>
@@ -82,12 +78,12 @@
             <div class="deck__buttons">
               <button class="pad__btn pad__btn--atk pad__btn--p" data-touch="punch" aria-label="B — Jab"><span class="desktop-key">P</span><span class="handheld-key">B</span></button>
               <button class="pad__btn pad__btn--atk pad__btn--k" data-touch="kick" aria-label="A — Roundhouse"><span class="desktop-key">K</span><span class="handheld-key">A</span></button>
-              <button class="pad__btn pad__btn--atk pad__btn--u" data-touch="uppercut" aria-label="L — Rising Claw"><span class="desktop-key">U</span><span class="handheld-key">L <small>RISE</small></span></button>
-              <button class="pad__btn pad__btn--atk pad__btn--super" data-touch="ultimate" aria-label="Ultimate attack (spacebar, full meter)" title="Ultimate: Space / full meter"><span class="desktop-key">ULT</span><span class="handheld-key">R <small>ULT</small></span></button>
+              <button class="pad__btn pad__btn--atk pad__btn--u" data-touch="uppercut" aria-label="X — Rising Claw"><span class="desktop-key">U</span><span class="handheld-key">X <small>RISE</small></span></button>
+              <button class="pad__btn pad__btn--atk pad__btn--super" data-touch="ultimate" aria-label="Y — Ultimate attack (full meter)" title="Ultimate: Y / Space — needs a full meter"><span class="desktop-key">ULT</span><span class="handheld-key">Y <small>ULT</small></span></button>
             </div>
 
             <div class="deck__start">
-              <button class="handheld__start" id="handheld-start" aria-label="Start or pause game">START</button>
+              <button class="handheld__start" id="handheld-start" aria-label="Start or pause game"><span class="start__label">START</span></button>
               <span class="start__print" aria-hidden="true">Full screen</span>
               <button class="deck__full" id="fullscreen" aria-label="Toggle fullscreen" title="Fullscreen">
                 <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">

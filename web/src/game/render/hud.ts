@@ -5,6 +5,7 @@ import type { Match } from '../combat/match';
 import { PixelLabel } from './pixelLabel';
 import { measure } from './font';
 import { ArcadeHeader } from './arcadeHeader';
+import { isHandheld } from '../settings';
 
 const BAR_W = 196;
 const BAR_H = 10;
@@ -44,6 +45,10 @@ export class Hud {
   private readonly announcePlate: Phaser.GameObjects.Rectangle;
   private readonly header: ArcadeHeader;
   private announceLife = 0;
+  /** What the full meter tells the player to press, named for this shell. */
+  private readonly ultKeys: [string, string] = isHandheld()
+    ? ['Y', '; / NUM0']
+    : ['SPACE', '; / NUM0'];
 
   constructor(
     private readonly scene: Phaser.Scene,
@@ -221,7 +226,7 @@ export class Hud {
       const ready = fighter.meter >= RULES.maxMeter;
       this.meters[i].width = Math.round(142 * fighter.meter / RULES.maxMeter);
       this.meters[i].fillColor = ready ? 0xffd36a : 0x66d8ee;
-      this.meterLabels[i].setText(ready ? `ULT READY  ${i === 0 ? 'SPACE' : '; / NUM0'}` : `ULT ${Math.floor(fighter.meter)}%`);
+      this.meterLabels[i].setText(ready ? `ULT READY  ${this.ultKeys[i]}` : `ULT ${Math.floor(fighter.meter)}%`);
 
       side.ghost += (fighter.health - side.ghost) * Math.min(1, delta / 260);
       if (side.ghost < fighter.health) side.ghost = fighter.health;

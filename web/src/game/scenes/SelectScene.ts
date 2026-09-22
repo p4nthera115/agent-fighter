@@ -9,7 +9,7 @@ import { TITLE_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { PLAYABLE, ROSTER } from '../roster';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY, isMobile } from '../settings';
+import { SETTINGS_KEY, isMobile, isHandheld } from '../settings';
 import { altTexKey, movesKey, sheetKey, texKey, thumbKey } from './PreloadScene';
 
 /**
@@ -409,6 +409,7 @@ export class SelectScene extends Phaser.Scene {
   private hintText(): string {
     if (this.leaving) return 'HERE WE GO';
     if (this.versus) return '1P A D + J      2P ARROWS + ,      ESC BACK';
+    if (isHandheld()) return 'PAD MOVES    A LOCKS IN    B BACK';
     return 'ARROWS MOVE    ENTER LOCKS IN    ESC BACK';
   }
 

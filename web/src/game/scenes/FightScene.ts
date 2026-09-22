@@ -27,7 +27,7 @@ import { UI } from '../ui';
 import { saveHiScore } from '../score';
 import { hasSeenControls, markControlsSeen } from '../firstRun';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY } from '../settings';
+import { SETTINGS_KEY, isHandheld } from '../settings';
 import { demoPair, fighterArt, matchNames } from '../roster';
 import { altTexKey, movesKey, sheetKey, texKey } from './PreloadScene';
 
@@ -156,12 +156,14 @@ export class FightScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(114)
       .setVisible(this.fight.demo);
-    const coarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+    // The shell decides what the prompts may name: a handheld has caps under
+    // the thumbs, a desktop cabinet has a keyboard behind it.
+    const handheld = isHandheld();
     this.demoLabel = new PixelLabel(
       this,
       VIEW_W / 2,
       VIEW_H - 15,
-      coarse ? 'DEMO - TAP TO RETURN' : 'DEMO - PRESS ANY KEY',
+      handheld ? 'DEMO - TAP TO RETURN' : 'DEMO - PRESS ANY KEY',
       { scale: 2, color: UI.gold, outline: UI.ink },
       'center',
     )
@@ -173,7 +175,7 @@ export class FightScene extends Phaser.Scene {
     if (!this.fight.demo) {
       this.controlsCard = new ControlsCard(this, {
         versus: this.fight.mode === 'versus',
-        touch: coarse,
+        touch: handheld,
       });
       // A newcomer meets the controls before the bell; everyone else is left
       // alone, and can call the card back with C.
@@ -218,7 +220,7 @@ export class FightScene extends Phaser.Scene {
       this,
       VIEW_W / 2,
       VIEW_H / 2 + 16,
-      'ESC RESUME    C CONTROLS    R RESTART    Q QUIT',
+      isHandheld() ? 'START RESUMES THE FIGHT' : 'ESC RESUME    C CONTROLS    R RESTART    Q QUIT',
       { scale: 1, color: UI.cyan, outline: UI.ink },
       'center',
     )

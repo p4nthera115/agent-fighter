@@ -776,8 +776,8 @@ body {
     inset 0 8px 12px rgba(255, 255, 255, 0.28);
 }
 
-/* The label is printed on the panel here; the handheld puts it back on the
-   button, because a handheld has no panel to print on. */
+/* The label is printed on the panel here; the handheld prints it on the shell
+   just under the pill, angled with it, the way the hardware does. */
 .full__label {
   display: none;
 }
@@ -1031,7 +1031,7 @@ body {
     width: 100%; max-width: 540px;
     height: 100%; max-height: 850px; min-height: 500px;
     --control-lift: clamp(0px, calc(15dvh - 75px), 36px);
-    padding: 56px 20px 22px;
+    padding: 56px 12px 22px;
     border: 3px solid #8c91b1;
     border-bottom: 7px solid #a6a6b1;
     border-radius: 54px 54px 80px 80px / 38px 38px 54px 54px;
@@ -1058,8 +1058,8 @@ body {
   }
   .cab .cab__area {
     --handheld: 1;
-    flex: 0 0 auto; width: 100%; aspect-ratio: 1.3;
-    margin: 0; padding: 18px 14px 37px;
+    flex: 0 0 auto; width: 100%; aspect-ratio: 1.26;
+    margin: 0; padding: 18px 10px 37px;
     display: grid; place-items: center;
     background: linear-gradient(135deg, #2b3536, #192122);
     border: 3px solid #313962;
@@ -1079,10 +1079,20 @@ body {
   }
   .handheld__wordmark b { font-size: .88em; letter-spacing: -.08em; }
   .cab .cab__deck, .cab .deck__right, .cab .deck__start { display: contents; }
+  /* Four caps in a diamond, the way a lettered pad is laid out. Each cap is
+     placed against a box one spread wider than a cap, so the corners tuck in
+     the way they do on the hardware; a 3x3 grid would stand the cluster a row
+     taller than the pad and push it into the screen.
+
+     The spread has to clear more than the circles: every cap stands on a 4px
+     skirt, which reaches down into the gap its lower neighbours sit in. */
   .cab .deck__buttons {
-    position: absolute; right: 25px; bottom: calc(145px + var(--control-lift));
-    display: grid; grid-template-columns: repeat(2, 53px); gap: 12px;
-    grid-template-areas: "rise ultimate" "jab kick";
+    --cap: 50px;
+    --spread: 43px;
+    position: absolute; right: 16px; bottom: calc(145px + var(--control-lift));
+    display: block;
+    width: calc(var(--cap) + var(--spread) * 2);
+    height: calc(var(--cap) + var(--spread) * 2);
   }
   .cab .deck__plate, .cab .stick, .cab .start__print, .desktop-key { display: none; }
   .handheld-key { display: inline; }
@@ -1100,34 +1110,61 @@ body {
     box-shadow: none;
   }
   .cab .deck__buttons .pad__btn--atk {
-    position: relative; margin: 0; width: 53px; height: 53px;
+    position: absolute; margin: 0; width: var(--cap); height: var(--cap);
     border: 1px solid #b2b7c9; color: #a0a5b4;
     background: linear-gradient(135deg, #f1f1ed, #c4c7d1);
     font: 24px Arial, sans-serif; text-shadow: 0 1px 1px white;
     box-shadow: inset 1px 2px 2px #fff9, inset -2px -2px 3px #959cb0,
       0 4px 0 #9399ae, 0 6px 7px #252b60;
   }
-  .cab .deck__buttons .pad__btn--p { grid-area: jab; }
-  .cab .deck__buttons .pad__btn--k { grid-area: kick; }
-  .cab .deck__buttons .pad__btn--u { grid-area: rise; }
-  .cab .deck__buttons .pad__btn--super { grid-area: ultimate; }
+  /* X over Y over A over B, reading round the diamond. */
+  .cab .deck__buttons .pad__btn--u { top: 0; left: var(--spread); }
+  .cab .deck__buttons .pad__btn--super { top: var(--spread); left: 0; }
+  .cab .deck__buttons .pad__btn--k { top: var(--spread); right: 0; }
+  .cab .deck__buttons .pad__btn--p { bottom: 0; left: var(--spread); }
   .cab .deck__buttons .pad__btn--u,
   .cab .deck__buttons .pad__btn--super { font-size: 19px; }
   .cab .deck__buttons .handheld-key small { display: block; margin-top: 2px; }
   .handheld-key small { font: bold 7px Arial, sans-serif; letter-spacing: .05em; }
+  /* Advance-style SELECT/START: a recessed slot in the shell, tilted off the
+     horizontal, holding a grey plastic pill — the same plastic as the face
+     buttons and the d-pad. Nothing is printed on the cap; the label sits
+     underneath at the slot's angle, the way the handheld prints it. */
   .cab .deck__full, .cab .handheld__start {
-    display: flex; align-items: center; justify-content: center; gap: 5px;
-    position: absolute; bottom: 65px; left: calc(50% - 82px);
-    width: 76px; height: 44px; margin: 0; padding: 0;
-    border: 0; border-radius: 24px; color: #cad0ea;
+    display: flex; align-items: center; justify-content: center;
+    position: absolute; bottom: 78px; left: calc(50% - 72px);
+    width: 64px; height: 18px; margin: 0; padding: 0;
+    border: 0; border-radius: 999px; color: #cad0ea;
     background: #3e477b; box-shadow: inset 1px 2px 3px #283061, 0 1px 1px #8c95bf;
     font: bold 8px Arial, sans-serif; letter-spacing: .05em; cursor: pointer;
+    transform: rotate(-12deg);
   }
-  .cab .handheld__start { left: calc(50% + 6px); }
-  .cab .full__label { display: inline; font-size: 7px; letter-spacing: 0; }
-  .cab .deck__full svg { width: 11px; height: 11px; }
-  .cab .pad__btn.is-down, .cab .pad__btn:active, .cab .deck__full:active, .cab .handheld__start:active {
+  .cab .deck__full::before, .cab .handheld__start::before {
+    content: ''; position: absolute; inset: 2px 3px; border-radius: 999px;
+    background: linear-gradient(140deg, #e2e3e4, #bfc2c9);
+    box-shadow: inset 1px 1px 1px #f4f4f6, inset -1px -1px 1px #a7aab5,
+      0 2px 0 #9399ae, 0 3px 4px #252b60;
+    transition: transform 60ms ease-out;
+  }
+  .cab .handheld__start { left: calc(50% + 8px); }
+  .cab .deck__full svg { display: none; }
+  .cab .full__label, .cab .start__label {
+    display: block; position: absolute; top: calc(100% + 5px); left: 50%;
+    transform: translateX(-50%);
+    font-size: 7px; font-weight: bold; letter-spacing: .14em; text-indent: .14em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .cab .pad__btn.is-down, .cab .pad__btn:active {
     transform: translateY(2px); filter: brightness(.92);
+  }
+  /* Only the cap sinks; the slot and the printed label stay put. */
+  .cab .deck__full:active::before, .cab .handheld__start:active::before {
+    transform: translateY(2px); filter: brightness(.94);
+    box-shadow: inset 1px 1px 1px #f4f4f6, inset -1px -1px 1px #a7aab5,
+      0 1px 2px #252b60;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cab .deck__full::before, .cab .handheld__start::before { transition: none; }
   }
   .cab__body::after {
     content: ''; position: absolute; width: 70px; height: 38px; right: 32px; bottom: 25px;
@@ -1138,14 +1175,15 @@ body {
 }
 
 @media (max-width: 820px) and (orientation: portrait) {
-  .cab .cab__area { max-height: calc(100dvh - 390px); min-height: 150px; }
+  .cab .cab__area { max-height: min(calc(100dvh - 390px), 370px); min-height: 150px; }
   .cab .cab__body { max-height: 760px; }
 }
+
 @media (max-width: 370px) and (orientation: portrait) {
   :root { --key: 36px; }
-  .cab .cab__body { padding-inline: 12px; }
-  .cab .deck__move { left: 20px; }
-  .cab .deck__buttons { right: 17px; }
+  .cab .cab__body { padding-inline: 10px; }
+  .cab .deck__move { left: 16px; }
+  .cab .deck__buttons { right: 8px; --cap: 44px; --spread: 38px; }
   .handheld__power { right: 15px; font-size: 6px; }
 }
 @media (orientation: landscape) and (max-width: 1100px) and (max-height: 560px),
@@ -1153,59 +1191,89 @@ body {
   :root { --key: clamp(32px, 8.5dvh, 44px); }
   .cab .cab__body {
     max-width: 1100px; max-height: 560px; min-height: 250px;
-    padding: 34px 155px 18px;
+    padding: 28px 155px 12px;
     border-radius: 15% 15% 22% 22% / 23% 23% 25% 25%;
   }
-  .cab .cab__area { height: 100%; width: 100%; flex: 1 1 auto; aspect-ratio: auto; padding: 12px 12px 34px; }
-  .handheld__brand { top: 10px; font-size: 13px; }
-  .handheld__power { top: 57px; right: 48px; }
+  .cab .cab__area { height: 100%; width: 100%; flex: 1 1 auto; aspect-ratio: auto; padding: 8px 10px 27px; }
+  .handheld__brand { top: 6px; font-size: 12px; }
+  .handheld__power { top: 50px; right: 48px; }
   .cab .deck__move { left: 25px; bottom: auto; top: 28%; }
-  .cab .deck__buttons { right: 23px; bottom: auto; top: 32%; }
+  .cab .deck__buttons { right: 12px; bottom: auto; top: 28%; }
+  /* Landscape has height to spare beside the pad but no width, so the two
+     slots stack instead of sitting side by side. They sit in from the edge
+     and clear of the bottom corner, where the shell curves away under them. */
   .cab .deck__full, .cab .handheld__start {
-    left: 32px; bottom: 38px; width: 52px; height: 44px;
+    left: 76px; width: 58px; height: 17px;
   }
-  .cab .handheld__start { left: 94px; }
-  .cab .deck__full { flex-direction: column; gap: 3px; }
-  .cab .full__label { font-size: 6px; }
+  .cab .deck__full { bottom: 100px; }
+  .cab .handheld__start { bottom: 58px; }
+  .cab .full__label, .cab .start__label { font-size: 6px; letter-spacing: .1em; text-indent: .1em; }
   .cab__body::after { right: 44px; bottom: 36px; }
-  .handheld__wordmark { font-size: 16px; bottom: 10px; }
+  .handheld__wordmark { font-size: 14px; bottom: 7px; }
 }
 @media (orientation: landscape) and (max-width: 700px) {
   .cab .cab__body { padding-inline: 132px; }
   .cab .deck__move { left: 22px; }
-  .cab .deck__buttons { right: 22px; grid-template-columns: repeat(2, 44px); gap: 10px; }
-  .cab .deck__buttons .pad__btn--atk { width: 44px; height: 44px; }
-  .cab .deck__full, .cab .handheld__start { width: 44px; left: 26px; }
-  .cab .handheld__start { left: 80px; }
+  .cab .deck__buttons { right: 12px; --cap: 44px; --spread: 38px; }
+  .cab .deck__full, .cab .handheld__start { width: 50px; left: 58px; }
 }
 @media (max-width: 820px) and (orientation: portrait) {
   .handheld__power { top: 44px; }
+  /* Portrait is the original Game Boy shell, not the Advance: drop the
+     second word so the wordmark reads GAME BOY. */
+  .handheld__wordmark b { display: none; }
 }
 @media (orientation: landscape) and (max-height: 350px) and (max-width: 1100px) {
   :root { --key: 32px; }
   .cab .deck__move { top: 24%; }
-  .cab .deck__full, .cab .handheld__start { bottom: 30px; }
+  .cab .deck__full { bottom: 72px; }
+  .cab .handheld__start { bottom: 34px; }
 }
 
 .handheld__mute { display: none; }
-.mute__cross { display: none; }
-.handheld__mute[aria-pressed="true"] .mute__cross { display: block; }
-.handheld__mute[aria-pressed="true"] .mute__wave { display: none; }
+
+/* Sound slider. The track is recessed like the START/Full screen pills and the
+   knob is the same light plastic as the face buttons, so it reads as hardware. */
 @media (max-width: 820px) and (orientation: portrait),
        (max-width: 1100px) and (max-height: 560px),
        (pointer: coarse) and (orientation: landscape) {
   .handheld__mute {
-    display: flex; align-items: center; justify-content: center; gap: 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px;
     position: absolute; top: 8px; left: 24px;
     width: 64px; height: 44px; padding: 0;
-    border: 0; border-radius: 22px;
-    background: #3e477b; color: #d7ddf4;
-    box-shadow: inset 1px 2px 3px #283061, 0 1px 1px #8c95bf;
-    font: bold 7px Arial, sans-serif; cursor: pointer; touch-action: manipulation;
+    border: 0; background: none; color: #bac0df;
+    font: bold 7px Arial, sans-serif; letter-spacing: .08em;
+    cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
-  .handheld__mute[aria-pressed="true"] { color: #ffe3a1; background: #333b69; }
+  .mute__track {
+    position: relative; width: 42px; height: 15px;
+    border-radius: 8px; background: #333b69;
+    box-shadow: inset 1px 2px 3px #283061, 0 1px 1px #8c95bf;
+  }
+  .mute__knob {
+    position: absolute; left: 1px; top: -3px;
+    width: 20px; height: 21px; border-radius: 6px;
+    background: linear-gradient(135deg, #f1f1ed, #c4c7d1);
+    box-shadow: inset 1px 1px 1px #fff, inset -1px -1px 2px #959cb0,
+      0 2px 0 #9399ae, 0 3px 4px #252b60;
+    transform: translateX(20px);
+  }
+  .mute__knob::after {
+    content: ''; position: absolute; inset: 4px 5px;
+    background: repeating-linear-gradient(90deg, #8c92a626 0 1px, transparent 1px 4px);
+  }
+  .handheld__mute[aria-checked="false"] .mute__knob { transform: translateX(0); }
+  .handheld__mute[aria-checked="false"] { color: #8f96bd; }
+  .handheld__mute:active .mute__knob { filter: brightness(.94); }
+  .mute__print b { font-weight: bold; color: #e2e6fb; }
+  .handheld__mute[aria-checked="false"] .mute__print b { color: #9aa1c8; }
 }
+/* Landscape lines the switch up with the START and Full screen slots below it:
+   the pills are 58px wide at 76px, so a 64px switch centres on them at 73px. */
 @media (orientation: landscape) and (max-width: 1100px) and (max-height: 560px),
        (orientation: landscape) and (pointer: coarse) {
-  .handheld__mute { left: 42px; top: 12px; }
+  .handheld__mute { left: 73px; top: 12px; }
+}
+@media (orientation: landscape) and (max-width: 700px) {
+  .handheld__mute { left: 51px; }
 }

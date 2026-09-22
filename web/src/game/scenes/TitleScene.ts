@@ -11,7 +11,7 @@ import { TITLE_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { demoPair } from '../roster';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY, isMobile, MOBILE_QUERY } from '../settings';
+import { SETTINGS_KEY, isMobile, isHandheld, MOBILE_QUERY } from '../settings';
 
 /** Idle time on the menu before the cabinet starts demonstrating itself. */
 const ATTRACT_DELAY = 14000;
@@ -85,7 +85,7 @@ export class TitleScene extends Phaser.Scene {
       outline: UI.ink,
     }).setDepth(80);
 
-    new PixelLabel(this, VIEW_W - 14, 254, 'ENTER TO SELECT', {
+    new PixelLabel(this, VIEW_W - 14, 254, isHandheld() ? 'A TO SELECT' : 'ENTER TO SELECT', {
       scale: 1,
       color: UI.dim,
       outline: UI.ink,

@@ -34,6 +34,17 @@ export function isMobile(): boolean {
   return typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches;
 }
 
+/**
+ * Whether the page is wearing the handheld shell rather than the cabinet.
+ * The same query the stylesheet swaps on, so anything the game prints names
+ * the controls the player can actually see under their thumbs.
+ */
+export const HANDHELD_QUERY =
+  '(max-width: 820px) and (orientation: portrait), (max-width: 1100px) and (max-height: 560px), (pointer: coarse) and (orientation: landscape)';
+export function isHandheld(): boolean {
+  return typeof window !== 'undefined' && (window.matchMedia?.(HANDHELD_QUERY).matches ?? false);
+}
+
 
 /**
  * A few settings are readable from the query string, so a link can point at a

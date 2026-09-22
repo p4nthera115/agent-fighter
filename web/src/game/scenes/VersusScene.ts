@@ -10,7 +10,7 @@ import { FIGHT_THEME } from '../audio/songs';
 import { sfx } from '../audio/sfx';
 import { demoPair, matchNames, rosterEntry } from '../roster';
 import type { Settings } from '../settings';
-import { SETTINGS_KEY } from '../settings';
+import { SETTINGS_KEY, isHandheld } from '../settings';
 import { altTexKey, movesKey, sheetKey, texKey } from './PreloadScene';
 import type { FightData } from './FightScene';
 
@@ -430,7 +430,7 @@ export class VersusScene extends Phaser.Scene {
   }
 
   private footer(): string {
-    if (this.fight.demo) return 'DEMO - PRESS ANY KEY';
+    if (this.fight.demo) return isHandheld() ? 'DEMO - TAP TO RETURN' : 'DEMO - PRESS ANY KEY';
     if (this.fight.mode === 'versus') return '2 PLAYER MATCH';
     return `CPU - ${this.settings.difficulty.toUpperCase()}`;
   }

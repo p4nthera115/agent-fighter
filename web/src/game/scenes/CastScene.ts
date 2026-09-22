@@ -7,6 +7,7 @@ import { music } from '../audio/music';
 import { TITLE_THEME } from '../audio/songs';
 import { PLAYABLE, ROSTER } from '../roster';
 import { thumbKey } from './PreloadScene';
+import { isHandheld } from '../settings';
 
 const HOLD_MS = 9000;
 
@@ -101,7 +102,7 @@ export class CastScene extends Phaser.Scene {
       'center',
     ).setDepth(80);
 
-    new PixelLabel(this, VIEW_W / 2, 240, 'PRESS ANY KEY', {
+    new PixelLabel(this, VIEW_W / 2, 240, isHandheld() ? 'TAP TO GO BACK' : 'PRESS ANY KEY', {
       scale: 2,
       color: UI.gold,
       outline: UI.ink,

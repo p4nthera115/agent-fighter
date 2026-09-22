@@ -39,10 +39,10 @@ const PANEL: { move: Row[]; attack: Row[] } = {
     { keys: ['DOWN'], action: 'CROUCH' },
   ],
   attack: [
-    { keys: ['P'], action: 'JAB' },
-    { keys: ['K'], action: 'ROUNDHOUSE' },
-    { keys: ['U'], action: 'RISING CLAW' },
-    { keys: ['ULT'], action: 'ULTIMATE' },
+    { keys: ['B'], action: 'JAB' },
+    { keys: ['A'], action: 'ROUNDHOUSE' },
+    { keys: ['X'], action: 'RISING CLAW' },
+    { keys: ['Y'], action: 'ULTIMATE' },
   ],
 };
 
@@ -156,7 +156,7 @@ export class ControlsCard {
       this.label(
         VIEW_W / 2,
         234,
-        options.touch ? 'START AGAIN FROM THE MENU' : 'ESC PAUSE    C CONTROLS    R RESTART',
+        options.touch ? 'START PAUSES    B BACKS OUT OF A MENU' : 'ESC PAUSE    C CONTROLS    R RESTART',
         { scale: 1, color: UI.dim, outline: UI.ink },
         'center',
       ),

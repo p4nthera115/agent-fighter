@@ -29,10 +29,9 @@ let muted = false;
 try { muted = localStorage.getItem(MUTE_KEY) === 'true'; } catch { /* Storage is optional. */ }
 const updateMute = () => {
   audio.setMuted(muted);
-  mute.setAttribute('aria-pressed', String(muted));
-  mute.setAttribute('aria-label', muted ? 'Unmute audio' : 'Mute audio');
-  mute.title = muted ? 'Unmute audio' : 'Mute audio';
-  muteLabel.textContent = muted ? 'MUTED' : 'MUTE';
+  mute.setAttribute('aria-checked', String(!muted));
+  mute.title = muted ? 'Turn sound on' : 'Turn sound off';
+  muteLabel.textContent = muted ? 'OFF' : 'ON';
 };
 updateMute();
 mute.addEventListener('click', () => {
@@ -102,12 +101,41 @@ const updateFullscreen = () => {
   fullscreen.setAttribute('aria-pressed', String(active));
   fullscreen.title = active ? 'Fullscreen active' : 'Play without the address bar';
 };
+const coarse = window.matchMedia('(pointer: coarse)');
+
+/** Locking is still absent from the DOM types, and from Safari. */
+type Lockable = ScreenOrientation & {
+  lock?: (orientation: 'landscape') => Promise<void>;
+  unlock?: () => void;
+};
+const orientationApi = (): Lockable | undefined => window.screen.orientation as Lockable | undefined;
+
+/**
+ * Portrait spends most of the shell on plastic; landscape gives the picture
+ * the whole width. Fullscreen is the one moment a browser will let a page ask
+ * to be turned, so ask then. Android turns; iOS has no lock at all and a
+ * desktop has nothing to turn, so this is an improvement where it lands and
+ * silent where it does not.
+ */
+async function faceLandscape(): Promise<void> {
+  if (!coarse.matches) return;
+  try {
+    await orientationApi()?.lock?.('landscape');
+  } catch {
+    // Refused or unsupported; the player turns the phone themselves.
+  }
+}
+
 fullscreen.addEventListener('click', async () => {
   if (standalone.matches && !document.fullscreenElement) return;
   try {
-    if (document.fullscreenElement) await document.exitFullscreen();
-    else if (document.fullscreenEnabled) await document.documentElement.requestFullscreen();
-    else installHelp.showModal();
+    if (document.fullscreenElement) {
+      orientationApi()?.unlock?.();
+      await document.exitFullscreen();
+    } else if (document.fullscreenEnabled) {
+      await document.documentElement.requestFullscreen();
+      await faceLandscape();
+    } else installHelp.showModal();
   } catch {
     installHelp.showModal();
   }
@@ -126,9 +154,12 @@ function sendCommand(code: string): void {
 need<HTMLButtonElement>('#handheld-start').addEventListener('click', () => {
   sendCommand(game.scene.isActive('fight') ? 'Escape' : 'Enter');
 });
+// The caps read A, B, X and Y on the handheld, so the menus answer to them the
+// way a handheld's menus do: A confirms, B backs out, the other two confirm
+// rather than sit dead under a thumb.
 const menuCommands: Record<string, string> = {
   up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight',
-  punch: 'Enter', kick: 'Enter', uppercut: 'Escape', ultimate: 'Enter',
+  kick: 'Enter', punch: 'Escape', uppercut: 'Enter', ultimate: 'Enter',
 };
 document.querySelectorAll<HTMLElement>('[data-touch]').forEach((button) => {
   button.addEventListener('pointerdown', (event) => {
