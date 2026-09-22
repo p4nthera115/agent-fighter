@@ -5,7 +5,7 @@
  * to greet a newcomer on their first fight and then stay out of the way.
  */
 
-const CONTROLS_KEY = 'mascot-fighter.controls-seen';
+const CONTROLS_KEY = 'agent-fighter.controls-seen';
 
 export function hasSeenControls(): boolean {
   try {

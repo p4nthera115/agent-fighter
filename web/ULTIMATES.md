@@ -5,7 +5,7 @@ Each fighter charges a 100-point meter through combat. Press **spacebar** (P1, o
 | Fighter | Ultimate | Sequence | Damage | Range |
 | --- | --- | --- | --- | --- |
 | Clawd | Context Collapse | Compress pages, flick a square projectile, unfold a paper storm | 180 | 360 |
-| Grok | Shape Riot | Triangle dive, square slam, capsule dash, giant orb impact | 190 | 280 |
+| Grok Bot | Shape Riot | Triangle dive, square slam, capsule dash, giant orb impact | 190 | 280 |
 | Muse | Dream Sequence | Draw a portal, scoop with a giant hand, launch with a dream cloud | 180 | 320 |
 | Codex | Execute All | Open terminal, bracket target, build and compress a cage, execute | 180 | 340 |
 | Openclaw | Swarm Protocol | Broadcast, send mini-claws, build a swarm tower, retrieve a straggler | 180 | 340 |

@@ -24,7 +24,7 @@ document.body.classList.toggle('no-crt', !settings.crt);
 
 const mute = need<HTMLButtonElement>('#mute');
 const muteLabel = need('#mute-label');
-const MUTE_KEY = 'mascot-fighter.muted';
+const MUTE_KEY = 'agent-fighter.muted';
 let muted = false;
 try { muted = localStorage.getItem(MUTE_KEY) === 'true'; } catch { /* Storage is optional. */ }
 const updateMute = () => {
@@ -61,6 +61,8 @@ game.events.on('cabinet:crt', (on: boolean) => {
 
 game.events.on('cabinet:clearHiScore', () => {
   try {
+    window.localStorage.removeItem('agent-fighter.hi-score');
+    // The pre-rename key too, so clearing really clears.
     window.localStorage.removeItem('mascot-fighter.hi-score');
   } catch {
     // Storage is unavailable; the in-memory reset already happened.

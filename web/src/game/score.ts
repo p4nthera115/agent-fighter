@@ -6,7 +6,9 @@
  * outlives the tab.
  */
 
-const HI_SCORE_KEY = 'mascot-fighter.hi-score';
+const HI_SCORE_KEY = 'agent-fighter.hi-score';
+/** The key used before the cabinet was renamed; read so an old score survives. */
+const LEGACY_HI_SCORE_KEY = 'mascot-fighter.hi-score';
 
 export const SCORE = {
   /** Multiplier applied to every point of damage dealt. */
@@ -24,7 +26,7 @@ export function formatScore(value: number): string {
 
 export function loadHiScore(): number {
   try {
-    const raw = window.localStorage.getItem(HI_SCORE_KEY);
+    const raw = window.localStorage.getItem(HI_SCORE_KEY) ?? window.localStorage.getItem(LEGACY_HI_SCORE_KEY);
     const value = raw === null ? Number.NaN : Number.parseInt(raw, 10);
     return Number.isFinite(value) && value > 0 ? value : 12571;
   } catch {

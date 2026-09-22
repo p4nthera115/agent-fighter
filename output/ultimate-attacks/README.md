@@ -39,8 +39,8 @@ damage, camera shake and hitstop are owned by your existing game.
 Treat the JSON timing as a suggested visual sequence, not balanced combat data.
 Each range is inclusive and zero-based. Hold the caster's concluding pose if
 effects are still playing, then return to the existing idle animation.
-Grok's dive/dash and giant landing require positional motion; the sprite sheet
-provides their visual poses. The giant orb cel is larger than the other Grok
+Grok Bot's dive/dash and giant landing require positional motion; the sprite sheet
+provides their visual poses. The giant orb cel is larger than the other Grok Bot
 poses, and can be scaled further for the final impact.
 
 Openclaw effect cels 0 and 1 form a reusable mini-copy running cycle; cel 2 is

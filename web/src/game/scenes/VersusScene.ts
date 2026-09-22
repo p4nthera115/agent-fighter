@@ -58,7 +58,7 @@ const SINK_Y = PLINTH_TOP + MIN_SINK;
  * 120 pixels of block or 92 of orb.
  *
  * The cost is that the scale is per-fighter and fractional — 1.53 for Clawd
- * against 2.0 for Grok — where the match itself is always a whole
+ * against 2.0 for Grok Bot — where the match itself is always a whole
  * magnification. It is paid here and nowhere else: these are portraits held
  * still on a page that lasts two seconds, they only ever move by whole screen
  * pixels, and the alternative is a uniform scale at which the tallest fighter

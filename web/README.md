@@ -1,4 +1,4 @@
-# Mascot Fighter — the cabinet
+# Agent Fighter — the cabinet
 
 The whole page is one machine, edge to edge: a neon marquee between two
 speaker grilles and a monitor sunk into the shell. There is no surrounding
@@ -98,7 +98,7 @@ Losing ends the run there, and so does clearing the last opponent. There are no
 continues: one loss is the whole run.
 
 The player's own fighter is left out of the ladder, because a run is against
-the *other* mascots — the one exception being a mirror the roulette itself
+the *other* agents — the one exception being a mirror the roulette itself
 chose for the opening match, which is kept because the player watched it
 happen.
 
@@ -142,10 +142,10 @@ are still waiting to be hand-cleaned; a table of heights in the source would
 be wrong the first time somebody redrew a pose.
 
 The cost is that the portrait scale is per-fighter and fractional — 1.53 for
-Clawd against 2.0 for Grok — where everything else in the game is a whole
+Clawd against 2.0 for Grok Bot — where everything else in the game is a whole
 magnification. A uniform scale cannot do this: at the one that fits Clawd,
-Grok floats in front of its own nameplate, and at the one that fills the panel
-for Grok, Clawd is a wall of terracotta with its eyes off the top. It is paid
+Grok Bot floats in front of its own nameplate, and at the one that fills the panel
+for Grok Bot, Clawd is a wall of terracotta with its eyes off the top. It is paid
 on this page only, the portraits never move by a fraction of a screen pixel,
 and nothing measured here reaches the match.
 
@@ -256,17 +256,17 @@ Everything on top of the letterforms is procedural, in `logo.ts`:
 - each letter climbs as the word runs right, and every row leans forward
 - a yellow-to-red ramp with a diagonal highlight streak across the upper rows
 - a one-pixel black outline, a one-pixel red rim outside it, and a hard shadow
-- the two words locked together, FIGHTER tucked under and right of MASCOT
+- the two words locked together, FIGHTER tucked under and right of AGENT
 
 The gradient is the one part that needed care. A single ramp across the whole
 word looks right on a flat baseline, but once the baseline climbs, the last
-letter sits in the palest stop and the first in the darkest — MASCOT came out
+letter sits in the palest stop and the first in the darkest — AGENT came out
 with a white T and a rust-red M. The fill now mixes each letter's own vertical
 span with its position in the word, so every letter gets the full range while
 the mass still reads as one gradient.
 
 The versus page's mark is the same machinery: `VS` is drawn with the same
-alphabet — which needed a `V`, since MASCOT FIGHTER does not use one — and the
+alphabet — which needed a `V`, since AGENT FIGHTER does not use one — and the
 same ramp, rim and outline, so the two read as one poster. It does not climb,
 though. The wordmark rises because it is a phrase being read left to right; VS
 is a symbol standing between two equal halves, and tilting it would take a
@@ -441,14 +441,14 @@ with a red screen. OpenClaw's red goes green rather than the cyan directly
 opposite it — the stage is a navy night city, and a cool costume there would
 cost the silhouette more than the extra hue distance is worth.
 
-Grok needed one addition to that machinery. Its body is charcoal at barely a
+Grok Bot needed one addition to that machinery. Its body is charcoal at barely a
 sixth saturation, and rotating the hue of a near-grey returns the same grey, so
 its costume sets a saturation floor to give the rotation something to work
 with — and holds back the *brightest* pixels too, so the eyes stay white while
 the body turns oxblood.
 
 `public/assets/roster/*-thumb.png` are the concept images from
-`../output/mascot-fighters/`, box-downsampled by exactly 19x (1254 → 66) so
+`../output/agent-fighters/`, box-downsampled by exactly 19x (1254 → 66) so
 they stay on a whole-pixel grid.
 
 ## Known limits
@@ -458,7 +458,7 @@ they stay on a whole-pixel grid.
   now a counted statement rather than an apology.
 - Every fighter uses the same hurtbox and pushbox, which are Clawd's. Muse
   (107 x 106), Codex (91 x 102) and OpenClaw (90 x 92) sit close enough inside
-  the 112 x 118 box, but Grok's orb is 92 x 88, so it can be clipped by an
+  the 112 x 118 box, but Grok Bot's orb is 92 x 88, so it can be clipped by an
   attack that looks like it missed. Reach is the wider gap: the boxes are cut
   to Clawd's arms, whose jab reaches +113 against a box ending at +116. The
   other four reach +87, +72, +66 and +71, so a jab at maximum range connects

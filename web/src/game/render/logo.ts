@@ -26,6 +26,7 @@ const GLYPH_GAP = 1;
  */
 export const GLYPHS: Record<string, string> = {
   M: '##......##|###....###|####..####|##.####.##|##..##..##|##......##|##......##|##......##|##......##|##......##|##......##',
+  N: '##....##|###...##|###...##|####..##|##.#..##|##.##.##|##..#.##|##..####|##...###|##...###|##....##',
   A: '..####..|.##..##.|##....##|##....##|##....##|########|########|##....##|##....##|##....##|##....##',
   S: '..######|.#######|##......|##......|##......|.######.|..######|......##|......##|#######.|######..',
   C: '..#####.|.#######|##....##|##......|##......|##......|##......|##......|##....##|.#######|..#####.',
@@ -230,7 +231,7 @@ function paintWord(
   }
 }
 
-const MASCOT_STYLE: WordStyle = {
+const AGENT_STYLE: WordStyle = {
   scale: 3,
   rise: 1.0,
   slant: 0.36,
@@ -272,9 +273,9 @@ const FIGHTER_STYLE: WordStyle = {
   shadowOffset: [1, 2],
 };
 
-/** The two words, positioned so FIGHTER tucks under and right of MASCOT. */
+/** The two words, positioned so FIGHTER tucks under and right of AGENT. */
 export const LAYOUT: PlacedWord[] = [
-  { text: 'MASCOT', style: MASCOT_STYLE, at: [0, 0] },
+  { text: 'AGENT', style: AGENT_STYLE, at: [0, 0] },
   { text: 'FIGHTER', style: FIGHTER_STYLE, at: [8, 15] },
 ];
 
@@ -282,7 +283,7 @@ export const LAYOUT: PlacedWord[] = [
  * The versus page's mark.
  *
  * It borrows the wordmark's ramp, rim and outline so the two read as the same
- * poster, but it does not climb: MASCOT FIGHTER rises because it is a phrase
+ * poster, but it does not climb: AGENT FIGHTER rises because it is a phrase
  * being read left to right, whereas VS is a symbol sitting between two equal
  * halves, and tilting it would take a side.
  */
@@ -290,7 +291,7 @@ const VS_STYLE: WordStyle = {
   scale: 4,
   rise: 0,
   slant: 0.36,
-  ramp: MASCOT_STYLE.ramp,
+  ramp: AGENT_STYLE.ramp,
   outline: '#1a0604',
   outlineWidth: 1,
   rim: '#d41b12',

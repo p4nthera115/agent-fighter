@@ -30,7 +30,7 @@ export const GAUNTLET_KEY = 'gauntlet';
  * The machine's roulette pick stays where the player saw it land — first —
  * and the rest of the playable cast follows in a fresh order each run. The
  * player's own fighter is left out, because a run is against the *other*
- * mascots; the one exception is a mirror the roulette itself chose, which is
+ * agents; the one exception is a mirror the roulette itself chose, which is
  * kept because the player watched it happen.
  */
 export function buildGauntlet(player: string, first: string): Gauntlet {
