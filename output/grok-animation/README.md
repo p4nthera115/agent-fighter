@@ -1,6 +1,6 @@
-# Grok — first sprite-sheet pass
+# Grok Bot — first sprite-sheet pass
 
-42 frames, seven animations. Grok is playable in the browser build; the
+42 frames, seven animations. Grok Bot is playable in the browser build; the
 runtime copies of these files live in `web/public/assets/grok/`.
 
 * `grok-sheet.png`: transparent 1344 × 1120 atlas, six columns and seven rows.
@@ -38,7 +38,7 @@ to prevent seam drift. Further timing and in-between refinements can be made
 in LibreSprite or Aseprite.
 
 Source artwork was created with the built-in image-generation tool using the
-supplied Grok shape/colour reference and Clawd rendering reference. The exact
+supplied Grok Bot shape/colour reference and Clawd rendering reference. The exact
 prompt is in `source/generation-prompt.txt`; the untouched source is
 `source/generated-sheet.png`. Packing applies nearest-neighbor scaling,
 palette normalization, binary alpha, and fixed-canvas alignment.
@@ -49,7 +49,7 @@ The JSON files, rather than editor tag settings, specify loop/hold behavior.
 
 ## In the game
 
-Grok is playable in the browser build. `scripts/stage-fighter.py grok` writes
+Grok Bot is playable in the browser build. `scripts/stage-fighter.py grok` writes
 the per-cel metadata above and copies the atlas and both JSON files into
 `web/public/assets/grok/`, which is what the browser loads. The `.ase` files
 stay authoring-only.
