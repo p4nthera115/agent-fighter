@@ -704,6 +704,84 @@ body {
     0 1px 0 rgba(180, 150, 255, 0.2);
 }
 
+/* --- Full screen ---------------------------------------------------------- */
+
+.deck__start {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+}
+
+/* Printed on the panel above the button, the way a cabinet labels COIN and
+   START rather than writing on the plastic. */
+.start__print {
+  font-size: clamp(7px, 0.9vmin, 10px);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* The same lens as the attack caps, in the smaller size a utility gets. */
+.deck__full {
+  --btn-lit: #c9f6ff;
+  --btn: #57cfee;
+  --btn-deep: #14546a;
+  display: grid;
+  place-items: center;
+  gap: 7px;
+  width: clamp(30px, 4.2vmin, 50px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+      ellipse 44% 24% at 50% 15%,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.08) 68%,
+      transparent 80%
+    ),
+    radial-gradient(
+      circle at 50% 56%,
+      var(--btn-lit) 0%,
+      var(--btn) 58%,
+      var(--btn-deep) 100%
+    );
+  color: rgba(6, 30, 40, 0.75);
+  font-family: var(--mono);
+  font-size: clamp(8px, 1vmin, 10px);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px #8d86a3,
+    0 0 0 5px var(--edge), 0 5px 0 var(--btn-deep),
+    0 9px 14px -5px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.13),
+    inset 0 -5px 9px rgba(0, 0, 0, 0.28),
+    inset 0 3px 6px rgba(255, 255, 255, 0.16);
+  transition: transform 60ms ease-out, box-shadow 60ms ease-out, filter 120ms;
+}
+
+.deck__full:hover {
+  filter: brightness(1.08);
+}
+
+.deck__full:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 0 4px #8d86a3,
+    0 0 0 5px var(--edge), 0 1px 0 var(--btn-deep),
+    inset 0 -4px 9px rgba(0, 0, 0, 0.32),
+    inset 0 8px 12px rgba(255, 255, 255, 0.28);
+}
+
+/* The label is printed on the panel here; the handheld prints it on the shell
+   just under the pill, angled with it, the way the hardware does. */
+.full__label {
+  display: none;
+}
+
 /* --- Directional pad ------------------------------------------------------ */
 
 /* A stick needs a hand on it. Where there is only a thumb, the same four
@@ -876,9 +954,10 @@ body {
    menus on the glass itself, so a hand-shaped panel across the bottom would be
    furniture standing between the player and the picture.
 
-   Every control on the panel is one a keyboard already has, so the whole band
-   goes. A touch device still needs all of it, which is why this is a media
-   query rather than a deletion.
+   Nor is there anything left to keep in the corner. A window has its own way
+   to go fullscreen and its own chrome to do it from, so the one control the
+   panel still held is furniture too, and the whole band goes. Everything here
+   is only hidden, because a touch device still needs all of it.
 -------------------------------------------------------------------------- */
 
 @media (hover: hover) and (pointer: fine) {
@@ -898,6 +977,24 @@ body {
 .handheld__brand, .handheld__power, .handheld__wordmark,
 .handheld__start, .handheld-key { display: none; }
 
+#install-help {
+  width: min(90vw, 390px);
+  max-height: 85dvh;
+  overflow: auto;
+  padding: 26px;
+  border: 1px solid #858bb9;
+  border-radius: 20px;
+  background: #252944;
+  color: #eeedf5;
+  font: 14px/1.6 system-ui, sans-serif;
+  box-shadow: 0 20px 80px #0009;
+}
+#install-help::backdrop { background: #080a18b8; }
+#install-help h2 { font-size: 22px; margin: 0; }
+#install-help button {
+  width: 100%; padding: 12px; border: 0; border-radius: 10px;
+  background: #dcddeb; color: #252944; font: inherit; cursor: pointer;
+}
 
 /* Advance shell. Portrait keeps thumb space; landscape uses the original
    side-by-side layout. The LCD is 3:2 and the game is letterboxed at 16:9. */
@@ -966,7 +1063,7 @@ body {
     letter-spacing: -.06em; text-shadow: 1px 2px 1px #000;
   }
   .handheld__wordmark b { font-size: .88em; letter-spacing: -.08em; }
-  .cab .cab__deck, .cab .deck__right { display: contents; }
+  .cab .cab__deck, .cab .deck__right, .cab .deck__start { display: contents; }
   /* Four caps in a diamond, the way a lettered pad is laid out. Each cap is
      placed against a box one spread wider than a cap, so the corners tuck in
      the way they do on the hardware; a 3x3 grid would stand the cluster a row
@@ -982,7 +1079,7 @@ body {
     width: calc(var(--cap) + var(--spread) * 2);
     height: calc(var(--cap) + var(--spread) * 2);
   }
-  .cab .deck__plate, .cab .stick, .desktop-key { display: none; }
+  .cab .deck__plate, .cab .stick, .cab .start__print, .desktop-key { display: none; }
   .handheld-key { display: inline; }
   .cab .deck__move {
     display: block; position: absolute; left: 28px; bottom: calc(145px + var(--control-lift));
@@ -1014,28 +1111,29 @@ body {
   .cab .deck__buttons .pad__btn--super { font-size: 19px; }
   .cab .deck__buttons .handheld-key small { display: block; margin-top: 2px; }
   .handheld-key small { font: bold 7px Arial, sans-serif; letter-spacing: .05em; }
-  /* Advance-style START: a recessed slot in the shell, tilted off the
+  /* Advance-style SELECT/START: a recessed slot in the shell, tilted off the
      horizontal, holding a grey plastic pill — the same plastic as the face
      buttons and the d-pad. Nothing is printed on the cap; the label sits
-     underneath at the slot's angle, the way the handheld prints it. It is the
-     only slot on the shell, so it takes the middle. */
-  .cab .handheld__start {
+     underneath at the slot's angle, the way the handheld prints it. */
+  .cab .deck__full, .cab .handheld__start {
     display: flex; align-items: center; justify-content: center;
-    position: absolute; bottom: 78px; left: calc(50% - 32px);
+    position: absolute; bottom: 78px; left: calc(50% - 72px);
     width: 64px; height: 18px; margin: 0; padding: 0;
     border: 0; border-radius: 999px; color: #cad0ea;
     background: #3e477b; box-shadow: inset 1px 2px 3px #283061, 0 1px 1px #8c95bf;
     font: bold 8px Arial, sans-serif; letter-spacing: .05em; cursor: pointer;
     transform: rotate(-12deg);
   }
-  .cab .handheld__start::before {
+  .cab .deck__full::before, .cab .handheld__start::before {
     content: ''; position: absolute; inset: 2px 3px; border-radius: 999px;
     background: linear-gradient(140deg, #e2e3e4, #bfc2c9);
     box-shadow: inset 1px 1px 1px #f4f4f6, inset -1px -1px 1px #a7aab5,
       0 2px 0 #9399ae, 0 3px 4px #252b60;
     transition: transform 60ms ease-out;
   }
-  .cab .start__label {
+  .cab .handheld__start { left: calc(50% + 8px); }
+  .cab .deck__full svg { display: none; }
+  .cab .full__label, .cab .start__label {
     display: block; position: absolute; top: calc(100% + 5px); left: 50%;
     transform: translateX(-50%);
     font-size: 7px; font-weight: bold; letter-spacing: .14em; text-indent: .14em;
@@ -1045,13 +1143,13 @@ body {
     transform: translateY(2px); filter: brightness(.92);
   }
   /* Only the cap sinks; the slot and the printed label stay put. */
-  .cab .handheld__start:active::before {
+  .cab .deck__full:active::before, .cab .handheld__start:active::before {
     transform: translateY(2px); filter: brightness(.94);
     box-shadow: inset 1px 1px 1px #f4f4f6, inset -1px -1px 1px #a7aab5,
       0 1px 2px #252b60;
   }
   @media (prefers-reduced-motion: reduce) {
-    .cab .handheld__start::before { transition: none; }
+    .cab .deck__full::before, .cab .handheld__start::before { transition: none; }
   }
   .cab__body::after {
     content: ''; position: absolute; width: 70px; height: 38px; right: 32px; bottom: 25px;
@@ -1086,12 +1184,15 @@ body {
   .handheld__power { top: 50px; right: 48px; }
   .cab .deck__move { left: 25px; bottom: auto; top: 28%; }
   .cab .deck__buttons { right: 12px; bottom: auto; top: 28%; }
-  /* Landscape has no width to spare, so the slot sits in from the edge and
-     clear of the bottom corner, where the shell curves away under it. */
-  .cab .handheld__start {
-    left: 76px; bottom: 58px; width: 58px; height: 17px;
+  /* Landscape has height to spare beside the pad but no width, so the two
+     slots stack instead of sitting side by side. They sit in from the edge
+     and clear of the bottom corner, where the shell curves away under them. */
+  .cab .deck__full, .cab .handheld__start {
+    left: 76px; width: 58px; height: 17px;
   }
-  .cab .start__label { font-size: 6px; letter-spacing: .1em; text-indent: .1em; }
+  .cab .deck__full { bottom: 100px; }
+  .cab .handheld__start { bottom: 58px; }
+  .cab .full__label, .cab .start__label { font-size: 6px; letter-spacing: .1em; text-indent: .1em; }
   .cab__body::after { right: 44px; bottom: 36px; }
   .handheld__wordmark { font-size: 14px; bottom: 7px; }
 }
@@ -1099,7 +1200,7 @@ body {
   .cab .cab__body { padding-inline: 132px; }
   .cab .deck__move { left: 22px; }
   .cab .deck__buttons { right: 12px; --cap: 44px; --spread: 38px; }
-  .cab .handheld__start { width: 50px; left: 58px; }
+  .cab .deck__full, .cab .handheld__start { width: 50px; left: 58px; }
 }
 @media (max-width: 820px) and (orientation: portrait) {
   .handheld__power { top: 44px; }
@@ -1110,13 +1211,14 @@ body {
 @media (orientation: landscape) and (max-height: 350px) and (max-width: 1100px) {
   :root { --key: 32px; }
   .cab .deck__move { top: 24%; }
+  .cab .deck__full { bottom: 72px; }
   .cab .handheld__start { bottom: 34px; }
 }
 
 .handheld__mute { display: none; }
 
-/* Sound slider. The track is recessed like the START pill and the knob is the
-   same light plastic as the face buttons, so it reads as hardware. */
+/* Sound slider. The track is recessed like the START/Full screen pills and the
+   knob is the same light plastic as the face buttons, so it reads as hardware. */
 @media (max-width: 820px) and (orientation: portrait),
        (max-width: 1100px) and (max-height: 560px),
        (pointer: coarse) and (orientation: landscape) {
@@ -1151,8 +1253,8 @@ body {
   .mute__print b { font-weight: bold; color: #e2e6fb; }
   .handheld__mute[aria-checked="false"] .mute__print b { color: #9aa1c8; }
 }
-/* Landscape lines the switch up with the START slot below it: the pill is
-   58px wide at 76px, so a 64px switch centres on it at 73px. */
+/* Landscape lines the switch up with the START and Full screen slots below it:
+   the pills are 58px wide at 76px, so a 64px switch centres on them at 73px. */
 @media (orientation: landscape) and (max-width: 1100px) and (max-height: 560px),
        (orientation: landscape) and (pointer: coarse) {
   .handheld__mute { left: 73px; top: 12px; }

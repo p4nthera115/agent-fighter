@@ -87,12 +87,28 @@
               <button class="pad__btn pad__btn--atk pad__btn--super" data-touch="ultimate" aria-label="Y — Ultimate attack (full meter)" title="Ultimate: Y / Space — needs a full meter"><span class="desktop-key">ULT</span><span class="handheld-key">Y <small>ULT</small></span></button>
             </div>
 
-            <button class="handheld__start" id="handheld-start" aria-label="Start or pause game"><span class="start__label">START</span></button>
+            <div class="deck__start">
+              <button class="handheld__start" id="handheld-start" aria-label="Start or pause game"><span class="start__label">START</span></button>
+              <span class="start__print" aria-hidden="true">Full screen</span>
+              <button class="deck__full" id="fullscreen" aria-label="Toggle fullscreen" title="Fullscreen">
+                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                  <path d="M1 1h5v2H3v3H1V1zm9 0h5v5h-2V3h-3V1zM1 10h2v3h3v2H1v-5zm12 0h2v5h-5v-2h3v-3z" fill="currentColor"/>
+                </svg>
+                <span class="full__label">Full screen</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <dialog id="install-help" aria-labelledby="install-title">
+      <h2 id="install-title">A little more screen.</h2>
+      <p>Play without the address bar by opening Agent Fighter from your Home Screen.</p>
+      <p>On iPhone or iPad, open the browser’s Share menu → Add to Home Screen. Leave “Open as Web App” enabled if shown.</p>
+      <p>On Android, open the browser menu → Install app or Add to Home screen.</p>
+      <form method="dialog"><button autofocus>Got it</button></form>
+    </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
